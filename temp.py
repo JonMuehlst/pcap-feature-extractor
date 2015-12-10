@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
-from read_pcap import *
-from Flow import Flow
-from Session import Session
-from pcap_to_feature import *
+from utils.read_pcap import gen_data_frame, gen_flows
+from containers.Flow import Flow
+from containers.Session import Session
+from pcap_to_feature_vector import pcap_to_feature_vector
 import pandas as pd
 import numpy as np
 
-pcap1_path = '/home/jon/workspace/fe/data/t.pcap'
-pcap2_path = '/home/jon/workspace/fe/data/t2.pcap'
+pcap1_path = '/home/jon/workspace/pcap-feature-extractor/data/t.pcap'
+pcap2_path = '/home/jon/workspace/pcap-feature-extractor/data/t2.pcap'
 
 p1 = gen_data_frame(pcap1_path)
 #p2 = gen_data_frame(pcap2_path)
@@ -25,7 +25,7 @@ f2 = Flow(fp2)
 
 """ """
 np.set_printoptions(precision=2, suppress=True)
-sample = pcap_to_feature('/home/jon/workspace/fe/data/t.pcap',1)
+sample = pcap_to_feature_vector('/home/jon/workspace/pcap-feature-extractor/data/t.pcap', ['packet_count', 'sizemean', 'sizevar'],1)
 
 
 print len(f1)
@@ -44,3 +44,5 @@ print f1.size()
 print f2.size()
 print '--------'
 print repr(sample)
+
+

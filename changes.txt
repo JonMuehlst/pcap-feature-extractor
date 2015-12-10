@@ -1,0 +1,11 @@
+
+
+pcap_to_feature_vector.py:
+  pcap_to_feature_vector:
+      Dynamically call methods
+
+containers:
+  Session:
+    from_filename:
+        returning only session DataFrame - matching the constructor
+    Added packet_count()
