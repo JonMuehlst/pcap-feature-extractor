@@ -4,19 +4,24 @@ from utils.read_pcap import gen_data_frame, gen_flows
 from containers.Flow import Flow
 from containers.Session import Session
 from pcap_to_feature_vector import pcap_to_feature_vector
+from sessions_to_samples import sessions_to_samples
 import pandas as pd
 import numpy as np
 
-pcap1_path = '/home/jon/workspace/pcap-feature-extractor/data/t.pcap'
-pcap2_path = '/home/jon/workspace/pcap-feature-extractor/data/t2.pcap'
 
-p1 = gen_data_frame(pcap1_path)
+np.set_printoptions(precision=2, suppress=True)
+
+"""
+pcap1_path = '/home/jon/workspace/pcap-feature-extractor/data/L_cyber_chrome_09-17__11_38_11/L_cyber_chrome_09-17__11_38_11.pcap.TCP_10-0-0-14_33521_212-179-154-238_443.pcap'
+pcap2_path = '/home/jon/workspace/pcap-feature-extractor/data/L_cyber_chrome_09-17__11_38_11/L_cyber_chrome_09-17__11_38_11.pcap.TCP_10-0-0-14_34965_192-229-233-25_443.pcap'
+
+p1 = gen_data_frame(pcap2_path)
 #p2 = gen_data_frame(pcap2_path)
 
 fp1, fp2 = gen_flows(p1)
 
 #print fp1[['ip.src','ip.dst']]
-#print 
+#print
 #print fp2[['ip.src','ip.dst']]
 
 f1 = Flow(fp1)
@@ -24,8 +29,7 @@ f2 = Flow(fp2)
 
 
 """ """
-np.set_printoptions(precision=2, suppress=True)
-sample = pcap_to_feature_vector('/home/jon/workspace/pcap-feature-extractor/data/t.pcap', ['packet_count', 'sizemean', 'sizevar'],1)
+sample = pcap_to_feature_vector(pcap2_path, ['packet_count', 'sizemean', 'sizevar'],1)
 
 
 print len(f1)
@@ -44,5 +48,5 @@ print f1.size()
 print f2.size()
 print '--------'
 print repr(sample)
-
-
+"""
+sessions_to_samples('/home/jon/workspace/pcap-feature-extractor/data/L_cyber_chrome_09-17__11_38_11')

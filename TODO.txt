@@ -1,0 +1,11 @@
+containers.Session:
+  Set flow up as the flow with dst_port 443
+  Check why 'pcap_to_feature_vector' generates different 'packet_count' values
+
+utils:
+  Add a module which reads an hcl config file from each recording directory
+
+main:
+  Add a module which receives a folder name and maps all pcap files to sample feature vectors
+  sessions_to_samples:
+    Add a function which adds a feature_methods list and a label to each file_name (Maybe in utils)

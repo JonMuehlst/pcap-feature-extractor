@@ -1,5 +1,10 @@
+### 0.03 ###
+Added a TODO list
 
-0.02
+sessions_to_samples:
+  Added this module to map a folder of pcap files to a list of sample feature vectors
+
+### 0.02 ###
 pcap_to_feature_vector.py:
   pcap_to_feature_vector:
       Dynamically call methods

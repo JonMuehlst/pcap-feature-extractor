@@ -7,7 +7,7 @@ import pandas as pd
 """
 FIX:
 Set flow up as the flow with dst_port 443
-Check why 'pcap_to_feature_vector' generates different 'packet_count' values
+Check why 'pcap_to_feature_vector' generates different 'packet_count' values for the same pcap file (didnt happen with small pcap files representing a single session)
 """
 
 """
