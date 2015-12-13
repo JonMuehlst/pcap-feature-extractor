@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
 from utils.read_pcap import gen_data_frame, gen_flows
+from utils.general import gen_data_folders
 from containers.Flow import Flow
 from containers.Session import Session
-from pcap_to_feature_vector import pcap_to_feature_vector
-from sessions_to_samples import sessions_to_samples
+from core.Converter import Converter
 import pandas as pd
 import numpy as np
+import os
+from os.path import join
 
 
 np.set_printoptions(precision=2, suppress=True)
@@ -49,4 +51,15 @@ print f2.size()
 print '--------'
 print repr(sample)
 """
-sessions_to_samples('/home/jon/workspace/pcap-feature-extractor/data/L_cyber_chrome_09-17__11_38_11')
+
+#sessions_to_samples('/home/jon/workspace/pcap-feature-extractor/data/L_cyber_chrome_09-17__11_38_11')
+
+#gen_data_folders('/home/jon/workspace/pcap-feature-extractor/data')
+sstr = os.getcwd()
+sstr = sstr + '/data'
+gen_data_folders(sstr)
+
+conv = Converter(sstr)
+conv.activate()
+for sample in conv:
+    print sample

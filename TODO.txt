@@ -3,9 +3,25 @@ containers.Session:
   Check why 'pcap_to_feature_vector' generates different 'packet_count' values
 
 utils:
-  Add a module which reads an hcl config file from each recording directory
+  + A module which reads an hcl config file from each recording directory
+
+  + gen_label(hcl file)
+
+  gen_pcap_filenames:
+    Catch - No filenames in a given directory
+  gen_data_folders:
+    Add check if a .pcap file exists
+
 
 main:
   Add a module which receives a folder name and maps all pcap files to sample feature vectors
   sessions_to_samples:
     Add a function which adds a feature_methods list and a label to each file_name (Maybe in utils)
+
+core:
+  Converter:
+    + Write to file
+    + Exceptions
+
+ALL:
+  + Check for extreme cases:

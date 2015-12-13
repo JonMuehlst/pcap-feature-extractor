@@ -31,10 +31,6 @@ class Session(PacketContainer):
     def duration(self):
         pass
 
-    """ Total number of packets """
-    def total_packets(self):
-        pass
-
     """ Total number of packets with payload """
     def pl_total_packets(self):
         pass
@@ -51,7 +47,7 @@ class Session(PacketContainer):
     def __len__(self):
         return len(self.sess)
 
-    """ """
+    """ Total number of packets """
     def packet_count(self):
         return len(self)
 

@@ -1,0 +1,38 @@
+### 0.04 ###
+utils.general:
+  + cleanup_pyc():
+    .pyc file cleanup function (root/cleanup_pyc_files.py calls it).
+
+  + gen_data_folders():
+    walks the root data folder and returns all relevant folder names containing pcap files.
+
+  + gen_pcap_filenames():
+    from a given folder
+
+README.md:
+  + data folder structure explanation
+
+core:
+  Converter.py:
+    Merged sessions_to_samples() and pcap_to_feature_vector into converter
+    pcap_to_feature_vector() now reads the feature_methods list from a class field
+
+changelog.txt:
+  Renamed changes.txt to changelog.txt
+  
+### 0.03 ###
+Added a TODO list
+
+sessions_to_samples:
+  Added this module to map a folder of pcap files to a list of sample feature vectors
+
+### 0.02 ###
+pcap_to_feature_vector.py:
+  pcap_to_feature_vector:
+      Dynamically call methods
+
+containers:
+  Session:
+    from_filename:
+        returning only session DataFrame - matching the constructor
+    Added packet_count()
