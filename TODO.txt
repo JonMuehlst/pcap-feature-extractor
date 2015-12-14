@@ -13,11 +13,6 @@ utils:
     Add check if a .pcap file exists
 
 
-main:
-  Add a module which receives a folder name and maps all pcap files to sample feature vectors
-  sessions_to_samples:
-    Add a function which adds a feature_methods list and a label to each file_name (Maybe in utils)
-
 core:
   Converter:
     + Write to file
