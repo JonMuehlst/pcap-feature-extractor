@@ -1,7 +1,7 @@
 #inherits from Packet_container
 
 from PacketContainer import PacketContainer
-from utils.read_pcap import gen_data_frame, gen_flows
+from utils.read_pcap import gen_data_frame, gen_flows_up_down
 import pandas as pd
 
 """
@@ -19,7 +19,8 @@ class Session(PacketContainer):
 
     def __init__(self, s):
         self.sess = s
-        self.flow_up, self.flow_down = gen_flows(self.sess)
+        self.flow_up, self.flow_down = gen_flows_up_down(self.sess)
+
 
     """  """
     @classmethod

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from utils.read_pcap import gen_data_frame, gen_flows
+from utils.read_pcap import gen_data_frame, gen_flows_up_down
 from utils.general import gen_data_folders
 from containers.Flow import Flow
 from containers.Session import Session
@@ -59,6 +59,7 @@ sstr = os.getcwd()
 sstr = sstr + '/data'
 gen_data_folders(sstr)
 
+feature_list = ['packet_count', 'sizemean', 'sizevar']#, 'inter_arrival_time']
 conv = Converter(sstr)
 conv.activate()
 for sample in conv:

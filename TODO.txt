@@ -1,6 +1,12 @@
-containers.Session:
-  Set flow up as the flow with dst_port 443
-  Check why 'pcap_to_feature_vector' generates different 'packet_count' values
+TODO list
+===========
+
+containers:
+  Session:
+    Check why 'pcap_to_feature_vector' generates different 'packet_count' values
+    + inter_arrival_time
+  Flow:
+    + inter_arrival_time
 
 utils:
   + A module which reads an hcl config file from each recording directory

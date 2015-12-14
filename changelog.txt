@@ -1,3 +1,9 @@
+### 0.05 ###
+utils.read_pcap:
+  gen_flows_up_down():
+    Now returns up_flow, down_flow (in this order) according to tcp.dstport 443
+
+
 ### 0.04 ###
 utils.general:
   + cleanup_pyc():
@@ -19,7 +25,7 @@ core:
 
 changelog.txt:
   Renamed changes.txt to changelog.txt
-  
+
 ### 0.03 ###
 Added a TODO list
 
