@@ -1,5 +1,4 @@
 from containers.Session import Session
-from pcap_to_feature_vector import pcap_to_feature_vector
 from utils.general import gen_pcap_filenames, gen_data_folders
 import numpy as np
 
@@ -38,7 +37,7 @@ class Converter(object):
 	""" Return a list of sample feature vectors for a given child data directory """
 	def sessions_to_samples(self, CHILD_DIRECTORY):
 		only_pcap_files = gen_pcap_filenames(CHILD_DIRECTORY)
-		samples = map(pcap_to_feature_vector, only_pcap_files)
+		samples = map(self.pcap_to_feature_vector, only_pcap_files)
 		return samples
 
 
