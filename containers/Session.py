@@ -1,13 +1,11 @@
 #inherits from Packet_container
 
 from PacketContainer import PacketContainer
-from utils.read_pcap import gen_data_frame, gen_flows_up_down
+from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pcap
 import pandas as pd
 
 """
 FIX:
-Set flow up as the flow with dst_port 443
-Check why 'pcap_to_feature_vector' generates different 'packet_count' values for the same pcap file (didnt happen with small pcap files representing a single session)
 """
 
 """
@@ -24,8 +22,9 @@ class Session(PacketContainer):
 
     """  """
     @classmethod
-    def from_filename(cls, path_str):
-        sess = gen_data_frame(path_str)
+    def from_filename(cls, path_str, fields=['frame.time_epoch', 'frame.time_delta', 'frame.len', 'frame.cap_len', 'frame.marked', 'ip.src', 'ip.dst', 'ip.len', 'ip.flags', 'ip.flags.rb', 'ip.flags.df', 'ip.flags.mf', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ip.checksum_good', 'tcp.srcport', 'tcp.dstport', 'tcp.len', 'tcp.nxtseq', 'tcp.hdr_len', 'tcp.flags.cwr', 'tcp.flags.urg', 'tcp.flags.push', 'tcp.flags.syn' ,'tcp.window_size','tcp.checksum','tcp.checksum_good', 'tcp.checksum_bad']):
+        # sess = gen_data_frame(path_str)
+        sess = read_pcap(path_str,fields=fields)
         return cls(sess)
 
     """ Length in seconds """

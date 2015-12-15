@@ -3,7 +3,7 @@ TODO list
 
 containers:
   Session:
-    Check why 'pcap_to_feature_vector' generates different 'packet_count' values
+    + Receive a fields list in ctor
     + inter_arrival_time
   Flow:
     + inter_arrival_time
@@ -26,3 +26,8 @@ core:
 
 ALL:
   + Check for extreme cases:
+
+ISSUES:
+  steelscript-wireshark PcapFile query function has unexpected behaviour.
+  Depending on the tshark fields requested, the amount of packets retrieved from a pcap is variable!
+  + Assertion for pcap size (packet count) when reading a pcap file before proceeding

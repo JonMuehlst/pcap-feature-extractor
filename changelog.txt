@@ -1,3 +1,21 @@
+### 0.06 ###
+containers.Session:
+  from_filename() class method now uses read_pcap instread of gen_flows_up_down.
+  Effectively using a custom function to read data from tshark output into a DataFrame instead of steelscript-wireshark.
+
+tests:
+  test_session1:
+    Did some adjustments to the test suite to fit the new Session class structure.
+
+  test_session2:
+    A new test which reads in an entire pcap file.
+    Currently checks that the amout of read packets fits the actual amount of packets in the pcap file.
+
+utils.read_pcap:
+  Implemented read_pcap() which simply calls tshark in the background and sends its output to pandas.read_table.
+  Apparently simpler and more reliable than steelscript-wireshark.
+
+
 ### 0.05 ###
 utils.read_pcap:
   gen_flows_up_down():

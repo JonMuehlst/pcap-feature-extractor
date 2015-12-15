@@ -4,14 +4,19 @@ from containers.Flow import Flow
 from containers.Session import Session
 import unittest
 import pandas as pd
+import numpy as np
 
-""" 
-FIX: 
-The data is recreated for each test 
+"""
+FIX:
+The data is recreated for each test
 """
 
-class TestSession(unittest.TestCase):
-	
+class TestSession1(unittest.TestCase):
+
+	@classmethod
+	def setUpClass(cls):
+			pass
+
 	def setUp(self):
 		columns = [
 		'frame.time_epoch',
@@ -19,7 +24,7 @@ class TestSession(unittest.TestCase):
 		'frame.len',
 		'frame.cap_len',
 		'frame.marked',
-		'ip.src', 
+		'ip.src',
 		'ip.dst',
 		'ip.len',
 		'ip.flags',
@@ -27,13 +32,13 @@ class TestSession(unittest.TestCase):
 		'ip.flags.df',
 		'ip.flags.mf',
 		'ip.frag_offset',
-		'ip.ttl', 
+		'ip.ttl',
 		'ip.proto',
 		'ip.checksum_good',
 		'tcp.srcport',
 		'tcp.dstport',
-		'tcp.len', 
-		'tcp.nxtseq', 
+		'tcp.len',
+		'tcp.nxtseq',
 		'tcp.hdr_len',
 		'tcp.flags.cwr',
 		'tcp.flags.urg',
@@ -44,13 +49,21 @@ class TestSession(unittest.TestCase):
 		'tcp.checksum_good',
 		'tcp.checksum_bad',
 		]
-		self.df1 = pd.DataFrame(index=range(5), columns=columns)
-		self.df2 = pd.DataFrame(index=range(4), columns=columns)
+		self.df1 = pd.DataFrame(np.zeros((5,29)), columns=columns)
+		self.df2 = pd.DataFrame(np.zeros((4,29)), columns=columns)
 		self.df1['tcp.len'] = [10,100,60,40,200]
 		self.df2['tcp.len'] = [30,70,300,100]
-		self.sess_frame = pd.concat((self.df1, self.df2), ignore_index=True)		
+		self.df1['ip.src'] = ['10.1.0.2','10.1.0.2','10.1.0.2','10.1.0.2','10.1.0.2']
+		self.df1['ip.dst'] = ['8.8.8.8','8.8.8.8','8.8.8.8','8.8.8.8','8.8.8.8']
+		self.df1['tcp.srcport'] = ['2222','2222','2222','2222','2222']
+		self.df1['tcp.dstport'] = ['443','443','443','443','443']
+		self.df2['ip.src'] = ['8.8.8.8','8.8.8.8','8.8.8.8','8.8.8.8']
+		self.df2['ip.dst'] = ['10.1.0.2','10.1.0.2','10.1.0.2','10.1.0.2']
+		self.df2['tcp.srcport'] = ['443','443','443','443']
+		self.df2['tcp.dstport'] = ['2222','2222','2222','2222']
+		self.sess_frame = pd.concat((self.df1, self.df2), ignore_index=True)
 		self.s = Session(self.sess_frame)
-	
+
 	def test_len(self):
 		self.assertEqual(len(self.s), 9)
 
