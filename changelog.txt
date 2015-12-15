@@ -1,3 +1,44 @@
+### 0.07 ###
+containers:
+  Flow:
+    Added the following features:
+      """ Std of packet time deltas """
+      """ Size of all packets in bytes """
+      """ Min packet size """
+      """ Max packet size """
+      """ Std packet size """
+      """ Mean packet size """
+      """ Min time delta """
+      """ Max time delta """
+      """ time delta mean """
+
+  Session:
+    Added the following features:
+      """ Size of all packets in bytes """
+      """ Max packet size """
+      """ Min packet size """
+      """ # Packets in forward direction (fpackets) """
+      """ # Packets in backward direction (bpackets) """
+      """ # Bytes in forward direction (fbytes) """
+      """ # Bytes in backward direction (bbytes) """
+      """ Min forward inter-arrival time (min_fiat) """
+      """ Min backward inter-arrival time (min_biat) """
+      """ Max forward inter-arrival time (max_fiat) """
+      """ Max backward inter-arrival time (max_biat) """
+      """ Standard deviation of forward inter- arrival times (std_fiat) """
+      """ Standard deviation of backward inter- arrival times (std_biat) """
+      """ Mean forward inter-arrival time (mean_fiat) """
+      """ Mean backward inter-arrival time (mean_biat) """
+      """ Min forward packet length (min_fpkt) """
+      """ Min backward packet length (min_bpkt) """
+      """ Max forward packet length (max_fpkt) """
+      """ Max backward packet length (max_bpkt) """
+      """ Std deviation of forward packet length (std_fpkt) """
+      """ Std deviation of backward packet length (std_bpkt) """
+      """ Mean forward packet length (mean_fpkt)	"""
+      """ Mean backward packet length (mean_bpkt) """
+
+
 ### 0.06 ###
 containers.Session:
   from_filename() class method now uses read_pcap instread of gen_flows_up_down.
@@ -44,11 +85,13 @@ core:
 changelog.txt:
   Renamed changes.txt to changelog.txt
 
+
 ### 0.03 ###
 Added a TODO list
 
 sessions_to_samples:
   Added this module to map a folder of pcap files to a list of sample feature vectors
+
 
 ### 0.02 ###
 pcap_to_feature_vector.py:

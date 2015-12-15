@@ -2,6 +2,7 @@
 
 from PacketContainer import PacketContainer
 from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pcap
+from containers.Flow import Flow
 import pandas as pd
 
 """
@@ -18,6 +19,7 @@ class Session(PacketContainer):
     def __init__(self, s):
         self.sess = s
         self.flow_up, self.flow_down = gen_flows_up_down(self.sess)
+        self.flow_up, self.flow_down = Flow(self.flow_up), Flow(self.flow_down)
 
 
     """  """
@@ -41,7 +43,7 @@ class Session(PacketContainer):
 
     """ Size of all packets in bytes """
     def size(self):
-        pass
+        return self.flow_up.size() + self.flow_down.size()
 
     """ Amount of packets """
     def __len__(self):
@@ -52,17 +54,97 @@ class Session(PacketContainer):
         return len(self)
 
     """ Mean of packet size """
-    def sizemean(self):
-        return self.sess['tcp.len'].mean()
+    def mean_packet_size(self):
+        return self.sess['frame.len'].mean()
 
     """ Variance of packet size """
     def sizevar(self):
-        return self.sess['tcp.len'].var()
+        return self.sess['frame.len'].var()
 
     """ Max packet size """
     def max_packet_size(self):
-        pass
+        return self.sess['frame.len'].max()
 
     """ Min packet size """
     def min_packet_size(self):
-        pass
+        return self.sess['frame.len'].min()
+
+    """ # Packets in forward direction (fpackets) """
+    def fpackets(self):
+        return len(self.flow_up)
+
+    """ # Packets in backward direction (bpackets) """
+    def bpackets(self):
+        return len(self.flow_down)
+
+    """ # Bytes in forward direction (fbytes) """
+    def fbytes(self):
+        return self.flow_up.size()
+
+    """ # Bytes in backward direction (bbytes) """
+    def bbytes(self):
+        return self.flow_down.size()
+
+    """ Min forward inter-arrival time (min_fiat) """
+    def min_fiat(self):
+        return self.flow_up.min_time_delta()
+
+    """ Min backward inter-arrival time (min_biat) """
+    def min_biat(self):
+        return self.flow_down.min_time_delta()
+
+    """ Max forward inter-arrival time (max_fiat) """
+    def max_fiat(self):
+        return self.flow_up.max_time_delta()
+
+    """ Max backward inter-arrival time (max_biat) """
+    def max_biat(self):
+        return self.flow_down.max_time_delta()
+
+    """ Standard deviation of forward inter- arrival times (std_fiat) """
+    def std_fiat(self):
+        return self.flow_up.std_time_delta()
+
+    """ Standard deviation of backward inter- arrival times (std_biat) """
+    def std_biat(self):
+        return self.flow_down.std_time_delta()
+
+    """ Mean forward inter-arrival time (mean_fiat) """
+    def mean_fiat(self):
+        return self.flow_up.mean_time_delta()
+
+    """ Mean backward inter-arrival time (mean_biat) """
+    def mean_biat(self):
+        return self.flow_down.mean_time_delta()
+
+    """ Min forward packet length (min_fpkt) """
+    def min_fpkt(self):
+        return self.flow_up.min_packet_size()
+
+    """ Min backward packet length (min_bpkt) """
+    def min_bpkt(self):
+        return self.flow_down.min_packet_size()
+
+    """ Max forward packet length (max_fpkt) """
+    def max_fpkt(self):
+        return self.flow_up.max_packet_size()
+
+    """ Max backward packet length (max_bpkt) """
+    def max_bpkt(self):
+        return self.flow_down.max_packet_size()
+
+    """ Std deviation of forward packet length (std_fpkt) """
+    def std_fpkt(self):
+        return self.flow_up.std_packet_size()
+
+    """ Std deviation of backward packet length (std_bpkt) """
+    def std_bpkt(self):
+        return self.flow_down.std_packet_size()
+
+    """ Mean forward packet length (mean_fpkt)	"""
+    def mean_fpkt(self):
+        return self.flow_up.mean_packet_size()
+
+    """ Mean backward packet length (mean_bpkt) """
+    def mean_bpkt(self):
+        return self.flow_down.mean_packet_size()

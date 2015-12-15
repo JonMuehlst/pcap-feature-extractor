@@ -59,11 +59,18 @@ sstr = os.getcwd()
 sstr = sstr + '/data'
 # gen_data_folders(sstr)
 
-feature_list = ['packet_count', 'sizemean', 'sizevar']#, 'inter_arrival_time']
-conv = Converter(sstr)
+feature_list = ['packet_count', 'sizemean', 'sizevar', 'std_fiat', 'std_biat', 'fpackets', 'bpackets', 'fbytes', 'bbytes', 'min_fiat', 'min_biat', 'max_fiat', 'max_biat', 'std_fiat', 'std_biat', 'mean_fiat', 'mean_biat', 'min_fpkt', 'min_bpkt', 'max_fpkt', 'max_bpkt', 'std_fpkt', 'std_bpkt', 'mean_fpkt', 'mean_bpkt']
+column_labels = ['packet_count', 'sizemean', 'sizevar', 'std_fiat', 'std_biat', 'fpackets', 'bpackets', 'fbytes', 'bbytes', 'min_fiat', 'min_biat', 'max_fiat', 'max_biat', 'std_fiat', 'std_biat', 'mean_fiat', 'mean_biat', 'min_fpkt', 'min_bpkt', 'max_fpkt', 'max_bpkt', 'std_fpkt', 'std_bpkt', 'mean_fpkt', 'mean_bpkt', 'label']
+conv = Converter(sstr, feature_list)
 conv.activate()
-for sample in conv:
-    print sample
+samples_mat = conv.get_samples()
+sdf = pd.DataFrame(samples_mat, columns=column_labels)
+sdf.to_csv(sstr + '/samples.csv', sep='\t', index=False)
+# print repr(sdf)
+# print repr(conv.feature_methods)
+# for sample in conv:
+#     print sample
+#     print
 
 # print '======================='
 # print 'marker'

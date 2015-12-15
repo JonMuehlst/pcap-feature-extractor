@@ -68,7 +68,7 @@ class TestSession1(unittest.TestCase):
 		self.assertEqual(len(self.s), 9)
 
 	def test_mean(self):
-		self.assertAlmostEqual(self.s.sizemean(), 101.11111111)
+		self.assertAlmostEqual(self.s.mean_packet_size(), 101.11111111)
 
 	def test_variance(self):
 		self.assertAlmostEqual(self.s.sizevar(), 8636.11111111)

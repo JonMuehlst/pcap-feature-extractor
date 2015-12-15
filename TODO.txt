@@ -7,6 +7,8 @@ containers:
     + inter_arrival_time
   Flow:
     + inter_arrival_time
+  PacketContainer:
+    + update according to Session / Flow
 
 utils:
   + A module which reads an hcl config file from each recording directory

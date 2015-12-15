@@ -26,6 +26,13 @@ class Flow(PacketContainer):
     def generate_time_deltas(self):
         pass
 
+    """
+    Return unbiased standard deviation of the packet flow time deltas.
+    Normalized by N-1 by default. This can be changed using the ddof argument - pandas
+    """
+    def std_time_delta(self):
+        return self.df['frame.time_delta'].std()
+
     """ Length in seconds """
     def duration(self):
         pass
@@ -40,24 +47,40 @@ class Flow(PacketContainer):
 
     """ Size of all packets in bytes """
     def size(self):
-        return self.df['tcp.len'].sum()
+        return self.df['frame.len'].sum()
 
     """ Amount of packets """
     def __len__(self):
         return len(self.df)
 
-    """ Mean of packet size """
-    def sizemean(self):
-        return self.df['tcp.len'].mean()
-
     """ Variance of packet size """
     def sizevar(self):
-        return self.df['tcp.len'].var()
-
-    """ Max packet size """
-    def max_packet_size(self):
-        pass
+        return self.df['frame.len'].var()
 
     """ Min packet size """
     def min_packet_size(self):
-        return self.df['tcp.len'].min()
+        return self.df['frame.len'].min()
+
+    """ Max packet size """
+    def max_packet_size(self):
+        return self.df['frame.len'].max()
+
+    """ Std packet size """
+    def std_packet_size(self):
+        return self.df['frame.len'].std()
+
+    """ Mean packet size """
+    def mean_packet_size(self):
+        return self.df['frame.len'].mean()
+
+    """ Min time delta """
+    def min_time_delta(self):
+        return self.df['frame.time_delta'].min()
+
+    """ Max time delta """
+    def max_time_delta(self):
+        return self.df['frame.time_delta'].max()
+
+    """ time delta mean """
+    def mean_time_delta(self):
+        return self.df['frame.time_delta'].mean()
