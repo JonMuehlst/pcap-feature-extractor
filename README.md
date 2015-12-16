@@ -6,7 +6,7 @@ Data folder structure:
 
 Assuming a relevant pcap directory contains a .hcl file with label details.
 This allows a non strict folder hierarchy i.e.  
-data/
+data/  
 ----any_folder_order/  
 --------relevant_folder1/  
 ------------label_data.hcl  
