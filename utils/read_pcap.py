@@ -128,9 +128,9 @@ def read_pcap(filename, fields=[], display_filter="",
     # print '------------------'
     # print 'cmd: ' + repr(cmd)
     # print '------------------'
-
+    #
     # proc = subprocess.Popen(cmd, shell = True,
-                                #  stdout=subprocess.PIPE)
+    #                              stdout=subprocess.PIPE)
     # table = subprocess.check_output(cmd)
 
     # pcap_path = '/home/jon/workspace/pcap-feature-extractor/data/L_cyber_chrome_09-17__11_38_11/L_cyber_chrome_09-17__11_38_11.pcap.TCP_10-0-0-14_35015_192-229-233-25_443.pcap'
@@ -143,7 +143,7 @@ def read_pcap(filename, fields=[], display_filter="",
 
 
     if timeseries:
-        df = pd.read_table(proc.stdout,
+        df = pd.read_table(StringIO(table),
                         index_col = "frame.time_epoch",
                         parse_dates=True,
                         date_parser=datetime.datetime.fromtimestamp)

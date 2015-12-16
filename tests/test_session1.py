@@ -51,8 +51,8 @@ class TestSession1(unittest.TestCase):
 		]
 		self.df1 = pd.DataFrame(np.zeros((5,29)), columns=columns)
 		self.df2 = pd.DataFrame(np.zeros((4,29)), columns=columns)
-		self.df1['tcp.len'] = [10,100,60,40,200]
-		self.df2['tcp.len'] = [30,70,300,100]
+		self.df1['frame.len'] = [10,100,60,40,200]
+		self.df2['frame.len'] = [30,70,300,100]
 		self.df1['ip.src'] = ['10.1.0.2','10.1.0.2','10.1.0.2','10.1.0.2','10.1.0.2']
 		self.df1['ip.dst'] = ['8.8.8.8','8.8.8.8','8.8.8.8','8.8.8.8','8.8.8.8']
 		self.df1['tcp.srcport'] = ['2222','2222','2222','2222','2222']

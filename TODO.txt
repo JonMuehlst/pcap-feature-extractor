@@ -20,6 +20,14 @@ utils:
   gen_data_folders:
     Add check if a .pcap file exists
 
+  read_pcap:
+    Add the following columns to the packets table:
+      + tcp.flags.syn
+      + tcp.flags.ack
+      + tcp.flags.reset
+      + tcp.flags.fin
+      + tcp.flags.cwr (Congestion Window Reduced)
+
 
 core:
   Converter:
@@ -28,8 +36,5 @@ core:
 
 ALL:
   + Check for extreme cases:
-
-ISSUES:
-  steelscript-wireshark PcapFile query function has unexpected behaviour.
-  Depending on the tshark fields requested, the amount of packets retrieved from a pcap is variable!
-  + Assertion for pcap size (packet count) when reading a pcap file before proceeding
+  + Globals for: os, browser, aplication, service
+  + Cleanup code

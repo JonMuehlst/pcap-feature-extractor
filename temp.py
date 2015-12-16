@@ -65,8 +65,8 @@ conv = Converter(sstr, feature_list)
 conv.activate()
 samples_mat = conv.get_samples()
 sdf = pd.DataFrame(samples_mat, columns=column_labels)
-sdf.to_csv(sstr + '/samples.csv', sep='\t', index=False)
-# print repr(sdf)
+# sdf.to_csv(sstr + '/samples.csv', sep='\t', index=False)
+print repr(sdf)
 # print repr(conv.feature_methods)
 # for sample in conv:
 #     print sample

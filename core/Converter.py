@@ -1,6 +1,9 @@
 from containers.Session import Session
-from utils.general import gen_pcap_filenames, gen_data_folders
+from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label
+from utils.hcl_helpers import read_label_data
+from functools import partial
 import numpy as np
+
 
 
 """
@@ -13,7 +16,7 @@ Instructions:
 	3. Access / get / write data
 """
 class Converter(object):
-
+	""" FIX - Fix default feature_methods_list """
 	def __init__(self, PARENT_DIRECTORY, feature_methods_list=['packet_count', 'sizemean', 'sizevar']):
 		self.data_folders = gen_data_folders(PARENT_DIRECTORY)
 		self.feature_methods = feature_methods_list
@@ -37,7 +40,13 @@ class Converter(object):
 	""" Return a list of sample feature vectors for a given child data directory """
 	def sessions_to_samples(self, CHILD_DIRECTORY):
 		only_pcap_files = gen_pcap_filenames(CHILD_DIRECTORY)
-		samples = map(self.pcap_to_feature_vector, only_pcap_files)
+		""" IMPLEMENT """
+		# label_data_file = get_label_data_hcl_file()
+		# label = gen_label(label_data_file)
+		os = parse_folder_name(CHILD_DIRECTORY)
+		label = gen_label(os,'','','')
+		func = partial(self.pcap_to_feature_vector, label=label)
+		samples = map(func, only_pcap_files)
 		return samples
 
 

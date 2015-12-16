@@ -1,3 +1,42 @@
+### 0.08 ###
+core:
+  Converter:
+    sessions_to_samples():
+      Naively generates label by parsing the folder name and sends it to pcap_to_feature_vector().
+
+data/L_cyber_chrome_09-17__11_38_11:
+  label_data.hcl:
+    Follows the following format:
+    label_data {
+    	os = "Linux"
+    	browser = "Chrome"
+    	application = "Twitter"
+    	service = "Tweet"
+    }
+
+tests:
+  Adjusted tcp.len to frame.len
+
+utils:
+  general:
+    gen_label():
+      returns a label for a given os.
+      Should eventually return a label for any os, browser, application, service combination.
+
+    parse_folder_name():
+      Assumes the following format:
+      L_cyber_chrome_09-17__11_38_11
+      Currently returns os by the first letter in the folder name.
+
+  hcl_helpers:
+    read_hcl():
+      Returns a JSON representing the content of the hcl file.
+
+    read_label_data():
+      Assumes label_data follows a specific format.
+      Returns os, browser, application, service.
+
+
 ### 0.07 ###
 containers:
   Flow:
