@@ -1,4 +1,3 @@
 nose		Testing
-steelscript	Convert pcap file to pandas DataFrame
-pandas 		Statistical functions on pcap data
-numpy		
+pandas 	Statistical functions on pcap DataFrames
+numpy
