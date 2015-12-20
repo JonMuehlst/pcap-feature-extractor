@@ -31,8 +31,16 @@ utils:
 
 core:
   Converter:
-    + Write to file
+    + Write to file - DONE
+      + Write without converting to pd.DataFrame
     + Exceptions
+    + Make Initialization a separate process
+    + Use multiprocessing - pickle -  Can't pickle <type 'instancemethod'>: attribute lookup __builtin__.instancemethod failed
+    + Periodically print out elapsed time and converted sample count
+    + OSX label
+
+main:
+  + function which runs all the relevant functions, input root folder name + output file name OUTPUT samples.csv
 
 ALL:
   + Check for extreme cases:

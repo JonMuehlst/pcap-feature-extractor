@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pcap
-from utils.general import gen_data_folders
+from utils.general import gen_data_folders, space_to_underscore
 from containers.Flow import Flow
 from containers.Session import Session
 from core.Converter import Converter
@@ -55,18 +55,23 @@ print repr(sample)
 #sessions_to_samples('/home/jon/workspace/pcap-feature-extractor/data/L_cyber_chrome_09-17__11_38_11')
 
 #gen_data_folders('/home/jon/workspace/pcap-feature-extractor/data')
+
 sstr = os.getcwd()
 sstr = sstr + '/data'
 # gen_data_folders(sstr)
+
+space_to_underscore(sstr)
 
 feature_list = ['packet_count', 'sizemean', 'sizevar', 'std_fiat', 'std_biat', 'fpackets', 'bpackets', 'fbytes', 'bbytes', 'min_fiat', 'min_biat', 'max_fiat', 'max_biat', 'std_fiat', 'std_biat', 'mean_fiat', 'mean_biat', 'min_fpkt', 'min_bpkt', 'max_fpkt', 'max_bpkt', 'std_fpkt', 'std_bpkt', 'mean_fpkt', 'mean_bpkt']
 column_labels = ['packet_count', 'sizemean', 'sizevar', 'std_fiat', 'std_biat', 'fpackets', 'bpackets', 'fbytes', 'bbytes', 'min_fiat', 'min_biat', 'max_fiat', 'max_biat', 'std_fiat', 'std_biat', 'mean_fiat', 'mean_biat', 'min_fpkt', 'min_bpkt', 'max_fpkt', 'max_bpkt', 'std_fpkt', 'std_bpkt', 'mean_fpkt', 'mean_bpkt', 'label']
 conv = Converter(sstr, feature_list)
 conv.activate()
-samples_mat = conv.get_samples()
-sdf = pd.DataFrame(samples_mat, columns=column_labels)
-# sdf.to_csv(sstr + '/samples.csv', sep='\t', index=False)
-print repr(sdf)
+conv.write_to_csv(sstr + '/20_12_15_samples.csv', separator='\t', column_names=column_labels)
+
+# print repr(sdf)
+
+
+
 # print repr(conv.feature_methods)
 # for sample in conv:
 #     print sample

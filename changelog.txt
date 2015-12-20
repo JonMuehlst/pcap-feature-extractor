@@ -1,3 +1,46 @@
+### 0.09 ###
+core:
+  Converter:
+    __init__():
+      Added a Pool class field
+
+    sessions_to_samples():
+      Added if clause to check if a given folder has at least one pcap file
+
+    write_to_csv():
+      Added this function.
+      Writes the processed feature mat to a csv file.
+
+tests:
+  test_utils_general:
+    test_is_pcap_session_True():
+      Added this test
+
+    test_is_pcap_session_False():
+      Added this test
+
+utils:
+  general:
+    gen_data_folders():
+      Currently assuming that if a single pcap file in a directory is a session
+      pcap, all other pcap files in the directory are also session pcaps.
+      Therefor the if clause checks if any of the pcap files in a given
+      directory is a session pcap. If true the directory is added to the list
+      of relevant directories.
+
+    gen_pcap_filenames():
+      Added check - whether filename ends with .pcap extension.
+
+    is_pcap_session():
+      Return True if the given pcap is a session
+
+    space_to_underscore():
+      Replace space with underscore for all folder and file names - for the input filename
+
+
+
+
+
 ### 0.08 ###
 core:
   Converter:
