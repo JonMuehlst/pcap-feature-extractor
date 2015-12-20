@@ -11,3 +11,7 @@
   4. Commit the changes - 'git commit -F changelog.txt'
   5. Push changes to remote - git push  <REMOTENAME> <LOCALBRANCHNAME>:<REMOTEBRANCHNAME>
     5.1. e.g. 'push origin dev:dev'
+
+# Verify code is up-to-date with remote
+  1. Fetch the up-to-date code using 'git fetch'
+  2. Run 'git status'
