@@ -2,16 +2,14 @@ TODO list
 ===========
 
 containers:
-  Session:
-    + Receive a fields list in ctor
-    + inter_arrival_time
-  Flow:
-    + inter_arrival_time
+
   PacketContainer:
     + update according to Session / Flow
 
 utils:
   + A module which reads an hcl config file from each recording directory
+    + Read desired packet fields from hcl files
+    + Read desired features list from hcl files
 
   + gen_label(hcl file)
 
@@ -46,3 +44,4 @@ ALL:
   + Check for extreme cases:
   + Globals for: os, browser, aplication, service
   + Cleanup code
+  + create feature_list according to session methods

@@ -1,3 +1,13 @@
+### 0.10 ###
+core:
+  main:
+    work():
+    Converts all relevant pcap files in the given ROOT_DIRECTORY with the given feature_list and save the results to the output_filename
+
+    start_here():
+    UI - For end users who dont want to write code
+
+
 ### 0.09 ###
 core:
   Converter:
@@ -36,9 +46,6 @@ utils:
 
     space_to_underscore():
       Replace space with underscore for all folder and file names - for the input filename
-
-
-
 
 
 ### 0.08 ###
