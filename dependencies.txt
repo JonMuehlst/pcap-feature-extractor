@@ -1,3 +1,5 @@
 nose		Testing
 pandas 	Statistical functions on pcap DataFrames
 numpy
+hcl     Config files tool
+all filenames must be in English

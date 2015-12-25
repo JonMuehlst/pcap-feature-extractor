@@ -39,9 +39,14 @@ core:
 
 main:
   + function which runs all the relevant functions, input root folder name + output file name OUTPUT samples.csv
+  + find why does "sizemean" feature not throw exception
 
 ALL:
   + Check for extreme cases:
   + Globals for: os, browser, aplication, service
   + Cleanup code
   + create feature_list according to session methods
+
+learn:
+  + Avoid duplicate code
+  + Build function for each action
