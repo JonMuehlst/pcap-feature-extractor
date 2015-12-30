@@ -5,12 +5,18 @@ from sklearn import svm
 import numpy as np
 
 """
-Read data_csv that create with our "pcap-feature-extractor"
+Read source data created with our "pcap-feature-extractor"
+
 Assuming the first row is labels
+
+The source parameter can be either a filename or a DataFrame
 """
-def create_data_libSVM(file_name = '/home/jony/infomedia/pcap-feature-extractor/real_data/30_12_15/30_12_15_samples_multiclass.csv'):
-    # Step 1 - Read dataset
-    df = pd.read_csv(file_name, sep='\t')
+def create_data_libSVM(source, output_filename, isDataFrame=False):
+    if not(isDataFrame):
+        # Step 1 - Read dataset
+        df = pd.read_csv(source, sep='\t')
+    elif isDataFrame:
+        df = source
     # Delete uncalc feature
     df = df.dropna()
     """ use only for try """
@@ -20,7 +26,6 @@ def create_data_libSVM(file_name = '/home/jony/infomedia/pcap-feature-extractor/
     index_permutation = np.random.permutation(num_rows)
     df = df.iloc[index_permutation]
     # Get label vector
-    print df.columns
     df_y = df.iloc[:,num_columns-1]
     df = df.drop('label',1)
     df.insert(0,'label',df_y)
@@ -33,7 +38,7 @@ def create_data_libSVM(file_name = '/home/jony/infomedia/pcap-feature-extractor/
             df.iloc[j,0] = 2
     #     else:
     #         df.iloc[j,0] = '-' + str(1)
-    df.to_csv('/home/jony/infomedia/pcap-feature-extractor/real_data/30_12_15_samples_clean_for_libsvm.csv', sep='\t', index=False, header=False)
+    df.to_csv(output_filename, sep='\t', index=False, header=False)
 
     """ end part try only """
 
@@ -72,7 +77,34 @@ def run_sklearn(file_name = '/home/jony/infomedia/pcap-feature-extractor/real_da
     test_score = clf.score(X_test, y_test)
     print test_score
 
-    """ End learn part """
+def prepare_libSVM_train_test(file_name, output_filename):
+    # Step 1 - Read dataset
+    df = pd.read_csv(file_name, sep='\t')
+    # Delete uncalc feature
+    df = df.dropna()
+    # Calc size of data set
+    num_rows = len(df)
+    num_columns = len(df.columns)
+    # Calc size of train and test
+    train_rows = int(num_rows * 0.7)
+    test_rows = num_rows - train_rows
+    # Cut data to train and test
+    df_x_train = df.head(train_rows)
+    df_x_test = df.tail(test_rows)
+
+    train_output_filename = output_filename + '_train'
+    test_output_filename = output_filename + '_test'
+
+    create_data_libSVM(df_x_train, output_filename=train_output_filename, isDataFrame=True)
+    create_data_libSVM(df_x_test, output_filename=test_output_filename, isDataFrame=True)
+
+
+
 if __name__ == '__main__':
+
+    import sys
+
+    print 'Number of arguments:', len(sys.argv), 'arguments.'
+    print 'Argument List:', str(sys.argv)
     # run_sklearn()
-    create_data_libSVM()
+    prepare_libSVM_train_test(sys.argv[1], sys.argv[2])
