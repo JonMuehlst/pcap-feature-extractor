@@ -1,3 +1,5 @@
-nose		Testing
-pandas 	Statistical functions on pcap DataFrames
+nose		  Testing
+pandas 	  Statistical functions on pcap DataFrames
 numpy
+mono      sudo apt-get install libmono2.0-cil mono-runtime
+splitCap  wget http://sourceforge.net/projects/splitcap/files/latest
