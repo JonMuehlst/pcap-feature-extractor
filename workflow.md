@@ -15,3 +15,14 @@
 # Verify code is up-to-date with remote
   1. Fetch the up-to-date code using `git fetch`
   2. Run `git status`
+
+# Add a feature to the code  
+  1. Define what you want to implement  
+  2. Write documentation  
+  3. Write a test in advance  
+  4. Implement  
+
+# Write a test case  
+  1. Pick a scenario  
+  2. Define the correct outcome for the specific case  
+  3. Simulate the above  

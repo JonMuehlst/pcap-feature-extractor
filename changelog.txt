@@ -1,3 +1,48 @@
+### 0.13 ###
+workflow:
+  Added # Add a feature to the code
+  Added # Write a test case
+
+learn.py:
+  create_data_libSVM():
+    Changed the input parameters: (source, output_filename, isDataFrame=False).
+    Added an if clause for `isDataFrame` to allow the source to be either a filename or a DataFrame.
+
+  prepare_libSVM_train_test():
+    Receives an input csv file name.
+    Writes out two csv files.
+    Train and Test.
+
+  main():
+    Receiving input and output filenames from cmd-line.
+
+### 0.12 ###
+utils:
+  general:
+    parse_folder_name:
+      Added label for OSX and for Unknown data
+    gen_label:
+      Added label for Unknown data
+
+
+### 0.11 ###
+containers:
+  PacketContainer:
+    Delete sizemean function
+
+core:
+  main:
+    work():
+      Change  "sizemean" to "mean_packet_size" in "feature_list"
+
+dependencies:
+  Added "all filenames must be in English"
+
+Added learn.py:
+    - For run sklearn SVC
+    - For fit data to libSVM
+
+
 ### 0.10 ###
 core:
   main:

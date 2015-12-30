@@ -58,17 +58,18 @@ print repr(sample)
 #gen_data_folders('/home/jon/workspace/pcap-feature-extractor/data')
 
 sstr = os.getcwd()
-sstr = sstr + '/data'
+# sstr = sstr + '/real_data'
+sstr = sstr + '/external_data/from_nadav/mac_nadav_pcaps_after_splitcap'
 # gen_data_folders(sstr)
 
-# main_script(ROOT_DIRECTORY=sstr,
-#             output_filename='20_12_15_samples.csv',
-#             rename_space_underscore=False,
-#             feature_list=['packet_count', 'sizemean', 'sizevar', 'std_fiat', 'std_biat', 'fpackets', 'bpackets', 'fbytes', 'bbytes', 'min_fiat', 'min_biat', 'max_fiat', 'max_biat', 'std_fiat', 'std_biat', 'mean_fiat', 'mean_biat', 'min_fpkt', 'min_bpkt', 'max_fpkt', 'max_bpkt', 'std_fpkt', 'std_bpkt', 'mean_fpkt', 'mean_bpkt'])
+work(ROOT_DIRECTORY=sstr,
+            output_filename='30_12_15_mac_samples.csv',
+            rename_space_underscore=True,
+            feature_list=['packet_count', 'mean_packet_size', 'sizevar', 'std_fiat', 'std_biat', 'fpackets', 'bpackets', 'fbytes', 'bbytes', 'min_fiat', 'min_biat', 'max_fiat', 'max_biat', 'std_fiat', 'std_biat', 'mean_fiat', 'mean_biat', 'min_fpkt', 'min_bpkt', 'max_fpkt', 'max_bpkt', 'std_fpkt', 'std_bpkt', 'mean_fpkt', 'mean_bpkt'])
 
 # print repr(sdf)
 
-start_here()
+# start_here()
 
 
 # print repr(conv.feature_methods)
