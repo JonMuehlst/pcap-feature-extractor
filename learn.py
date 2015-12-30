@@ -6,28 +6,34 @@ import numpy as np
 
 """
 Read data_csv that create with our "pcap-feature-extractor"
+Assuming the first row is labels
 """
-def create_data_libSVM(file_name = '/home/jony/infomedia/pcap-feature-extractor/real_data/20_12_15_samples_clean.csv'):
+def create_data_libSVM(file_name = '/home/jony/infomedia/pcap-feature-extractor/real_data/30_12_15/30_12_15_samples_multiclass.csv'):
     # Step 1 - Read dataset
     df = pd.read_csv(file_name, sep='\t')
     # Delete uncalc feature
-    # df = df.drop('sizemean', 1)
-    # df = df.dropna()
+    df = df.dropna()
     """ use only for try """
     num_rows = len(df)
     num_columns = len(df.columns)
+    # Shuffle all rows
+    index_permutation = np.random.permutation(num_rows)
+    df = df.iloc[index_permutation]
+    # Get label vector
+    print df.columns
     df_y = df.iloc[:,num_columns-1]
     df = df.drop('label',1)
     df.insert(0,'label',df_y)
     for i in range(1,len(df.columns)):
         for j in range(0,len(df)):
             df.iloc[j,i] = str(i) + ':' + str(df.iloc[j,i])
+    # Assuming the label is incorrect
     for j in range(0,len(df)):
-        if df.iloc[j,0] == 1:
-            df.iloc[j,0] = '+' + str(1)
-        else:
-            df.iloc[j,0] = '-' + str(1)
-    df.to_csv('/home/jony/infomedia/pcap-feature-extractor/real_data/20_12_15_samples_clean_for_libsvm.csv', separator='\t', index=False)
+        if df.iloc[j,0] == 3:
+            df.iloc[j,0] = 2
+    #     else:
+    #         df.iloc[j,0] = '-' + str(1)
+    df.to_csv('/home/jony/infomedia/pcap-feature-extractor/real_data/30_12_15_samples_clean_for_libsvm.csv', sep='\t', index=False, header=False)
 
     """ end part try only """
 
@@ -68,4 +74,5 @@ def run_sklearn(file_name = '/home/jony/infomedia/pcap-feature-extractor/real_da
 
     """ End learn part """
 if __name__ == '__main__':
-    run_sklearn()
+    # run_sklearn()
+    create_data_libSVM()

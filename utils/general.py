@@ -99,6 +99,8 @@ def gen_label(os, browser, application, service):
         return 1
     elif os == 'OSX':
         return 2
+    elif os == 'Unknown':
+        return 3
 
 
 """
@@ -115,6 +117,10 @@ def parse_folder_name(folder_name):
         return 'Linux'
     elif tokens[0] == 'W':
         return 'Windows'
+    elif tokens[0] == 'D':
+        return 'OSX'
+    else:
+        return 'Unknown'
 
 """ Return True if the given pcap is a session """
 def is_pcap_session(pcap_path):

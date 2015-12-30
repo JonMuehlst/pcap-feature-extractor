@@ -1,3 +1,11 @@
+### 0.12 ###
+
+utils:
+  general:
+    parse_folder_name:
+      Added label for OSX and for Unknown data
+    gen_label:
+      Added label for Unknown data
 ### 0.11 ###
 containers:
   PacketContainer:
