@@ -1,4 +1,4 @@
-from steelscript.wireshark.core.pcap import PcapFile
+# from steelscript.wireshark.core.pcap import PcapFile
 import numpy as np
 import subprocess
 import datetime
