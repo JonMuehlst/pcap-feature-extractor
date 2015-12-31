@@ -3,7 +3,8 @@
   2. Commit to your local fork
   3. Issue a Pull request
 
-# Push changes to github
+# Push changes to github  
+  0. Verify code is up-to-date with remote (See steps below)  
   1. Update all the relevant changes in `changelog.txt` (See the file for structure)  
     1.1 Use git diff to easily view changes
   2. Use `git add filenames...` to add all modified and new files. (Also add TODO, changelog itself, temp etc...)
