@@ -42,6 +42,23 @@ Added learn.py:
     - For run sklearn SVC
     - For fit data to libSVM
 
+### 0.10.1 ###
+containers:
+  PacketContainer.py:
+    Changed sizemean() to mean_packet_size()
+
+core:
+  main.py:
+    work():
+      changed sizemean feature to 'mean_packet_size'
+
+dependencies:
+  Updated
+
+splitcap_install.txt:
+  Instructions to install splitCap on Linux
+
+
 
 ### 0.10 ###
 core:
