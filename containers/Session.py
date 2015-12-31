@@ -148,3 +148,11 @@ class Session(PacketContainer):
     """ Mean backward packet length (mean_bpkt) """
     def mean_bpkt(self):
         return self.flow_down.mean_packet_size()
+
+    """
+    Our features
+    """
+
+    """ Discretized 'Client Hello' TTL values """
+    def client_hello_ttl(self):
+        pass
