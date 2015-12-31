@@ -5,6 +5,7 @@ containers:
 
   PacketContainer:
     + update according to Session / Flow
+    + add 2 features: TTL, ciphersuite
 
 utils:
   + A module which reads an hcl config file from each recording directory
