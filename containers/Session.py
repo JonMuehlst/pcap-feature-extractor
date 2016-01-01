@@ -4,6 +4,7 @@ from PacketContainer import PacketContainer
 from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pcap
 from containers.Flow import Flow
 import pandas as pd
+import numpy as np
 
 """
 FIX:
@@ -153,6 +154,12 @@ class Session(PacketContainer):
     Our features
     """
 
-    """ Discretized 'Client Hello' TTL values """
-    def client_hello_ttl(self):
-        pass
+    """
+    Discretized upstream TTL values.
+    Assuming Two bins: 0-64, 65-128
+    """
+    def mean_fttl(self):
+        if self.flow_up.get_mean_ttl() <= 64:
+            return np.array([1,0])
+        elif self.flow_up.get_mean_ttl() > 64:
+            return np.array([0,1])

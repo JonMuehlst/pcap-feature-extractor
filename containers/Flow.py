@@ -84,3 +84,7 @@ class Flow(PacketContainer):
     """ time delta mean """
     def mean_time_delta(self):
         return self.df['frame.time_delta'].mean()
+
+    """ """
+    def get_mean_ttl(self):
+        return self.df['ip.ttl'].mean()

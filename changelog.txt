@@ -1,3 +1,22 @@
+### 0.14.1 ###
+Added a new feature to Session
+
+containers:
+  Flow.py:
+    get_mean_ttl():
+      The mean value of all packet ttl values in the flow.
+
+  Session.py:
+    mean_fttl():
+      Discretized upstream TTL values.
+      Assuming Two bins: 0-64, 65-128
+
+tests:
+  test_our_features.py:
+    Did some adjustments.
+    Using numpy array equality testing.
+
+
 ### 0.14 ###
 containers:
   Session.py:
