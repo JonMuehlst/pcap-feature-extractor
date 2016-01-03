@@ -79,6 +79,6 @@ class Converter(object):
 		return iter(self.all_samples)
 
 	""" Write samples to csv """
-	def write_to_csv(self, file_name, separator, column_names):
-		sdf = pd.DataFrame(self.all_samples, columns=column_names)
+	def write_to_csv(self, file_name, separator):
+		sdf = pd.DataFrame(self.all_samples)
 		sdf.to_csv(file_name, sep=separator, index=False)

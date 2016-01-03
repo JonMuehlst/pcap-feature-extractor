@@ -1,3 +1,34 @@
+### 0.14.2 ###
+Fixed a bug with the mean_fttl feature.
+The case when the upstream flows' function 'get_mean_ttl'
+returned  NaN wasn't taken into account.
+mean_fttl now Returns [0,0] for a session with such an upstream flow.
+
+containers:
+  Session:
+    mean_fttl():
+      Added the 'else' condition for sessions where the upstream ttl
+      is NaN, returning [0,0].
+
+core:
+  main.py:
+    work():
+      Rename_space_underscore=True as default.
+
+      Removed the column names parameter.
+
+  converter.py:
+    write_to_csv - Removed column names parameter
+
+ui.py:
+  An easy wrapper which calls work() from main.py
+
+TODO.txt:
+  Updated
+
+
+
+
 ### 0.14.1 ###
 Added a new feature to Session
 

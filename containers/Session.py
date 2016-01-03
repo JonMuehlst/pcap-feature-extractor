@@ -163,3 +163,5 @@ class Session(PacketContainer):
             return np.array([1,0])
         elif self.flow_up.get_mean_ttl() > 64:
             return np.array([0,1])
+        else:
+            return np.array([0,0])

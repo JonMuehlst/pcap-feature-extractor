@@ -37,16 +37,27 @@ core:
     + Use multiprocessing - pickle -  Can't pickle <type 'instancemethod'>: attribute lookup __builtin__.instancemethod failed
     + Periodically print out elapsed time and converted sample count
     + OSX label
+    + write_to_csv() - Check if we need column names in the output table
 
 main:
   + function which runs all the relevant functions, input root folder name + output file name OUTPUT samples.csv
   + find why does "sizemean" feature not throw exception
+  + REMOVE 'feature_list.append('mean_fttl2')' instruction and implement a function
+    Whose input is a feature name and its output is a respective list of column names.
+    e.g. for mean_fttl as input the output should be ['mean_fttl_0_64', 'mean_fttl_65_128']
+
+tests:
+  test_our_features.py:
+    test_mean_fttl:
+      test for the case where mean_fttl is NaN - [0,0]
 
 ALL:
-  + Check for extreme cases:
+  + Check for extreme cases
+  + Check that sample length matches the feature count
   + Globals for: os, browser, aplication, service
   + Cleanup code
   + create feature_list according to session methods
+  + FIX concatenation - np.concat(all_samples)
 
 learn:
   + Avoid duplicate code
