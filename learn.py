@@ -7,8 +7,6 @@ import numpy as np
 """
 Read source data created with our "pcap-feature-extractor"
 
-Assuming the first row is labels
-
 The source parameter can be either a filename or a DataFrame
 """
 def create_data_libSVM(source, output_filename, isDataFrame=False):
@@ -76,6 +74,13 @@ def run_sklearn(file_name = '/home/jony/infomedia/pcap-feature-extractor/real_da
     clf.fit(X_train, y_train)
     test_score = clf.score(X_test, y_test)
     print test_score
+
+"""
+Wrapper for run create_data_libSVM
+Get "file_name" and "output_filename"
+Cut to train and test and call "create_data_libSVM" for each DataFrame
+Wrire result to "file_name+train/test"
+"""
 
 def prepare_libSVM_train_test(file_name, output_filename):
     # Step 1 - Read dataset

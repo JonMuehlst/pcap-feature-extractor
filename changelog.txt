@@ -1,3 +1,12 @@
+### 0.14.3 ###
+core:
+  main:
+    work():
+      added 'mean_fttl' to the default "feature_list"
+
+Added accuracy_from_file- input: 2 file names, output: accuracy_score
+
+
 ### 0.14.2 ###
 Fixed a bug with the mean_fttl feature.
 The case when the upstream flows' function 'get_mean_ttl'
