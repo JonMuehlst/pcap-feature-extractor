@@ -149,3 +149,22 @@ def space_to_underscore(ROOT_FOLDER):
                     # print 'newfilename: ' + repr(str(newfilename))
 
                     os.rename(join(root, filename), join(root, newfilename))
+
+"""
+Parse a folder name and return the browser
+Assumes the following format:
+L_cyber_chrome_09-17__11_38_11
+"""
+def parse_folder_name_for_browser(folder_name):
+    temp = folder_name.split(os.sep)
+    temp.reverse()
+    if folder_name.find("_chrome_") > 0: # if an underscore is found
+            return 'Chrome'
+    elif folder_name.find("_ff_") > 0: # if an underscore is found
+            return 'FireFox'
+    elif folder_name.find("_ie_") > 0: # if an underscore is found
+            return 'IExplorer'
+    elif folder_name.find("_Safari_") > 0: # if an underscore is found
+            return 'Safari'
+    else:
+        return 'Unknown'
