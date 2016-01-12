@@ -52,8 +52,9 @@ class Converter(object):
 			""" IMPLEMENT """
 			# label_data_file = get_label_data_hcl_file()
 			# label = gen_label(label_data_file)
-			os = parse_folder_name(CHILD_DIRECTORY)
-			label = gen_label(os,'','','')
+			#os = parse_folder_name(CHILD_DIRECTORY)
+			browser = parse_folder_name(CHILD_DIRECTORY)
+			label = gen_label(browser,'','','')
 			func = partial(self.pcap_to_feature_vector, label=label)
 			samples = map(func, only_pcap_files)
 			return samples

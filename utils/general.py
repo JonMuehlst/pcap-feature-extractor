@@ -75,7 +75,8 @@ Labels per combination:
     5 = (OSX, Safari)
 
 """
-def gen_label(os, browser, application, service):
+#def gen_label(os, browser, application, service):
+def gen_label(browser,os, application, service):
     """
     if os == 'Linux':
         if browser == 'Chrome':
@@ -93,15 +94,16 @@ def gen_label(os, browser, application, service):
         if browser == 'Safari':
             return 5
     """
-    if os == 'Linux':
+    if browser == 'chrome':
         return 0
-    elif os == 'Windows':
+    elif browser == 'safari':
         return 1
-    elif os == 'OSX':
+    elif browser == 'ie':
         return 2
-    elif os == 'Unknown':
+    elif browser == 'ff':
         return 3
-
+    elif browser == 'Unknown':
+        return 4
 
 """
 Parse a folder name and return the os + browser
@@ -110,18 +112,27 @@ Assumes the following format:
 L_cyber_chrome_09-17__11_38_11
 """
 def parse_folder_name(folder_name):
-    temp = folder_name.split(os.sep)
-    temp.reverse()
-    tokens = temp[0].split('_')
-    if tokens[0] == 'L':
-        return 'Linux'
-    elif tokens[0] == 'W':
-        return 'Windows'
-    elif tokens[0] == 'D':
-        return 'OSX'
+    # temp = folder_name.split(os.sep)
+    # temp.reverse()
+    # tokens = temp[0].split('_')
+    # if tokens[0] == 'L':
+    #     return 'Linux'
+    # elif tokens[0] == 'W':
+    #     return 'Windows'
+    # elif tokens[0] == 'D':
+    #     return 'OSX'
+    # else:
+    #     return 'Unknown'
+    if folder_name.find("chrome")>0:
+        return 'chrome'
+    elif folder_name.find("safari")>0:
+        return 'safari'
+    elif folder_name.find("ie")>0:
+        return 'ie'
+    elif folder_name.find("ff")>0:
+        return 'ff'
     else:
         return 'Unknown'
-
 """ Return True if the given pcap is a session """
 def is_pcap_session(pcap_path):
     if pcap_path.endswith('.pcap'):

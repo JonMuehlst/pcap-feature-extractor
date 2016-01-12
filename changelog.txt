@@ -1,9 +1,28 @@
+### 0.14.5 ###
+core:
+  converter:
+    sessions_to_samples:
+      added this line to comment "#os = parse_folder_name(CHILD_DIRECTORY)"
+      added this line "browser = parse_folder_name(CHILD_DIRECTORY)"
+
+temp:
+  change "sstr" to be 'sstr = /home/cyber/Desktop/yehonatan'
+
+utils:
+  general:
+    gen_label:
+      change the function purpose to return browser label instead browser label
+    parse_folder_name:
+      change the function purpose to return browser label instead browser label
+
+
+
 ### 0.14.4 ###
 utils:
   general:
     Added "parse_folder_name_for_browser" function
   read_pcap:
-    
+
 
 Added "parse_data.py" file- should generate all pcap file names for labeling
 

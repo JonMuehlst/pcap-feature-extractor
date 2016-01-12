@@ -58,7 +58,7 @@ print repr(sample)
 #gen_data_folders('/home/jon/workspace/pcap-feature-extractor/data')
 
 sstr = os.getcwd()
-sstr = sstr + '/real_data'
+sstr = '/home/cyber/Desktop/yehonatan'
 # sstr = sstr + '/external_data/from_nadav/mac_nadav_pcaps_after_splitcap'
 # gen_data_folders(sstr)
 
