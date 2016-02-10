@@ -27,5 +27,6 @@ def parse_conf():
     f = read_hcl(os.getcwd() + '/' + 'conf.hcl')
     fields = [ str(field) for field in f['conf']['fields'] ]
     features = [ str(feature) for feature in f['conf']['features'] ]
-    directory = str(f['conf']['data'])
-    return fields, features, directory
+    input_directory = str(f['conf']['data'])
+    output_filename = str(f['conf']['output'])
+    return fields, features, input_directory, output_filename

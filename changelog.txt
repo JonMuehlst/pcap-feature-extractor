@@ -1,3 +1,28 @@
+### 0.14.3.2 ###
+core:
+  Converter:
+    __init__():
+      Added fields_list parameter. Saving as class member.
+
+    pcap_to_feature_vector():
+      Calling Session.from_filename(pcap_path, fields=self.fields) with the new fields class member.
+
+  main:
+    work():
+      Added fields_list parameter which is sent to the Converter __init__
+
+utils:
+  hcl_helpers:
+    parse_conf():
+      Added output_filename parsing
+
+conf.hcl:
+  Added the output file name property
+
+run:
+  Renamed the file from ui.py.
+  Working with the configuration file instead of the cmd input parameters.
+
 ### 0.14.3.1 ###
 10.2.16 - JonM
 

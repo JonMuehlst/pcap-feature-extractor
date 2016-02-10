@@ -1,5 +1,5 @@
 from containers.Session import Session
-from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label
+from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label_triple
 from utils.hcl_helpers import read_label_data
 from functools import partial
 from multiprocessing import Pool
@@ -19,12 +19,13 @@ Instructions:
 """
 class Converter(object):
 	""" FIX - Fix default feature_methods_list """
-	def __init__(self, PARENT_DIRECTORY, feature_methods_list=['packet_count', 'sizemean', 'sizevar']):
+	def __init__(self, PARENT_DIRECTORY, feature_methods_list=['packet_count', 'sizemean', 'sizevar'], fields_list=[]):
 		print 'Initializing...'
 		print
 		self.p = Pool(16)
 		self.data_folders = gen_data_folders(PARENT_DIRECTORY)
 		self.feature_methods = feature_methods_list
+		self.fields = fields_list
 		self.all_samples = np.array([])
 		print 'Done Initializing'
 
@@ -33,7 +34,7 @@ class Converter(object):
 	"""
 	def pcap_to_feature_vector(self, pcap_path, label=1):
 		# print 'Processing: ' + repr(str(pcap_path))
-		sess = Session.from_filename(pcap_path)
+		sess = Session.from_filename(pcap_path, fields=self.fields)
 		feature_vector = np.array([])
 		for method_name in self.feature_methods:
 			method = getattr(sess, method_name)
@@ -51,9 +52,9 @@ class Converter(object):
 		if len(only_pcap_files) > 0:
 			""" IMPLEMENT """
 			# label_data_file = get_label_data_hcl_file()
-			# label = gen_label(label_data_file)
-			os = parse_folder_name(CHILD_DIRECTORY)
-			label = gen_label(os,'','','')
+			# label = gen_label_triple(label_data_file)
+			os_str, browser_str = parse_folder_name(CHILD_DIRECTORY)
+			label = gen_label_triple(os_str,browser_str,'')
 			func = partial(self.pcap_to_feature_vector, label=label)
 			samples = map(func, only_pcap_files)
 			return samples

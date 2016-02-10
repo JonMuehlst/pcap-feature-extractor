@@ -37,9 +37,14 @@ conf {
 
 
   /*
-  Data directory - full path
+  Data directory - full path.
   */
-  
+
   data = "/home/jon/workspace/pcap-feature-extractor/data"
 
+  /*
+  The output file name - without path.
+  */
+
+  output = "samples.csv"
 }
