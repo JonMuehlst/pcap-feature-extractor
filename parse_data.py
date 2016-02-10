@@ -1,3 +1,8 @@
+
+"""
+Temporarily holding for reference
+"""
+
 output_filename='Dont_Have_OS_Or_Browser_At_Folder_Name.csv',
 data_folders = gen_data_folders(PARENT_DIRECTORY)
 only_pcap_files = gen_pcap_filenames(data_folders)

@@ -1,11 +1,4 @@
-### 0.14.4 ###
-utils:
-  general:
-    Added "parse_folder_name_for_browser" function
-  read_pcap:
-    
-
-Added "parse_data.py" file- should generate all pcap file names for labeling
+### Reset the code state to 0.14.3 ###
 
 ### 0.14.3 ###
 core:
