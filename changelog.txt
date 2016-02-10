@@ -51,12 +51,9 @@ generate_sni_list:
 conf.hcl:
   The configuration file.
 
-<<<<<<< Updated upstream
 
 ### Reset the code state to 0.14.3 ###
 
-=======
->>>>>>> Stashed changes
 ### 0.14.3 ###
 core:
   main:
