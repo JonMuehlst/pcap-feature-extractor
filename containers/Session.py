@@ -18,8 +18,7 @@ sess - Session DataFrame
 class Session(PacketContainer):
 
     def __init__(self, s):
-        self.sess = s
-        self.flow_up, self.flow_down = gen_flows_up_down(self.sess)
+        self.flow_up, self.flow_down = gen_flows_up_down(s)
         self.flow_up, self.flow_down = Flow(self.flow_up), Flow(self.flow_down)
 
 
@@ -48,27 +47,37 @@ class Session(PacketContainer):
 
     """ Amount of packets """
     def __len__(self):
-        return len(self.sess)
+        return len(self.flow_up) + len(self.flow_down)
 
     """ Total number of packets """
     def packet_count(self):
         return len(self)
 
+    """ Get the entire session DataFrame from flow up + down """
+    def get_session_df(self):
+        fu_df = self.flow_up.get_df()
+        fd_df = self.flow_down.get_df()
+        return pd.concat([fu_df, fd_df], axis=0, ignore_index=True)
+
     """ Mean of packet size """
     def mean_packet_size(self):
-        return self.sess['frame.len'].mean()
+        fu_fd_df = self.get_session_df()
+        return fu_fd_df['frame.len'].mean()
 
     """ Variance of packet size """
     def sizevar(self):
-        return self.sess['frame.len'].var()
+        fu_fd_df = self.get_session_df()
+        return fu_fd_df['frame.len'].var()
 
     """ Max packet size """
     def max_packet_size(self):
-        return self.sess['frame.len'].max()
+        fu_fd_df = self.get_session_df()
+        return fu_fd_df['frame.len'].max()
 
     """ Min packet size """
     def min_packet_size(self):
-        return self.sess['frame.len'].min()
+        fu_fd_df = self.get_session_df()
+        return fu_fd_df['frame.len'].min()
 
     """ # Packets in forward direction (fpackets) """
     def fpackets(self):

@@ -4,6 +4,7 @@ from os import listdir
 from os.path import isfile, join
 from utils.read_pcap import read_pcap
 import csv
+import pandas as pd
 
 def cleanup_pyc(DIRECTORY):
     d = path(DIRECTORY)
@@ -62,45 +63,48 @@ def write_pcap_filenames(filename_list, file_name):
 
 """
 Labels per combination:
-    os = { Linux, Windows, OSX }
-    browser = { Chrome, FireFox, IExplorer }
-    application = { , }
-    service = { , }
+    os = { Linux, Windows, OSX, Unknown }
+    browser = { Chrome, FireFox, IExplorer, Unknown }
+    application = { Twitter, Youtube, Unknown }
 
-    0 = (Linux, Chrome)
-    1 = (Linux, FireFox)
-    2 = (Windows, Chrome)
-    3 = (Windows, FireFox)
-    4 = (Windows, IExplorer)
-    5 = (OSX, Safari)
-
+    The input is non case sensitive
 """
-def gen_label(os, browser, application, service):
-    """
-    if os == 'Linux':
-        if browser == 'Chrome':
-            return 0
-        elif browser == 'FireFox':
-            return 1
-    elif os == 'Windows':
-        if browser == 'Chrome':
-            return 2
-        elif browser == 'FireFox':
-            return 3
-        elif browser == 'IExplorer':
-            return 4
-    elif os == 'OSX':
-        if browser == 'Safari':
-            return 5
-    """
-    if os == 'Linux':
-        return 0
-    elif os == 'Windows':
-        return 1
-    elif os == 'OSX':
-        return 2
-    elif os == 'Unknown':
-        return 3
+def gen_label_triple(input_os, input_browser, input_application):
+
+    input_os = input_os.lower()
+    input_browser = input_browser.lower()
+    input_application = input_application.lower()
+
+    label = 10000
+
+    if input_os == 'linux':
+        label = label + 1
+    elif input_os == 'windows':
+        label = label + 2
+    elif input_os == 'osx':
+        label = label + 3
+    elif input_os == 'unknown':
+        label = label + 4
+
+    if input_browser == 'chrome':
+        label = label + 100
+    elif input_browser == 'firefox':
+        label = label + 200
+    elif input_browser == 'iexplorer':
+        label = label + 300
+    elif input_browser == 'safari':
+        label = label + 400
+    elif input_browser == 'unknown':
+        label = label + 500
+
+    if input_application == 'twitter':
+        label = label + 1000
+    elif input_application == 'youtube':
+        label = label + 2000
+    elif input_application == 'unknown':
+        label = label + 3000
+
+    return label
 
 
 """
@@ -108,19 +112,45 @@ Parse a folder name and return the os + browser
 Currently returns os only.
 Assumes the following format:
 L_cyber_chrome_09-17__11_38_11
+where folder_name is the full path i.e. /home/user/folder
+
+Non case sensitive
+
+Assuming the entire folder contains pcaps of the same os, browser
 """
 def parse_folder_name(folder_name):
     temp = folder_name.split(os.sep)
     temp.reverse()
     tokens = temp[0].split('_')
-    if tokens[0] == 'L':
-        return 'Linux'
-    elif tokens[0] == 'W':
-        return 'Windows'
-    elif tokens[0] == 'D':
-        return 'OSX'
+
+    input_os = tokens[0].lower()
+    input_browser = tokens[2].lower()
+
+    os_str = ''
+    browser_str = ''
+
+    if input_os == 'l':
+        os_str = 'Linux'
+    elif input_os == 'w':
+        os_str = 'Windows'
+    elif input_os == 'd':
+        os_str = 'OSX'
     else:
-        return 'Unknown'
+        """ TEMP """
+        os_str = 'OSX'
+
+    if input_browser == 'chrome':
+        browser_str = 'Chrome'
+    elif input_browser == 'ff':
+        browser_str = 'Firefox'
+    elif input_browser == 'firefox':
+        browser_str = 'Firefox'
+    elif input_browser == 'ie':
+        browser_str = 'IExplorer'
+    elif input_browser == 'safari':
+        browser_str = 'Safari'
+
+    return os_str, browser_str
 
 """ Return True if the given pcap is a session """
 def is_pcap_session(pcap_path):
@@ -149,3 +179,28 @@ def space_to_underscore(ROOT_FOLDER):
                     # print 'newfilename: ' + repr(str(newfilename))
 
                     os.rename(join(root, filename), join(root, newfilename))
+
+
+""" Generate SNI csv from each pcap in root folder """
+def gen_sni_csv(ROOT_FOLDER):
+    d = path(ROOT_FOLDER)
+    current_dir = os.getcwd()
+    csv_file = current_dir + "/sni.csv"
+    sni_list = []
+    for root, dirs, files in os.walk(d):
+
+        for filename in os.listdir(root):
+
+            if filename.endswith(".pcap"):
+                # print repr(str(d+'/'+filename))
+                df = read_pcap(filename=root+"/"+filename, fields=['ssl.handshake.extensions_server_name'])
+                df = df[df['ssl.handshake.extensions_server_name'].notnull()]
+                for index, row in df.iterrows():
+
+                    val = str(row['ssl.handshake.extensions_server_name'])
+                    sni_list.append(val)
+
+    sni_list = list(set(sni_list))
+    with open(csv_file, "wb") as f:
+            writer = csv.writer(f, delimiter='\n')
+            writer.writerow(sni_list)

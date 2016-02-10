@@ -73,5 +73,11 @@ class TestSession1(unittest.TestCase):
 	def test_variance(self):
 		self.assertAlmostEqual(self.s.sizevar(), 8636.11111111)
 
+	def test_min_packet_size(self):
+		self.assertAlmostEqual(self.s.min_packet_size(), 10)
+
+	def test_max_packet_size(self):
+		self.assertAlmostEqual(self.s.max_packet_size(), 300)
+
 if __name__ == '__main__':
 	unittest.main()

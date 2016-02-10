@@ -1,5 +1,62 @@
+### 0.14.3.1 ###
+10.2.16 - JonM
+
+utils:
+  general:
+    gen_sni_csv():
+      Write all sni values from the data to csv
+
+    gen_label_triple():
+      given os, browser, application output a label number
+
+    parse_folder_name():
+      return os, browser based on the folder name
+
+hcl_helpers:
+    parse_conf():
+      Generate fields, features lists and data directory from the conf.hcl file
+
+containers:
+  Flow:
+    get_session_df():
+      pd.concat([FlowUp_df, FlowDown_df], axis=0)
+      Concatenate flow up + down dataframes.
+      i.e. stack them on top of each other
+
+    mean_packet_size():
+      Using get_session_df instead of keeping a redundant copy of the session dataframe
+
+    sizevar():
+      Same as mean_packet_size
+
+    max_packet_size():
+      Same as mean_packet_size
+
+    min_packet_size():
+      Same as mean_packet_size
+
+    __len__():
+      Using flow up + down instead of self.session
+
+tests:
+  test_session1:
+    Added:
+      test_min_packet_size()
+
+      test_max_packet_size()
+
+generate_sni_list:
+  Iterate over all pcap files in a given directory and generate an sni list in a csv file.
+
+conf.hcl:
+  The configuration file.
+
+<<<<<<< Updated upstream
+
 ### Reset the code state to 0.14.3 ###
 
+=======
+>>>>>>> Stashed changes
 ### 0.14.3 ###
 core:
   main:

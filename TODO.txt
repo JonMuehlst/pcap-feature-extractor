@@ -51,6 +51,10 @@ tests:
     test_mean_fttl:
       test for the case where mean_fttl is NaN - [0,0]
 
+utils:
+  read_pcap:
+    consider using dpkt.pcap.reader
+
 ALL:
   + Check for extreme cases
   + Check that sample length matches the feature count
