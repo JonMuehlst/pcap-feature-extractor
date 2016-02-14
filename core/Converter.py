@@ -36,7 +36,7 @@ class Converter(object):
 	def pcap_to_feature_vector(self, pcap_path, label=1):
 		# print 'Processing: ' + repr(str(pcap_path))
 		sess = Session.from_filename(pcap_path, fields=self.fields)
-		os_str, browser_str = parse_folder_name(CHILD_DIRECTORY)
+		os_str, browser_str = parse_folder_name(pcap_path)
 		app_str = gen_app_name_by_sni(sni_df,gen_sni(pcap_path)[0])
 		label = gen_label_triple(os_str,browser_str,app_str)
 		feature_vector = np.array([])
