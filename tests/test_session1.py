@@ -79,5 +79,8 @@ class TestSession1(unittest.TestCase):
 	def test_max_packet_size(self):
 		self.assertAlmostEqual(self.s.max_packet_size(), 300)
 
+	def test_size_histogram(self):
+		np.testing.assert_array_equal(self.s.size_histogram(), [7, 2, 0, 0, 0, 0, 0, 0, 0, 0])
+
 if __name__ == '__main__':
 	unittest.main()

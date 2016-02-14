@@ -1,6 +1,7 @@
 #inherits from Packet_container
 from PacketContainer import PacketContainer
 from Packet import Packet
+import numpy as np
 
 class Flow(PacketContainer):
 
@@ -88,3 +89,55 @@ class Flow(PacketContainer):
     """ """
     def get_mean_ttl(self):
         return self.df['ip.ttl'].mean()
+
+    """
+    Peak features:
+           peak mean
+           peak min
+           peak max
+           peak std
+           Number Of peaks
+
+           peak inter arrival time std
+           peak inter arrival time mean
+           peak inter arrival time min
+           peak inter arrival time max
+
+    """
+    def peak_features(self):
+
+        self.df['tcp.ack'].fillna(0)
+
+        """ For every trailing couple of packets (rows) compute the difference """
+        self.df['diff_tcp.ack'] = self.df['tcp.ack'].diff()
+
+        """ Add a column stating whether a certain packet represents a peak """
+        self.df['isPeak'] = np.where(self.df['frame.time_delta'] > 0.05, True, False)
+
+        """ A DataFrame containing only peak representing packets """
+        peak_df = self.df[self.df['isPeak'] == True]
+
+        """ Add a column containing the peak inter arrival times """
+        piat = peak_df['frame.time_epoch'].diff()
+
+        if len(peak_df) > 0 :
+            """ Features """
+            peak_mean = peak_df['diff_tcp.ack'].mean()
+            peak_min = peak_df['diff_tcp.ack'].min()
+            peak_max = peak_df['diff_tcp.ack'].max()
+            peak_std = peak_df['diff_tcp.ack'].std()
+            num_of_peaks = len(peak_df)
+
+            piat_mean = piat.mean()
+            piat_min = piat.min()
+            piat_max = piat.max()
+            piat_std = piat.std()
+
+            feature_arr = np.array([peak_mean, peak_min, peak_max, peak_std, num_of_peaks, piat_mean, piat_min, piat_max, piat_std])
+
+        else:
+            feature_arr = np.zeros(9)
+
+
+
+        return feature_arr

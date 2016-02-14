@@ -174,3 +174,24 @@ class Session(PacketContainer):
             return np.array([0,1])
         else:
             return np.array([0,0])
+
+    """ Forward peak features """
+    def fpeak_features(self):
+        return self.flow_up.peak_features()
+
+    """ Backward peak features """
+    def bpeak_features(self):
+        return self.flow_down.peak_features()
+
+    """
+    Packet size histogram of 10 bins
+
+    The original Ethernet IEEE 802.3 standard defined the minimum Ethernet frame size as 64 bytes
+    and the maximum as 1518 bytes.
+    The maximum was later increased to 1522 bytes to allow for VLAN tagging.
+    The minimum size of an Ethernet frame that carries an ICMP packet is 74 bytes.
+    """
+    def size_histogram(self):
+        fu_fd_df = self.get_session_df()
+        hist = np.histogram(fu_fd_df['frame.len'], bins=[ 0.,   160.,   320.,   480.,   640.,   800.,   960.,  1120., 1280.,  1440.,  1600. ])
+        return hist[0]

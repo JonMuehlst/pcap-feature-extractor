@@ -1,3 +1,22 @@
+### 0.14.3.4 ###
+New features: packet size histogram, peak features
+
+containers:
+  Flow:
+    Peak features
+
+  Session:
+    Forward peak features
+    Backward peak features
+    Packet size histogram
+
+tests:
+  TestSession1:
+    test_size_histogram()
+
+
+
+
 ### 0.14.3.3 ###
 conf:
   conf.py is an api for hcl config

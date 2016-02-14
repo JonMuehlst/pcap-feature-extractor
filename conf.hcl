@@ -24,7 +24,7 @@ conf {
   The field values are valid tshark\wireshark filters.
    */
 
-  fields = ["frame.time_epoch", "frame.time_delta", "frame.len", "frame.cap_len", "frame.marked", "ip.src", "ip.dst", "ip.len", "ip.flags", "ip.flags.rb", "ip.flags.df", "ip.flags.mf", "ip.frag_offset", "ip.ttl", "ip.proto", "ip.checksum_good", "tcp.srcport", "tcp.dstport", "tcp.len", "tcp.nxtseq", "tcp.hdr_len", "tcp.flags.cwr", "tcp.flags.urg", "tcp.flags.push", "tcp.flags.syn" ,"tcp.window_size","tcp.checksum","tcp.checksum_good", "tcp.checksum_bad","ssl.handshake.extensions_server_name"]
+  fields = ["frame.time_epoch", "frame.time_delta", "frame.len", "tcp.ack", "frame.cap_len", "frame.marked", "ip.src", "ip.dst", "ip.len", "ip.flags", "ip.flags.rb", "ip.flags.df", "ip.flags.mf", "ip.frag_offset", "ip.ttl", "ip.proto", "ip.checksum_good", "tcp.srcport", "tcp.dstport", "tcp.len", "tcp.nxtseq", "tcp.hdr_len", "tcp.flags.cwr", "tcp.flags.urg", "tcp.flags.push", "tcp.flags.syn" ,"tcp.window_size","tcp.checksum","tcp.checksum_good", "tcp.checksum_bad"]
 
 
   /*
@@ -33,14 +33,14 @@ conf {
   (See source code - Session.py)
    */
 
-  features = ["packet_count", "mean_packet_size", "sizevar", "tcp.ack", "std_fiat", "std_biat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_fiat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl"]
+  features = ["size_histogram", "fpeak_features", "bpeak_features", "packet_count", "mean_packet_size", "sizevar", "std_fiat", "std_biat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_fiat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl"]
 
 
   /*
   Data directory - full path.
   */
 
-  data = "/home/jony/Infomedia/pcap-feature-extractor/real_data"
+  data = "/home/jon/workspace/pcap-feature-extractor/data"
 
   /*
   The output file name - without path.
@@ -52,6 +52,6 @@ conf {
   sni_csv full path
   */
 
-  sni_csv = "/home/jony/Infomedia/pcap-feature-extractor/sni.csv"
+  sni_csv = "/home/jon/workspace/pcap-feature-extractor/sni.csv"
 
 }

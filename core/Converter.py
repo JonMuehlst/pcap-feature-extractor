@@ -1,5 +1,5 @@
 from containers.Session import Session
-from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label_triple, read_sni_csv
+from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label_triple, read_sni_csv, gen_app_name_by_sni, gen_sni
 from utils.hcl_helpers import read_label_data
 from functools import partial
 from multiprocessing import Pool
@@ -37,7 +37,7 @@ class Converter(object):
 		# print 'Processing: ' + repr(str(pcap_path))
 		sess = Session.from_filename(pcap_path, fields=self.fields)
 		os_str, browser_str = parse_folder_name(pcap_path)
-		app_str = gen_app_name_by_sni(sni_df,gen_sni(pcap_path)[0])
+		app_str = gen_app_name_by_sni(self.sni_df,gen_sni(pcap_path)[0])
 		label = gen_label_triple(os_str,browser_str,app_str)
 		feature_vector = np.array([])
 		for method_name in self.feature_methods:
