@@ -29,4 +29,5 @@ def parse_conf():
     features = [ str(feature) for feature in f['conf']['features'] ]
     input_directory = str(f['conf']['data'])
     output_filename = str(f['conf']['output'])
-    return fields, features, input_directory, output_filename
+    sni_csv_path = str(f['conf']['sni_csv'])
+    return fields, features, input_directory, output_filename, sni_csv_path

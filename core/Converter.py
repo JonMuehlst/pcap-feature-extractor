@@ -19,7 +19,7 @@ Instructions:
 """
 class Converter(object):
 	""" FIX - Fix default feature_methods_list """
-	def __init__(self, PARENT_DIRECTORY, feature_methods_list=['packet_count', 'sizemean', 'sizevar'], fields_list=[]):
+	def __init__(self, PARENT_DIRECTORY, feature_methods_list=['packet_count', 'sizemean', 'sizevar'], fields_list=[], sni_csv):
 		print 'Initializing...'
 		print
 		self.p = Pool(16)
@@ -27,6 +27,7 @@ class Converter(object):
 		self.feature_methods = feature_methods_list
 		self.fields = fields_list
 		self.all_samples = np.array([])
+		self.sni_df = read_sni_csv(sni_csv)
 		print 'Done Initializing'
 
 	"""
@@ -35,6 +36,9 @@ class Converter(object):
 	def pcap_to_feature_vector(self, pcap_path, label=1):
 		# print 'Processing: ' + repr(str(pcap_path))
 		sess = Session.from_filename(pcap_path, fields=self.fields)
+		os_str, browser_str = parse_folder_name(CHILD_DIRECTORY)
+		app_str = gen_app_name_by_sni(sni_df,gen_sni(pcap_path)[0])
+		label = gen_label_triple(os_str,browser_str,app_str)
 		feature_vector = np.array([])
 		for method_name in self.feature_methods:
 			method = getattr(sess, method_name)
@@ -50,13 +54,7 @@ class Converter(object):
 		print 'In: ' + repr(str(CHILD_DIRECTORY))
 		only_pcap_files = gen_pcap_filenames(CHILD_DIRECTORY)
 		if len(only_pcap_files) > 0:
-			""" IMPLEMENT """
-			# label_data_file = get_label_data_hcl_file()
-			# label = gen_label_triple(label_data_file)
-			os_str, browser_str = parse_folder_name(CHILD_DIRECTORY)
-			label = gen_label_triple(os_str,browser_str,'')
-			func = partial(self.pcap_to_feature_vector, label=label)
-			samples = map(func, only_pcap_files)
+			samples = map(self.pcap_to_feature_vector, only_pcap_files)
 			return samples
 		return np.array([])
 

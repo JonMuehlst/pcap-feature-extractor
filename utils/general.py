@@ -192,15 +192,44 @@ def gen_sni_csv(ROOT_FOLDER):
         for filename in os.listdir(root):
 
             if filename.endswith(".pcap"):
-                # print repr(str(d+'/'+filename))
-                df = read_pcap(filename=root+"/"+filename, fields=['ssl.handshake.extensions_server_name'])
-                df = df[df['ssl.handshake.extensions_server_name'].notnull()]
-                for index, row in df.iterrows():
-
-                    val = str(row['ssl.handshake.extensions_server_name'])
-                    sni_list.append(val)
+                pcap_sni_list = gen_sni(root+"/"+filename)
+                sni_list.extend(pcap_sni_list)
 
     sni_list = list(set(sni_list))
     with open(csv_file, "wb") as f:
             writer = csv.writer(f, delimiter='\n')
             writer.writerow(sni_list)
+
+"""
+Generate all SNI from specific pcap file
+"""
+def gen_sni(filename):
+    pcap_sni_list = []
+    #
+    df = read_pcap(filename=filename, fields=['ssl.handshake.extensions_server_name'] , dtype = {'ssl.handshake.extensions_server_name':'string'})
+    df = df[df['ssl.handshake.extensions_server_name'].notnull()]
+    for index, row in df.iterrows():
+
+        val = str(row['ssl.handshake.extensions_server_name'])
+        pcap_sni_list.append(val)
+
+    return pcap_sni_list
+
+"""
+Get sni_df
+Return app_name
+"""
+def gen_app_name_by_sni(df, sni):
+    app_name =df.loc[df['sni'] == sni]['app_name']
+    if len(app_name) == 0:
+        return 'unknown'
+    else:
+        return app_name.iloc[0]
+
+"""
+Read sni csv and return sni data frame
+"""
+def read_sni_csv(sni_csv):
+    df = pd.read_csv(sni_csv,names=['sni','app_name'])
+    df.fillna('unknwon')
+    return df

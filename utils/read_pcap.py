@@ -86,7 +86,7 @@ def gen_data_frame(path_str):
 
 
 def read_pcap(filename, fields=[], display_filter="",
-              timeseries=False, strict=False):
+              timeseries=False, strict=False, dtype=None):
     """ Read PCAP file into Pandas DataFrame object.
     Uses tshark command-line tool from Wireshark.
 
@@ -146,10 +146,11 @@ def read_pcap(filename, fields=[], display_filter="",
         df = pd.read_table(StringIO(table),
                         index_col = "frame.time_epoch",
                         parse_dates=True,
-                        date_parser=datetime.datetime.fromtimestamp)
+                        date_parser=datetime.datetime.fromtimestamp,
+                        dtype=dtype)
     else:
         # df = pd.read_table(StringIO(table))
-        df = pd.read_table(StringIO(table), header=None, names=fields)
+        df = pd.read_table(StringIO(table), header=None, names=fields, dtype=dtype)
         # print repr(df)
     return df
 

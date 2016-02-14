@@ -1,3 +1,47 @@
+### 0.14.3.3 ###
+conf:
+  conf.py is an api for hcl config
+
+core:
+  Conveter:
+    __init__():
+      Added 'sni_csv' parameter
+      and self.sni_df class field.
+
+    pcap_to_feature_vector():
+      Moved label generation logic to this function
+      since each sample needs its own label.
+
+  main:
+    work():
+      Added sni_csv parameter
+
+utils:
+  general:
+    gen_sni_csv():
+      Change this function to call in each iteration to "gen_sni"
+
+    Added gen_sni():
+      Generate all SNI from specific pcap file
+
+    Added gen_app_name_by_sni():
+      Get sni_df and return app_name
+
+    Added read_sni_csv():
+      Read sni csv and return sni data frame
+
+
+  hcl_helpers:
+    parse_conf():
+      Added sni_csv_path
+
+  read_pcap:
+    read_pcap():
+      Added data type (dtype) parameter
+run:
+  Adjusted parameters to config file.
+  fields_list, sni_csv
+
 ### 0.14.3.2 ###
 core:
   Converter:
