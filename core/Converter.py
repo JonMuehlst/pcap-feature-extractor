@@ -1,5 +1,5 @@
 from containers.Session import Session
-from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label_triple
+from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label_triple, read_sni_csv
 from utils.hcl_helpers import read_label_data
 from functools import partial
 from multiprocessing import Pool
@@ -19,7 +19,7 @@ Instructions:
 """
 class Converter(object):
 	""" FIX - Fix default feature_methods_list """
-	def __init__(self, PARENT_DIRECTORY, feature_methods_list=['packet_count', 'sizemean', 'sizevar'], fields_list=[], sni_csv):
+	def __init__(self, PARENT_DIRECTORY, feature_methods_list=['packet_count', 'sizemean', 'sizevar'], fields_list=[], sni_csv=''):
 		print 'Initializing...'
 		print
 		self.p = Pool(16)

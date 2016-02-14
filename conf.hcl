@@ -33,25 +33,25 @@ conf {
   (See source code - Session.py)
    */
 
-  features = ["packet_count", "mean_packet_size", "sizevar", "std_fiat", "std_biat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_fiat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl"]
+  features = ["packet_count", "mean_packet_size", "sizevar", "tcp.ack", "std_fiat", "std_biat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_fiat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl"]
 
 
   /*
   Data directory - full path.
   */
 
-  data = "/home/jon/workspace/pcap-feature-extractor/data"
+  data = "/home/jony/Infomedia/pcap-feature-extractor/real_data"
 
   /*
   The output file name - without path.
   */
 
-  output = "samples.csv"
+  output = "samples_14.2.16.csv"
 
   /*
   sni_csv full path
   */
 
-  sni_csv = "/home/jony/Infomedia/sni_all_data_set.csv"
+  sni_csv = "/home/jony/Infomedia/pcap-feature-extractor/sni.csv"
 
 }
