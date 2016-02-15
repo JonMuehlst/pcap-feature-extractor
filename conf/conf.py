@@ -6,6 +6,16 @@ import os
 Assuming conf.hcl lives in the apps' root directory
 """
 
+# SSLv3/TLS versions
+SSL3_V = 0x0300
+TLS1_V = 0x0301
+TLS11_V = 0x0302
+TLS12_V = 0x0303
+
+client_hello_num = 1
+server_hello_num = 2
+
+
 """ Globals """
 conf_filename = 'conf.hcl'
 conf_file_full_path = os.getcwd() + os.path.sep + conf_filename

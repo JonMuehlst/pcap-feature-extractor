@@ -5,6 +5,7 @@ from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pcap
 from containers.Flow import Flow
 import pandas as pd
 import numpy as np
+from conf.conf import client_hello_num, server_hello_num, SSL3_V, TLS1_V, TLS11_V, TLS12_V
 
 """
 FIX:
@@ -206,3 +207,39 @@ class Session(PacketContainer):
     def num_keep_alive(self):
 
         return self.flow_up.num_keep_alive()
+
+
+    """
+    ssl version array
+
+    # SSLv3/TLS versions
+    SSL3_V = 0x0300
+    TLS1_V = 0x0301
+    TLS11_V = 0x0302
+    TLS12_V = 0x0303
+
+    ssl3   tls1  tls11 tls12
+    [0,    0,    0,    1]
+    """
+    def SSLv_array(self, V):
+        if V == SSL3_V:
+            return [1, 0, 0, 0]
+        elif V == TLS1_V:
+            return [0, 1, 0, 0]
+        elif V == TLS11_V:
+            return [0, 0, 1, 0]
+        elif V == TLS12_V:
+            return [0, 0, 0, 1]
+        else:
+            return [0, 0, 0, 0]
+
+
+    """
+    Client to server - SSL version array
+    """
+    def fSSLv(self):
+        fu_df = self.flow_up.get_df()
+        # ssl.handshake.extensions_server_name
+        client_hello_pkt = fu_df[fu_df['ssl.handshake.extensions_server_name'].notnull()]
+        ssl_version = client_hello_pkt['ssl.record.version'].iloc[0]
+        return self.SSLv_array(int(ssl_version))

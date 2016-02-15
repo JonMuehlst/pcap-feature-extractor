@@ -1,3 +1,27 @@
+### 0.15 ###
+New feature: Client hello ssl version in array representation [sslv3, tls1, tls11, tls12]
+
+conf:
+  conf:
+    new globals for ssl versions
+
+containers:
+  Session:
+    SSLv_array():
+      Generate ssl version array
+
+    fSSLv():
+      Read the ssl version from the client hello pkt and return the version array
+
+tests:
+  test_session2:
+    test fSSLv
+
+conf.hcl:
+  Added some fields
+
+
+
 ### 0.14.3.5 ###
 New feature: Num of keep alive messages
 

@@ -98,6 +98,13 @@ class TestSession2(unittest.TestCase):
 		bpeak_features = self.s2.bpeak_features()
 		np.testing.assert_array_almost_equal(bpeak_features, [183, 0, 368, 172.5961429796, 8, 6.34664, 0.077698, 30.152365, 11.8889010853])
 
+	def test_fSSLv(self):
+		# 0x0301 - TLS1_V - [0, 1, 0, 0]
+		np.testing.assert_array_equal(self.s2.fSSLv(), [0, 1, 0, 0])
+
+	# def test_bSSLv(self):
+	# 	# 0x0303 - TLS12_V - [0, 0, 0, 1]
+	# 	np.testing.assert_array_equal(self.s2.bSSLv(), [0, 0, 0, 1])
 
 if __name__ == '__main__':
 	unittest.main()
