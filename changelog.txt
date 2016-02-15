@@ -1,3 +1,38 @@
+### 0.14.3.5 ###
+New feature: Num of keep alive messages
+
+conf:
+  conf:
+    Globals
+
+    space_to_underscore()
+
+containers:
+  Flow:
+    Peak features:
+      Fix - diff operation has to happen after peek representative packets have been filtered
+
+    num_keep_alive():
+      returns the number of keep alive packets
+
+  Session:
+    num_keep_alive():
+      Notice - keep_alive != keep_alive_ack
+
+core:
+    Using conf api
+
+tests:
+  test_session2:
+    Added tests for most of the features
+
+conf.hcl:
+  Added space to underscore
+  Added globals
+
+run:
+  not passing parameters - using api internally
+
 ### 0.14.3.4 ###
 New features: packet size histogram, peak features
 

@@ -108,8 +108,7 @@ class Flow(PacketContainer):
 
         self.df['tcp.ack'].fillna(0)
 
-        """ For every trailing couple of packets (rows) compute the difference """
-        self.df['diff_tcp.ack'] = self.df['tcp.ack'].diff()
+        p_df = self.df[self.df['tcp.flags.reset'] == False]
 
         """ Add a column stating whether a certain packet represents a peak """
         self.df['isPeak'] = np.where(self.df['frame.time_delta'] > 0.05, True, False)
@@ -117,16 +116,28 @@ class Flow(PacketContainer):
         """ A DataFrame containing only peak representing packets """
         peak_df = self.df[self.df['isPeak'] == True]
 
-        """ Add a column containing the peak inter arrival times """
+        """ Getting rid of RST packets which cause undesired behaviour (negative ack diffs)"""
+        peak_df = peak_df[peak_df['tcp.flags.reset'] == False]
+
+        """ For every trailing couple of peak representing packets (rows) compute the difference """
+        peak_diff_ack = peak_df['tcp.ack'].diff()
+
+        """ Peak inter arrival times """
         piat = peak_df['frame.time_epoch'].diff()
+
+        """ Remove first value since peaks are num (representing) packets - 1 """
+        peak_diff_ack = peak_diff_ack[1:]
+
+        """ Same for piat """
+        piat = piat[1:]
 
         if len(peak_df) > 0 :
             """ Features """
-            peak_mean = peak_df['diff_tcp.ack'].mean()
-            peak_min = peak_df['diff_tcp.ack'].min()
-            peak_max = peak_df['diff_tcp.ack'].max()
-            peak_std = peak_df['diff_tcp.ack'].std()
-            num_of_peaks = len(peak_df)
+            peak_mean = peak_diff_ack.mean()
+            peak_min = peak_diff_ack.min()
+            peak_max = peak_diff_ack.max()
+            peak_std = peak_diff_ack.std()
+            num_of_peaks = len(peak_diff_ack)
 
             piat_mean = piat.mean()
             piat_min = piat.min()
@@ -139,5 +150,14 @@ class Flow(PacketContainer):
             feature_arr = np.zeros(9)
 
 
-
         return feature_arr
+
+
+    """
+    TCP keep alive packet count
+    """
+    def num_keep_alive(self):
+        # print repr(self.df['tcp.analysis.keep_alive_ack'])
+        ka_df = self.df[self.df['tcp.analysis.keep_alive'] == True]
+        ans = len(ka_df)
+        return ans

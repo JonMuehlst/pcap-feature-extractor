@@ -5,7 +5,7 @@ from functools import partial
 from multiprocessing import Pool
 import numpy as np
 import pandas as pd
-
+from conf import conf
 
 
 """
@@ -19,15 +19,16 @@ Instructions:
 """
 class Converter(object):
 	""" FIX - Fix default feature_methods_list """
-	def __init__(self, PARENT_DIRECTORY, feature_methods_list=['packet_count', 'sizemean', 'sizevar'], fields_list=[], sni_csv=''):
+	def __init__(self):
 		print 'Initializing...'
 		print
+		PARENT_DIRECTORY = conf.input_directory()
 		self.p = Pool(16)
 		self.data_folders = gen_data_folders(PARENT_DIRECTORY)
-		self.feature_methods = feature_methods_list
-		self.fields = fields_list
+		self.feature_methods = conf.features()
+		self.fields = conf.fields()
 		self.all_samples = np.array([])
-		self.sni_df = read_sni_csv(sni_csv)
+		self.sni_df = read_sni_csv(conf.sni_csv())
 		print 'Done Initializing'
 
 	"""

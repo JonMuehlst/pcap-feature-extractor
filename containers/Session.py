@@ -195,3 +195,14 @@ class Session(PacketContainer):
         fu_fd_df = self.get_session_df()
         hist = np.histogram(fu_fd_df['frame.len'], bins=[ 0.,   160.,   320.,   480.,   640.,   800.,   960.,  1120., 1280.,  1440.,  1600. ])
         return hist[0]
+
+    """
+    TCP keep alive packet count
+
+    If no such packets exist (i.e. 0) This might indicate usage of IExplorer.
+
+    Notice the usage of 'tcp.analysis.keep_alive' which are requests from the client to the server.
+    """
+    def num_keep_alive(self):
+
+        return self.flow_up.num_keep_alive()
