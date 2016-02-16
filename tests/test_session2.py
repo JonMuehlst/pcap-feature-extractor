@@ -106,5 +106,10 @@ class TestSession2(unittest.TestCase):
 	# 	# 0x0303 - TLS12_V - [0, 0, 0, 1]
 	# 	np.testing.assert_array_equal(self.s2.bSSLv(), [0, 0, 0, 1])
 
+	def test_fcipher_suites(self):
+		# self.assertEqual(self.s2.fcipher_suites(), 13)
+		np.testing.assert_array_equal(self.s2.fcipher_suites(), [0, 1, 0])
+
+
 if __name__ == '__main__':
 	unittest.main()

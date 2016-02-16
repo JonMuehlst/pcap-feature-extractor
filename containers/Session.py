@@ -208,10 +208,13 @@ class Session(PacketContainer):
 
         return self.flow_up.num_keep_alive()
 
+    def get_client_hello(self):
+        fu_df = self.flow_up.get_df()
+        # ssl.handshake.extensions_server_name
+        client_hello_pkt = fu_df[fu_df['ssl.handshake.extensions_server_name'].notnull()]
+        return client_hello_pkt
 
     """
-    ssl version array
-
     # SSLv3/TLS versions
     SSL3_V = 0x0300
     TLS1_V = 0x0301
@@ -220,26 +223,22 @@ class Session(PacketContainer):
 
     ssl3   tls1  tls11 tls12
     [0,    0,    0,    1]
-    """
-    def SSLv_array(self, V):
-        if V == SSL3_V:
-            return [1, 0, 0, 0]
-        elif V == TLS1_V:
-            return [0, 1, 0, 0]
-        elif V == TLS11_V:
-            return [0, 0, 1, 0]
-        elif V == TLS12_V:
-            return [0, 0, 0, 1]
-        else:
-            return [0, 0, 0, 0]
 
-
-    """
     Client to server - SSL version array
     """
     def fSSLv(self):
-        fu_df = self.flow_up.get_df()
-        # ssl.handshake.extensions_server_name
-        client_hello_pkt = fu_df[fu_df['ssl.handshake.extensions_server_name'].notnull()]
+        client_hello_pkt = self.get_client_hello()
         ssl_version = client_hello_pkt['ssl.record.version'].iloc[0]
-        return self.SSLv_array(int(ssl_version))
+        hist = np.histogram(np.array(ssl_version), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
+        # return self.SSLv_array(int(ssl_version))
+        return hist[0]
+
+    """
+    Cipher suites length
+    0-13, 13-17, 17-24
+    """
+    def fcipher_suites(self):
+        client_hello_pkt = self.get_client_hello()
+        cipher_suites = client_hello_pkt['ssl.handshake.cipher_suites_length'].iloc[0]/2
+        hist = np.histogram(np.array(cipher_suites), bins=[ 0, 13, 17, 24 ])
+        return hist[0]

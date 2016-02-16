@@ -1,3 +1,23 @@
+### 0.16 ###
+New feature: Client hello cipher suites count array (bins) [0-13, 13-17, 17-24]
+
+containers:
+  Session:
+    get_client_hello():
+      Get the client hello packet from flow up
+
+    fSSLv():
+      Now sues np.histogram
+
+    fcipher_suites():
+      Feature implementation
+
+tests:
+  test_session2:
+    Added test for fcipher_suites
+
+
+
 ### 0.15 ###
 New feature: Client hello ssl version in array representation [sslv3, tls1, tls11, tls12]
 
