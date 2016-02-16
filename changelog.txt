@@ -1,3 +1,26 @@
+### 0.17 ###
+New features: "fSSL_session_id_len", "fSSL_num_extensions", "fSSL_num_compression_methods", "SYN_tcp_scale", "SYN_MSS", "SYN_tcp_winsize"
+
+containers:
+  Session:
+    get_SYN + the 6 new features
+
+tests:
+  test_session2:
+    Tests for the new features
+
+utils:
+  general:
+    """ Show duplicates in an array """
+    def show_dups(array):
+
+  hcl_helpers:
+    removed parse_conf
+
+conf.hcl:
+  Added new features, removed duplicates
+
+
 ### 0.16 ###
 New feature: Client hello cipher suites count array (bins) [0-13, 13-17, 17-24]
 

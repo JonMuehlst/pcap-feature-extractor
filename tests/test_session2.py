@@ -110,6 +110,26 @@ class TestSession2(unittest.TestCase):
 		# self.assertEqual(self.s2.fcipher_suites(), 13)
 		np.testing.assert_array_equal(self.s2.fcipher_suites(), [0, 1, 0])
 
+	def test_get_SYN(self):
+		self.assertFalse(self.s2.get_SYN().empty)
+
+	def test_SYN_tcp_winsize(self):
+		self.assertEqual(self.s2.SYN_tcp_winsize(), 29200)
+
+	def test_SYN_MSS(self):
+		self.assertEqual(self.s2.SYN_MSS(), 1460)
+
+	def test_SYN_tcp_scale(self):
+		self.assertEqual(self.s2.SYN_tcp_scale(), 7)
+
+	def test_fSSL_num_compression_methods(self):
+		self.assertEqual(self.s2.fSSL_num_compression_methods(), 1)
+
+	def test_fSSL_session_id_len(self):
+		self.assertEqual(self.s2.fSSL_session_id_len(), 32)
+
+	def test_fSSL_num_extensions(self):
+		self.assertEqual(self.s2.fSSL_num_extensions(), 10)
 
 if __name__ == '__main__':
 	unittest.main()

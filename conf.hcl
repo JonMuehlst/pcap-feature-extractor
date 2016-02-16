@@ -28,9 +28,11 @@ conf {
   /*
   Fields to fetch from each packet.
   The field values are valid tshark\wireshark filters.
+
+  Notice: Please make sure you have no duplicate fields
    */
 
-  fields = ["frame.time_epoch", "frame.time_delta", "frame.len", "tcp.ack", "frame.cap_len", "frame.marked", "ip.src", "ip.dst", "ip.len", "ip.flags", "ip.flags.rb", "ip.flags.df", "ip.flags.mf", "ip.frag_offset", "ip.ttl", "ip.proto", "ip.checksum_good", "tcp.srcport", "tcp.dstport", "tcp.len", "tcp.nxtseq", "tcp.hdr_len", "tcp.flags.cwr", "tcp.flags.urg", "tcp.flags.push", "tcp.flags.syn", "tcp.flags.reset" ,"tcp.window_size","tcp.checksum","tcp.checksum_good", "tcp.checksum_bad", "tcp.analysis.keep_alive", "ssl.record.version", "ssl.handshake.type", "ssl.handshake.cipher_suites_length", "ssl.handshake.extensions_server_name"]
+  fields = ["frame.time_epoch", "frame.time_delta", "frame.len", "tcp.ack", "frame.cap_len", "frame.marked", "ssl.handshake.session_id_length", "ssl.handshake.comp_methods_length", "tcp.options.wscale.shift", "tcp.options.mss_val", "ip.src", "ip.dst", "ip.len", "ip.flags", "ip.flags.rb", "ip.flags.df", "ip.flags.mf", "ip.frag_offset", "ip.ttl", "ip.proto", "ip.checksum_good", "tcp.srcport", "tcp.dstport", "tcp.len", "tcp.nxtseq", "tcp.hdr_len", "tcp.flags.cwr", "tcp.flags.urg", "tcp.flags.push", "tcp.flags.syn", "tcp.flags.ack", "tcp.flags.reset" ,"tcp.window_size","tcp.checksum","tcp.checksum_good", "tcp.checksum_bad", "tcp.analysis.keep_alive", "ssl.record.version", "ssl.handshake.type", "ssl.handshake.cipher_suites_length", "ssl.handshake.extensions_server_name"]
 
 
   /*
@@ -39,7 +41,7 @@ conf {
   (See source code - Session.py)
    */
 
-  features = ["fSSLv", "size_histogram", "fpeak_features", "bpeak_features", "packet_count", "mean_packet_size", "sizevar", "std_fiat", "std_biat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_fiat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl", "num_keep_alive"]
+  features = ["fSSL_session_id_len", "fSSL_num_extensions", "fSSL_num_compression_methods", "SYN_tcp_scale", "SYN_MSS", "SYN_tcp_winsize", "fcipher_suites", "fSSLv", "size_histogram", "fpeak_features", "bpeak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl", "num_keep_alive"]
 
 
   /*

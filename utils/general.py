@@ -5,6 +5,8 @@ from os.path import isfile, join
 from utils.read_pcap import read_pcap
 import csv
 import pandas as pd
+import numpy as np
+from collections import Counter
 
 def cleanup_pyc(DIRECTORY):
     d = path(DIRECTORY)
@@ -233,3 +235,7 @@ def read_sni_csv(sni_csv):
     df = pd.read_csv(sni_csv,names=['sni','app_name'])
     df.fillna('unknwon')
     return df
+
+""" Show duplicates in an array """
+def show_dups(array):
+    print repr([item for item, count in Counter(array).iteritems() if count > 1])

@@ -18,16 +18,3 @@ def read_label_data(file_name):
     application = str(label_data['application'])
     service = str(label_data['service'])
     return os, browser, application, service
-
-"""
-Generate fields, features lists and data source directory from the conf.hcl file.
-Assuming conf.hcl lives in the apps' root directory
-"""
-def parse_conf():
-    f = read_hcl(os.getcwd() + '/' + 'conf.hcl')
-    fields = [ str(field) for field in f['conf']['fields'] ]
-    features = [ str(feature) for feature in f['conf']['features'] ]
-    input_directory = str(f['conf']['data'])
-    output_filename = str(f['conf']['output'])
-    sni_csv_path = str(f['conf']['sni_csv'])
-    return fields, features, input_directory, output_filename, sni_csv_path

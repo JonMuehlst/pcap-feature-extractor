@@ -7,6 +7,12 @@ import pandas as pd
 import numpy as np
 from conf.conf import client_hello_num, server_hello_num, SSL3_V, TLS1_V, TLS11_V, TLS12_V
 
+import logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+
+from scapy.all import rdpcap
+import scapy.layers.ssl_tls as scssl
+
 """
 FIX:
 """
@@ -18,9 +24,10 @@ sess - Session DataFrame
 
 class Session(PacketContainer):
 
-    def __init__(self, s):
+    def __init__(self, s, path_str=None):
         self.flow_up, self.flow_down = gen_flows_up_down(s)
         self.flow_up, self.flow_down = Flow(self.flow_up), Flow(self.flow_down)
+        self.pcap_path = path_str
 
 
     """ Whats the difference between this function and the ctor? """
@@ -28,7 +35,7 @@ class Session(PacketContainer):
     def from_filename(cls, path_str, fields=['frame.time_epoch', 'frame.time_delta', 'frame.len', 'frame.cap_len', 'frame.marked', 'ip.src', 'ip.dst', 'ip.len', 'ip.flags', 'ip.flags.rb', 'ip.flags.df', 'ip.flags.mf', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ip.checksum_good', 'tcp.srcport', 'tcp.dstport', 'tcp.len', 'tcp.nxtseq', 'tcp.hdr_len', 'tcp.flags.cwr', 'tcp.flags.urg', 'tcp.flags.push', 'tcp.flags.syn' ,'tcp.window_size','tcp.checksum','tcp.checksum_good', 'tcp.checksum_bad']):
         # sess = gen_data_frame(path_str)
         sess = read_pcap(path_str,fields=fields)
-        return cls(sess)
+        return cls(sess,path_str)
 
     """ Length in seconds """
     def duration(self):
@@ -242,3 +249,73 @@ class Session(PacketContainer):
         cipher_suites = client_hello_pkt['ssl.handshake.cipher_suites_length'].iloc[0]/2
         hist = np.histogram(np.array(cipher_suites), bins=[ 0, 13, 17, 24 ])
         return hist[0]
+
+    """
+    Get the SYN packet
+    """
+    def get_SYN(self):
+        fu_df = self.flow_up
+        df = fu_df.get_df()
+        syn_pkt = df[(df['tcp.flags.syn'] == 1) & (df['tcp.flags.ack'] == 0)]
+        return syn_pkt
+
+    """
+    Return the SYN packets TCP window size value
+    """
+    def SYN_tcp_winsize(self):
+        syn_pkt = self.get_SYN()
+        winsize_val = syn_pkt['tcp.window_size']
+        if not(winsize_val.empty):
+            return winsize_val.iloc[0]
+        return float('NaN')
+
+    """
+    Get the SYN packet Max Segment Size.
+
+    If MSS is not set return 1500 - IPv4 header (20 bytes) - TCP header (20 bytes)
+    """
+    def SYN_MSS(self):
+        syn_pkt = self.get_SYN()
+        mss = syn_pkt['tcp.options.mss_val']
+        if not(mss.empty):
+            return mss.iloc[0]
+        return 1460
+
+
+    """
+    Return the SYN packets TCP scale value
+    """
+    def SYN_tcp_scale(self):
+        syn_pkt = self.get_SYN()
+        scale_val = syn_pkt['tcp.options.wscale.shift']
+        if not(scale_val.empty):
+            return scale_val.iloc[0]
+        return float('NaN')
+
+
+    """
+    Client hello SSL number of compression methods
+    """
+    def fSSL_num_compression_methods(self):
+        df = self.get_client_hello()
+        return df['ssl.handshake.comp_methods_length'].iloc[0]
+
+    """
+    Client hello SSL Session id length
+    """
+    def fSSL_session_id_len(self):
+        df = self.get_client_hello()
+        return df['ssl.handshake.session_id_length'].iloc[0]
+
+    """
+    The number of SSL extensions in the client hello packet
+
+    Notice: using scapy + scapy.ssl_tls
+    """
+    def fSSL_num_extensions(self):
+        pcap = rdpcap(self.pcap_path)
+        for pkt in pcap:
+            if pkt.haslayer(scssl.TLSClientHello):
+                """ [2][1][3] explained: 2 - TCP, 1 - SSL, 3 - TLSClientHello """
+                return len(pkt[2][1][3].extensions)
+        return 0
