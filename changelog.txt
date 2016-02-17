@@ -1,3 +1,7 @@
+### 0.17.1 ###
+leran.py:
+  Change "df = df.drop('label',1)" to "df = df.drop(str(num_columns-1),1)"
+
 ### 0.17 ###
 New features: "fSSL_session_id_len", "fSSL_num_extensions", "fSSL_num_compression_methods", "SYN_tcp_scale", "SYN_MSS", "SYN_tcp_winsize"
 

@@ -25,15 +25,16 @@ def create_data_libSVM(source, output_filename, isDataFrame=False):
     df = df.iloc[index_permutation]
     # Get label vector
     df_y = df.iloc[:,num_columns-1]
-    df = df.drop('label',1)
+    # df = df.drop('label',1)
+    df = df.drop(str(num_columns-1),1)
     df.insert(0,'label',df_y)
     for i in range(1,len(df.columns)):
         for j in range(0,len(df)):
             df.iloc[j,i] = str(i) + ':' + str(df.iloc[j,i])
     # Assuming the label is incorrect
-    for j in range(0,len(df)):
-        if df.iloc[j,0] == 3:
-            df.iloc[j,0] = 2
+    # for j in range(0,len(df)):
+    #     if df.iloc[j,0] == 3:
+    #         df.iloc[j,0] = 2
     #     else:
     #         df.iloc[j,0] = '-' + str(1)
     df.to_csv(output_filename, sep='\t', index=False, header=False)
