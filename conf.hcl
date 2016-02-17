@@ -48,18 +48,18 @@ conf {
   Data directory - full path.
   */
 
-  data = "/home/jon/workspace/pcap-feature-extractor/data"
+  data = "/home/jony/Infomedia/pcap-feature-extractor/real_data"
 
   /*
   The output file name - full path.
   */
 
-  output = "/home/jon/workspace/pcap-feature-extractor/data/samples_14.2.16.csv"
+  output = "/home/jony/Infomedia/pcap-feature-extractor/real_data/samples_17.2.16.csv"
 
   /*
   sni_csv full path
   */
 
-  sni_csv = "/home/jon/workspace/pcap-feature-extractor/sni.csv"
+  sni_csv = "/home/jony/Infomedia/pcap-feature-extractor/sni.csv"
 
 }

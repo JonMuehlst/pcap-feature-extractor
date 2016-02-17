@@ -236,7 +236,7 @@ class Session(PacketContainer):
     def fSSLv(self):
         client_hello_pkt = self.get_client_hello()
         ssl_version = client_hello_pkt['ssl.record.version'].iloc[0]
-        hist = np.histogram(np.array(ssl_version), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
+        hist = np.histogram(np.array(int(ssl_version,0)), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
         # return self.SSLv_array(int(ssl_version))
         return hist[0]
 
@@ -298,14 +298,19 @@ class Session(PacketContainer):
     """
     def fSSL_num_compression_methods(self):
         df = self.get_client_hello()
-        return df['ssl.handshake.comp_methods_length'].iloc[0]
+        if not(df.empty):
+            return df['ssl.handshake.comp_methods_length'].iloc[0]
+        return float('NaN')
+
 
     """
     Client hello SSL Session id length
     """
     def fSSL_session_id_len(self):
         df = self.get_client_hello()
-        return df['ssl.handshake.session_id_length'].iloc[0]
+        if not(df.empty):
+            return df['ssl.handshake.session_id_length'].iloc[0]
+        return float('NaN')
 
     """
     The number of SSL extensions in the client hello packet

@@ -1,3 +1,21 @@
+### 0.17.2 ###
+containers:
+  Session:
+    fSSLv():
+      Changed "hist = np.histogram(np.array(ssl_version)..."
+      to  "hist = np.histogram(np.array(int(ssl_version,0)) ..."
+
+    SSL_num_compression_methods(), fSSL_session_id_len() :
+      Added to this couple of function this if "if not(df.empty):" to check if df is empty
+
+    conf:
+      local changes
+    tests:
+      test_session2:
+        local changes
+      test_utils_general:
+        local changes
+
 ### 0.17.1 ###
 leran.py:
   Change "df = df.drop('label',1)" to "df = df.drop(str(num_columns-1),1)"

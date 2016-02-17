@@ -215,6 +215,7 @@ def gen_sni(filename):
         val = str(row['ssl.handshake.extensions_server_name'])
         pcap_sni_list.append(val)
 
+    pcap_sni_list.append('unknwon')
     return pcap_sni_list
 
 """
