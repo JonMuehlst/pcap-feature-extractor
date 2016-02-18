@@ -5,3 +5,6 @@ hcl     Config files tool
 all filenames must be in English
 mono      sudo apt-get install libmono2.0-cil mono-runtime
 splitCap  wget http://sourceforge.net/projects/splitcap/files/latest
+scapy
+scapy.ssl_tls
+pathos

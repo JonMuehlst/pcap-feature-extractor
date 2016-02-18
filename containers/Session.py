@@ -1,5 +1,6 @@
 #inherits from Packet_container
 
+import os
 from PacketContainer import PacketContainer
 from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pcap
 from containers.Flow import Flow
@@ -28,6 +29,13 @@ class Session(PacketContainer):
         self.flow_up, self.flow_down = gen_flows_up_down(s)
         self.flow_up, self.flow_down = Flow(self.flow_up), Flow(self.flow_down)
         self.pcap_path = path_str
+
+        """ Get client hello """
+        fu_df = self.flow_up.get_df()
+        self.client_hello_pkt = fu_df[fu_df['ssl.handshake.extensions_server_name'].notnull()]
+
+        """ Get SYN packet """
+        self.syn_pkt = fu_df[(fu_df['tcp.flags.syn'] == 1) & (fu_df['tcp.flags.ack'] == 0)]
 
 
     """ Whats the difference between this function and the ctor? """
@@ -215,12 +223,6 @@ class Session(PacketContainer):
 
         return self.flow_up.num_keep_alive()
 
-    def get_client_hello(self):
-        fu_df = self.flow_up.get_df()
-        # ssl.handshake.extensions_server_name
-        client_hello_pkt = fu_df[fu_df['ssl.handshake.extensions_server_name'].notnull()]
-        return client_hello_pkt
-
     """
     # SSLv3/TLS versions
     SSL3_V = 0x0300
@@ -234,9 +236,8 @@ class Session(PacketContainer):
     Client to server - SSL version array
     """
     def fSSLv(self):
-        client_hello_pkt = self.get_client_hello()
-        if not(client_hello_pkt.empty):
-            ssl_version = client_hello_pkt['ssl.record.version'].iloc[0]
+        if not(self.client_hello_pkt.empty):
+            ssl_version = self.client_hello_pkt['ssl.record.version'].iloc[0]
             hist = np.histogram(np.array(int(ssl_version,0)), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
             # return self.SSLv_array(int(ssl_version))
             return hist[0]
@@ -246,28 +247,17 @@ class Session(PacketContainer):
     0-13, 13-17, 17-24
     """
     def fcipher_suites(self):
-        client_hello_pkt = self.get_client_hello()
-        if not(client_hello_pkt.empty):
-            cipher_suites = client_hello_pkt['ssl.handshake.cipher_suites_length'].iloc[0]/2
+        if not(self.client_hello_pkt.empty):
+            cipher_suites = self.client_hello_pkt['ssl.handshake.cipher_suites_length'].iloc[0]/2
             hist = np.histogram(np.array(cipher_suites), bins=[ 0, 13, 17, 24 ])
             return hist[0]
         return float('NaN')
 
     """
-    Get the SYN packet
-    """
-    def get_SYN(self):
-        fu_df = self.flow_up
-        df = fu_df.get_df()
-        syn_pkt = df[(df['tcp.flags.syn'] == 1) & (df['tcp.flags.ack'] == 0)]
-        return syn_pkt
-
-    """
     Return the SYN packets TCP window size value
     """
     def SYN_tcp_winsize(self):
-        syn_pkt = self.get_SYN()
-        winsize_val = syn_pkt['tcp.window_size']
+        winsize_val = self.syn_pkt['tcp.window_size']
         if not(winsize_val.empty):
             return winsize_val.iloc[0]
         return float('NaN')
@@ -278,8 +268,7 @@ class Session(PacketContainer):
     If MSS is not set return 1500 - IPv4 header (20 bytes) - TCP header (20 bytes)
     """
     def SYN_MSS(self):
-        syn_pkt = self.get_SYN()
-        mss = syn_pkt['tcp.options.mss_val']
+        mss = self.syn_pkt['tcp.options.mss_val']
         if not(mss.empty):
             return mss.iloc[0]
         return 1460
@@ -289,8 +278,7 @@ class Session(PacketContainer):
     Return the SYN packets TCP scale value
     """
     def SYN_tcp_scale(self):
-        syn_pkt = self.get_SYN()
-        scale_val = syn_pkt['tcp.options.wscale.shift']
+        scale_val = self.syn_pkt['tcp.options.wscale.shift']
         if not(scale_val.empty):
             return scale_val.iloc[0]
         return float('NaN')
@@ -300,7 +288,7 @@ class Session(PacketContainer):
     Client hello SSL number of compression methods
     """
     def fSSL_num_compression_methods(self):
-        df = self.get_client_hello()
+        df = self.client_hello_pkt
         if not(df.empty):
             return df['ssl.handshake.comp_methods_length'].iloc[0]
         return float('NaN')
@@ -310,7 +298,7 @@ class Session(PacketContainer):
     Client hello SSL Session id length
     """
     def fSSL_session_id_len(self):
-        df = self.get_client_hello()
+        df = self.client_hello_pkt
         if not(df.empty):
             return df['ssl.handshake.session_id_length'].iloc[0]
         return float('NaN')
@@ -321,9 +309,16 @@ class Session(PacketContainer):
     Notice: using scapy + scapy.ssl_tls
     """
     def fSSL_num_extensions(self):
-        pcap = rdpcap(self.pcap_path)
-        for pkt in pcap:
-            if pkt.haslayer(scssl.TLSClientHello):
-                """ [2][1][3] explained: 2 - TCP, 1 - SSL, 3 - TLSClientHello """
-                return len(pkt[2][1][3].extensions)
-        return 0
+        output_pcap_filename = self.pcap_path + '.first_10.pcap'
+        cmd_str = 'editcap -F libpcap -r ' + self.pcap_path + ' ' + output_pcap_filename + ' 1-10'
+        num_ext = 0
+        if os.system(cmd_str) == 0:
+            pcap = rdpcap(output_pcap_filename)
+            for pkt in pcap:
+                if pkt.haslayer(scssl.TLSClientHello):
+
+                    """ [2][1][3] explained: 2 - TCP, 1 - SSL, 3 - TLSClientHello """
+                    num_ext =  len(pkt[2][1][3].extensions)
+                    break
+        os.remove(output_pcap_filename)
+        return num_ext

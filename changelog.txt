@@ -1,3 +1,51 @@
+### 0.18 ###
+Added parallel map using pathos
+
+conf:
+  conf:
+    fixed - get_session_data() to correctly iterate over the csv
+
+containers:
+  Session:
+    Generating client hello and syn packet once
+
+    fSSL_num_extensions():
+      Generating (and erasing) a temp pcap with the first 10 packets to catch the client hello packet in scapy
+
+core:
+  Converter:
+    Using pathos.multiprocessing.ProcessingPool.map
+    Using conf.get_session_data() to get pre-generated session data folders
+
+data:
+  session_folders.csv:
+    Containes the session data folder paths
+
+output:
+  A folder for output - samples.csv etc...
+
+tests:
+  test_our_features:
+    Merged all Session test files to one
+
+utils:
+  general:
+    write_data_folders_to_file():
+      Uses gen_data_folders() to generate the relevant folder paths and writes to file
+
+conf.hcl:
+  Added session_folders_filename
+
+dependencies:
+  Updated to include scapy, scapy.ssl_tls, pathos
+
+generate_session_pcap_folders:
+  A simple script
+
+pathos_install:
+  Installation instructions for pathos
+
+
 ### 0.17.3 ###
 containers:
   Session:

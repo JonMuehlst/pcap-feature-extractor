@@ -2,7 +2,9 @@ from containers.Session import Session
 from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label_triple, read_sni_csv, gen_app_name_by_sni, gen_sni
 from utils.hcl_helpers import read_label_data
 from functools import partial
-from multiprocessing import Pool
+# from multiprocessing import Pool
+import pathos.multiprocessing as mp
+# from pathos.multiprocessing import ProcessingPool	
 import numpy as np
 import pandas as pd
 from conf import conf
@@ -21,10 +23,11 @@ class Converter(object):
 	""" FIX - Fix default feature_methods_list """
 	def __init__(self):
 		print 'Initializing...'
-		print
 		PARENT_DIRECTORY = conf.input_directory()
-		self.p = Pool(16)
-		self.data_folders = gen_data_folders(PARENT_DIRECTORY)
+		# self.p = Pool(16)
+		self.p = mp.ProcessingPool(16)
+		# self.data_folders = gen_data_folders(PARENT_DIRECTORY)
+		self.data_folders = conf.get_session_data()
 		self.feature_methods = conf.features()
 		self.fields = conf.fields()
 		self.all_samples = np.array([])
@@ -55,7 +58,7 @@ class Converter(object):
 		print 'In: ' + repr(str(CHILD_DIRECTORY))
 		only_pcap_files = gen_pcap_filenames(CHILD_DIRECTORY)
 		if len(only_pcap_files) > 0:
-			samples = map(self.pcap_to_feature_vector, only_pcap_files)
+			samples = self.p.map(self.pcap_to_feature_vector, only_pcap_files)
 			return samples
 		return np.array([])
 

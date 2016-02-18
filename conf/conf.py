@@ -1,5 +1,7 @@
 from utils.hcl_helpers import read_hcl
 import os
+import csv
+from path import path
 
 
 """
@@ -74,3 +76,28 @@ def sni_csv():
     f = read_hcl(conf_file_full_path)
     sni_csv = str(f['conf']['sni_csv'])
     return sni_csv
+
+
+"""
+Generate Session data Folders - Include only folders containing sessions
+
+Notice - If one session pcap is contained in a folder it is added to the list.
+         Do not mix session pcaps with non-session pcaps
+"""
+def session_data_folders_filename():
+    f = read_hcl(conf_file_full_path)
+    filename = str(f['conf']['session_folders_filename'])
+    return filename
+
+""" Get Session Data folders list """
+def get_session_data():
+    filename = session_data_folders_filename()
+    l = []
+    with open(filename, 'rb') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for row in reader:
+            for col in row:
+                dir_val = str(col)
+                l.append(os.path.abspath(dir_val))
+
+    return l

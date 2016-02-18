@@ -240,3 +240,11 @@ def read_sni_csv(sni_csv):
 """ Show duplicates in an array """
 def show_dups(array):
     print repr([item for item, count in Counter(array).iteritems() if count > 1])
+
+"""  """
+def write_data_folders_to_file(file_name, PARENT_DIRECTORY):
+    l = gen_data_folders(PARENT_DIRECTORY)
+
+    with open(file_name, 'wb') as csvfile:
+      writer = csv.writer(csvfile, delimiter=',')
+      writer.writerow(l)
