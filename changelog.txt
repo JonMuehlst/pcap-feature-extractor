@@ -1,3 +1,12 @@
+### 0.17.3 ###
+containers:
+  Session:
+    fSSLv():
+       Added check if "client_hello_pkt" is empty
+
+    fcipher_suites():
+      Added check if "client_hello_pkt" is empty
+
 ### 0.17.2 ###
 containers:
   Session:

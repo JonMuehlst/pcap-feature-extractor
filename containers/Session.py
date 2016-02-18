@@ -235,20 +235,23 @@ class Session(PacketContainer):
     """
     def fSSLv(self):
         client_hello_pkt = self.get_client_hello()
-        ssl_version = client_hello_pkt['ssl.record.version'].iloc[0]
-        hist = np.histogram(np.array(int(ssl_version,0)), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
-        # return self.SSLv_array(int(ssl_version))
-        return hist[0]
-
+        if not(client_hello_pkt.empty):
+            ssl_version = client_hello_pkt['ssl.record.version'].iloc[0]
+            hist = np.histogram(np.array(int(ssl_version,0)), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
+            # return self.SSLv_array(int(ssl_version))
+            return hist[0]
+        return float('NaN')
     """
     Cipher suites length
     0-13, 13-17, 17-24
     """
     def fcipher_suites(self):
         client_hello_pkt = self.get_client_hello()
-        cipher_suites = client_hello_pkt['ssl.handshake.cipher_suites_length'].iloc[0]/2
-        hist = np.histogram(np.array(cipher_suites), bins=[ 0, 13, 17, 24 ])
-        return hist[0]
+        if not(client_hello_pkt.empty):
+            cipher_suites = client_hello_pkt['ssl.handshake.cipher_suites_length'].iloc[0]/2
+            hist = np.histogram(np.array(cipher_suites), bins=[ 0, 13, 17, 24 ])
+            return hist[0]
+        return float('NaN')
 
     """
     Get the SYN packet
