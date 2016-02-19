@@ -238,7 +238,11 @@ class Session(PacketContainer):
     def fSSLv(self):
         if not(self.client_hello_pkt.empty):
             ssl_version = self.client_hello_pkt['ssl.record.version'].iloc[0]
-            hist = np.histogram(np.array(int(ssl_version,0)), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
+            hist = []
+            if issubclass(type(ssl_version), str):
+                hist = np.histogram(np.array(int(ssl_version,0)), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
+            else:
+                hist = np.histogram(np.array(ssl_version), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
             # return self.SSLv_array(int(ssl_version))
             return hist[0]
         return float('NaN')
