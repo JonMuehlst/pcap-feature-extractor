@@ -245,7 +245,7 @@ class Session(PacketContainer):
                 hist = np.histogram(np.array(ssl_version), bins=[ SSL3_V, TLS1_V, TLS11_V, TLS12_V-1, TLS12_V ])
             # return self.SSLv_array(int(ssl_version))
             return hist[0]
-        return float('NaN')
+        return [0,0,0,0]
     """
     Cipher suites length
     0-13, 13-17, 17-24
@@ -255,7 +255,7 @@ class Session(PacketContainer):
             cipher_suites = self.client_hello_pkt['ssl.handshake.cipher_suites_length'].iloc[0]/2
             hist = np.histogram(np.array(cipher_suites), bins=[ 0, 13, 17, 24 ])
             return hist[0]
-        return float('NaN')
+        return [0,0,0]
 
     """
     Return the SYN packets TCP window size value
