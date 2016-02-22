@@ -99,12 +99,22 @@ def gen_label_triple(input_os, input_browser, input_application):
     elif input_browser == 'unknown':
         label = label + 500
 
-    if input_application == 'twitter':
+    if input_application == 'dropbox':
         label = label + 1000
-    elif input_application == 'youtube':
+    elif input_application == 'facebook':
         label = label + 2000
-    elif input_application == 'unknown':
+    elif input_application == 'google':
         label = label + 3000
+    elif input_application == 'microsoft':
+        label = label + 4000
+    elif input_application == 'teamviewer':
+        label = label + 5000
+    elif input_application == 'twitter':
+        label = label + 6000
+    elif input_application == 'youtube':
+        label = label + 7000
+    else:
+        label = label + 8000
 
     return label
 

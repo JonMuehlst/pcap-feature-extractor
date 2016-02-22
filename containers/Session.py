@@ -264,7 +264,7 @@ class Session(PacketContainer):
         winsize_val = self.syn_pkt['tcp.window_size']
         if not(winsize_val.empty):
             return winsize_val.iloc[0]
-        return float('NaN')
+        return 65535
 
     """
     Get the SYN packet Max Segment Size.
@@ -285,7 +285,7 @@ class Session(PacketContainer):
         scale_val = self.syn_pkt['tcp.options.wscale.shift']
         if not(scale_val.empty):
             return scale_val.iloc[0]
-        return float('NaN')
+        return 0
 
 
     """
@@ -315,7 +315,7 @@ class Session(PacketContainer):
     def fSSL_num_extensions(self):
         output_pcap_filename = self.pcap_path + '.first_10.pcap'
         cmd_str = 'editcap -F libpcap -r ' + self.pcap_path + ' ' + output_pcap_filename + ' 1-10'
-        num_ext = 0
+        num_ext = float('NaN')
         if os.system(cmd_str) == 0:
             pcap = rdpcap(output_pcap_filename)
             for pkt in pcap:
