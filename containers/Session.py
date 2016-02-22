@@ -11,8 +11,10 @@ from conf.conf import client_hello_num, server_hello_num, SSL3_V, TLS1_V, TLS11_
 import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
+import scapy
 from scapy.all import rdpcap
-import scapy.layers.ssl_tls as scssl
+# import scapy.layers.ssl_tls as scssl
+import scapy_ssl_tls.ssl_tls as scssl
 
 """
 FIX:
