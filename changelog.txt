@@ -1,3 +1,13 @@
+### 0.18.2 ###
+containers:
+  Session:
+    fcipher_suites_no_bins()
+
+    fSSLv_no_bins()
+
+    mean_fttl_no_bins()
+
+
 ### 0.18.1 ###
 Updated labels generator and default values for Session features
 

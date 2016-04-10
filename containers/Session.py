@@ -6,6 +6,7 @@ from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pcap
 from containers.Flow import Flow
 import pandas as pd
 import numpy as np
+import numbers
 from conf.conf import client_hello_num, server_hello_num, SSL3_V, TLS1_V, TLS11_V, TLS12_V
 
 import logging
@@ -193,6 +194,16 @@ class Session(PacketContainer):
         else:
             return np.array([0,0])
 
+    """
+    Upstream TTL value.
+    No bins
+    """
+    def mean_fttl_no_bins(self):
+        mean_ttl = self.flow_up.get_mean_ttl()
+        if isinstance(mean_ttl, numbers.Number):
+            return mean_ttl
+        return 0
+
     """ Forward peak features """
     def fpeak_features(self):
         return self.flow_up.peak_features()
@@ -248,9 +259,24 @@ class Session(PacketContainer):
             # return self.SSLv_array(int(ssl_version))
             return hist[0]
         return [0,0,0,0]
+
+    """
+    # SSLv3/TLS versions
+    No bins
+    """
+    def fSSLv_no_bins(self):
+        if not(self.client_hello_pkt.empty):
+            ssl_version = self.client_hello_pkt['ssl.record.version'].iloc[0]
+            if issubclass(type(ssl_version), str):
+                ssl_version = int(ssl_version,0)
+            return ssl_version
+        return 0
+
     """
     Cipher suites length
     0-13, 13-17, 17-24
+
+    Note: Each cipher suite is 2 bytes.
     """
     def fcipher_suites(self):
         if not(self.client_hello_pkt.empty):
@@ -258,6 +284,16 @@ class Session(PacketContainer):
             hist = np.histogram(np.array(cipher_suites), bins=[ 0, 13, 17, 24 ])
             return hist[0]
         return [0,0,0]
+
+    """
+    Cipher suites length
+    No bins, single value
+    """
+    def fcipher_suites_no_bins(self):
+        if not(self.client_hello_pkt.empty):
+            cipher_suites = self.client_hello_pkt['ssl.handshake.cipher_suites_length'].iloc[0]/2
+            return cipher_suites
+        return 0
 
     """
     Return the SYN packets TCP window size value
