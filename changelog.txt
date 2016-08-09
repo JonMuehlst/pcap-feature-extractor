@@ -1,3 +1,39 @@
+### 0.18.3 ###
+
+Merging code:
+
+learn.py:
+  create_data_libSVM():
+    dumping to svmlight file format.
+    Need to decide for a way to name the label column.
+
+
+  prepare_libSVM_train_test():
+    Changed function declaration to include 'sinds'.
+    Choosing a subset of the input by sinds.
+
+  prepare_libSVM_current():
+    Added
+
+  run_easy_py()
+    Added
+
+  choose_feature()
+    Added
+
+core:
+  Converter:
+    pcap_to_feature_vector():
+      Added optional if statement to remove pcap files containing NaN features.
+      The if is currently commented out.
+
+temp.py:
+  gen_folder_filename_couples():
+    Added
+
+  fix_folders():
+    Added
+
 ### 0.18.2 ###
 containers:
   Session:

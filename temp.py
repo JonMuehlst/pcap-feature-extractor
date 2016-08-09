@@ -2,6 +2,7 @@
 
 import os
 from path import path
+from utils.general import *
 import csv
 
 def add_d_safari(ROOT_DIRECTORY):
@@ -55,7 +56,20 @@ def transform_dirs(path, os_flag, browser_flag):
                 add_os_browser(folder, os_flag, browser_flag)
 
 
-if __name__ == "__main__":
+def gen_folder_filename_couples(PARENT_DIRECTORY, file_name):
+    d = path(PARENT_DIRECTORY)
+    l = []
+    for root, dirs, files in os.walk(d):
+        # if any(file.endswith('.hcl') for file in files) and any(is_pcap_session(file) for file in files):
+        if any(is_pcap_session(join(root, file)) for file in files):
+            l.append([path.abspath(root), join(root, files[0])])
+
+    with open(file_name, 'wb') as csvfile:
+      writer = csv.writer(csvfile, delimiter=',')
+      for item in l:
+          writer.writerow(item)
+
+def fix_folders():
     path_w_ff = '/home/jon/workspace/pcap-feature-extractor/fix_these_folders_windows_ff.csv'
     path_w_chrome = '/home/jon/workspace/pcap-feature-extractor/fix_these_folders_windows_chrome.csv'
     path_l_ff = '/home/jon/workspace/pcap-feature-extractor/fix_these_folders_linux_ff.csv'
@@ -65,3 +79,5 @@ if __name__ == "__main__":
     transform_dirs(path_w_chrome, os_flag='w', browser_flag='chrome')
     transform_dirs(path_l_ff, os_flag='l', browser_flag='ff')
     transform_dirs(path_l_chrome, os_flag='l', browser_flag='chrome')
+
+if __name__ == "__main__":

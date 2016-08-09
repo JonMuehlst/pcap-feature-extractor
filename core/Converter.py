@@ -4,11 +4,11 @@ from utils.hcl_helpers import read_label_data
 from functools import partial
 # from multiprocessing import Pool
 import pathos.multiprocessing as mp
-# from pathos.multiprocessing import ProcessingPool	
+# from pathos.multiprocessing import ProcessingPool
 import numpy as np
 import pandas as pd
 from conf import conf
-
+import os
 
 """
 FIX:
@@ -50,6 +50,10 @@ class Converter(object):
 			    raise Exception("Method %s not implemented" % method_name)
 			feature_vector = np.append(feature_vector, method())
 		feature_vector = np.append(feature_vector, label)
+		# If the sample contains NaN values remove the pcap file
+		# if  np.isnan(np.sum(feature_vector)):
+		# 	os.remove(pcap_path)
+
 		return feature_vector
 
 
