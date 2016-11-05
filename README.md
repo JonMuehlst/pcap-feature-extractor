@@ -15,3 +15,11 @@ data/
 --------relevant_folder2/  
 ------------label_data.hcl  
 ------------*.pcap  
+
+# Step by Step:
+
+1. Verify filenames don't contain spaces
+2. Verify conf.hcl is setup properly
+3. Verify there exists an empty 'output' folder
+4. Generate a file which lists the folders containing pcap session files - 'session_folders_filename' in conf.hcl
+5. run.py
