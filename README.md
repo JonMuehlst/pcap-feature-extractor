@@ -1,7 +1,12 @@
 # pcap-feature-extractor
+
 A code package which transforms pcap files into ML feature vectors.
 
-Data folder structure:
+## Dependencies
+
+See dependencies.txt
+
+## Data folder structure
 
 data/  
   --- any_folder_order/  
@@ -26,7 +31,6 @@ Legal OS, Browser strings:
 
 
 # Step by Step:
-
 
 * Verify filenames don't contain spaces
 * Enter / verify settings in conf.hcl
@@ -53,4 +57,6 @@ Legal OS, Browser strings:
 
 # Additional files:
 
-Note other md files for installation instructions and work flow recommendations.
+Note other md files for installation instructions and work flow recommendations.  
+
+cleanup_pyc_files.py removes pyc files.  
