@@ -3,26 +3,26 @@ A code package which transforms pcap files into ML feature vectors.
 
 Data folder structure:
 
-data/\
-  --- any_folder_order/\
-    ------ OS_dontcare_Browser/\
-      ------------------ pcap_files.pcap\
+data/  
+  --- any_folder_order/  
+    ------ OS_dontcare_Browser/  
+      ------------------ pcap_files.pcap  
 etc...
 
-Note: In case of session pcaps the folder name must follow the\
+Note: In case of session pcaps the folder name must follow the  
 OS_dontcare_Browser structure.
 
 Legal OS, Browser strings:
 
-'l' - Linux\
-'w' - Windows\
-'d' - OSX
+'l' - Linux  
+'w' - Windows  
+'d' - OSX  
 
-'chrome' - Chrome\
-'ff' - FireFox\
-'firefox' - Firefox\
-'ie' - Internet Explorer\
-'safari' - Safari
+'chrome' - Chrome  
+'ff' - FireFox  
+'firefox' - Firefox  
+'ie' - Internet Explorer  
+'safari' - Safari  
 
 
 # Step by Step:
