@@ -17,7 +17,7 @@ def work():
 
     conv = Converter()
     conv.activate()
-    conv.write_to_csv(output_filename_full_path, separator='\t')
+    conv.write_to_csv(output_filename_full_path, separator=',')
 
 
 """

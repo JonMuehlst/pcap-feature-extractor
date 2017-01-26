@@ -1,5 +1,6 @@
-from containers.Session import Session
+from containers.ContainerWrapper import ContainerWrapper
 from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label_triple, read_sni_csv, gen_app_name_by_sni, gen_sni
+from utils.general import gen_label
 from utils.hcl_helpers import read_label_data
 from functools import partial
 # from multiprocessing import Pool
@@ -27,25 +28,23 @@ class Converter(object):
 		# self.p = Pool(16)
 		self.p = mp.ProcessingPool(16)
 		# self.data_folders = gen_data_folders(PARENT_DIRECTORY)
-		self.data_folders = conf.get_session_data()
+		self.data_folders = conf.get_data_folders()
 		self.feature_methods = conf.features()
-		self.fields = conf.fields()
 		self.all_samples = np.array([])
-		self.sni_df = read_sni_csv(conf.sni_csv())
 		print 'Done Initializing'
 
 	"""
 	Dynamically call feature methods and generate feature vector from pcap file
 	"""
-	def pcap_to_feature_vector(self, pcap_path, label=1):
+	def pcap_to_feature_vector(self, pcap_path):
 		# print 'Processing: ' + repr(str(pcap_path))
-		sess = Session.from_filename(pcap_path, fields=self.fields)
-		os_str, browser_str = parse_folder_name(pcap_path)
-		app_str = gen_app_name_by_sni(self.sni_df,gen_sni(pcap_path)[0])
-		label = gen_label_triple(os_str,browser_str,app_str)
+		pcap_id = pcap_path.split(os.path.sep)[-1].split('.pcap')[0]
+		cont_wrap = ContainerWrapper(pcap_path)
+		label = gen_label(pcap_path)
+		# feature_vector = np.array([int(pcap_id)])
 		feature_vector = np.array([])
 		for method_name in self.feature_methods:
-			method = getattr(sess, method_name)
+			method = getattr(cont_wrap, method_name)
 			if not method:
 			    raise Exception("Method %s not implemented" % method_name)
 			feature_vector = np.append(feature_vector, method())
@@ -88,4 +87,6 @@ class Converter(object):
 	""" Write samples to csv """
 	def write_to_csv(self, file_name, separator):
 		sdf = pd.DataFrame(self.all_samples)
-		sdf.to_csv(file_name, sep=separator, index=False)
+		# sdf.to_csv(file_name, sep=separator, index=0, header=False)
+		sdf = sdf.dropna()
+		sdf.to_csv(file_name, sep=separator)

@@ -333,7 +333,7 @@ class Session(PacketContainer):
         df = self.client_hello_pkt
         if not(df.empty):
             return df['ssl.handshake.comp_methods_length'].iloc[0]
-        return float('NaN')
+        return 0
 
 
     """
@@ -343,7 +343,7 @@ class Session(PacketContainer):
         df = self.client_hello_pkt
         if not(df.empty):
             return df['ssl.handshake.session_id_length'].iloc[0]
-        return float('NaN')
+        return 0
 
     """
     The number of SSL extensions in the client hello packet
@@ -353,7 +353,7 @@ class Session(PacketContainer):
     def fSSL_num_extensions(self):
         output_pcap_filename = self.pcap_path + '.first_10.pcap'
         cmd_str = 'editcap -F libpcap -r ' + self.pcap_path + ' ' + output_pcap_filename + ' 1-10'
-        num_ext = float('NaN')
+        num_ext = 0
         if os.system(cmd_str) == 0:
             pcap = rdpcap(output_pcap_filename)
             for pkt in pcap:

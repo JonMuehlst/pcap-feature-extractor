@@ -23,6 +23,45 @@ conf_filename = 'conf.hcl'
 conf_file_full_path = os.getcwd() + os.path.sep + conf_filename
 """ Globals """
 
+"""
+"""
+def label_type():
+    f = read_hcl(conf_file_full_path)
+    return f['conf']['label_type']
+
+"""
+"""
+def label_df_path():
+    f = read_hcl(conf_file_full_path)
+    return f['conf']['label_df_path']
+
+"""
+"""
+def get_data_folders():
+    f = read_hcl(conf_file_full_path)
+    sample_type = f['conf']['sample_type']
+
+    if sample_type == 'session':
+        filename = session_data_folders_filename()
+    elif sample_type == 'time_segment':
+        filename = time_segment_data_folders_filename()
+
+    l = []
+    with open(filename, 'rb') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for row in reader:
+            for col in row:
+                dir_val = str(col)
+                l.append(os.path.abspath(dir_val))
+
+    return l
+
+"""
+"""
+def sample_type():
+    f = read_hcl(conf_file_full_path)
+    return f['conf']['sample_type']
+
 
 """
 Rename space to underscore?
@@ -101,3 +140,10 @@ def get_session_data():
                 l.append(os.path.abspath(dir_val))
 
     return l
+
+"""
+"""
+def time_segment_data_folders_filename():
+    f = read_hcl(conf_file_full_path)
+    filename = str(f['conf']['time_segment_folders_filename'])
+    return filename

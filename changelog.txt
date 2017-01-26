@@ -1,3 +1,47 @@
+### 0.18.5 ###
+
+Added time segments.
+Updated README.md and conf.hcl
+
+New files:
+
+containers:
+    ContainerWrapper.py:
+      Simple wrapper for sample type.
+
+    TimeSegment.py:
+      Time segment pcap container and feature methods.
+
+generate_pcap_folders.py
+
+Modified:
+
+core:
+  Converter.py:
+    Constructor:
+      now using conf.get_data_folders()
+
+    pcap_to_feature_vector():
+      adjusted to use pcap_id, ContainerWrapper, gen_label
+
+    write_to_csv():
+      dropping na rows with dropna()
+
+    main.py:
+      Changed output seperator to comma
+
+utils:
+  general.py:
+    Adjustments for time segment samples:
+    gen_label()
+    get_mobile_action_label()
+    get_twitter_action_label()
+    gen_data_folders()
+
+
+run.py:
+  Now displays total run time
+
 ### 0.18.4 ###
 
 Created output folder.

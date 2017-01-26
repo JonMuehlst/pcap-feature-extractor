@@ -7,6 +7,7 @@ import csv
 import pandas as pd
 import numpy as np
 from collections import Counter
+from conf import conf
 
 def cleanup_pyc(DIRECTORY):
     d = path(DIRECTORY)
@@ -15,6 +16,49 @@ def cleanup_pyc(DIRECTORY):
         file.remove()
         print "Removed {} file".format(file)
 
+
+"""
+"""
+def gen_label(pcap_path):
+    label = 0
+    label_type = conf.label_type()
+    # assuming /path/to/pcap/123.pcap
+    pcap_id = int(pcap_path.split(os.path.sep)[-1].split('.pcap')[0])
+    if label_type == 'triple':
+        sni_df = read_sni_csv(conf.sni_csv())
+    	os_str, browser_str = parse_folder_name(pcap_path)
+    	app_str = gen_app_name_by_sni(sni_df,gen_sni(pcap_path)[0])
+    	label = gen_label_triple(os_str,browser_str,app_str)
+    elif label_type == 'action':
+        label = get_twitter_action_label(pcap_id)
+    elif label_type == 'mobile_action':
+        label = get_mobile_action_label(pcap_id)
+    return label
+
+"""
+mobile action df format:
+{'id': 123, 'label': '1'}
+"""
+def get_mobile_action_label(pcap_id):
+    label_df = pd.read_csv(conf.label_df_path())
+    return label_df[label_df['id'] == pcap_id]['label'].values[0]
+
+
+"""
+twitter action df format:
+{'action': 'silence', 'side': 'follower', 'os': 'L', 'id': 412006, 'browser': 'firefox'}
+"""
+def get_twitter_action_label(pcap_id):
+    label_df = pd.read_csv(conf.label_df_path())
+    action_type = label_df[label_df['id'] == pcap_id]['action'].values[0]
+    label = -1
+    if action_type == 'silence':
+        label = 0
+    elif action_type == 'photo':
+        label = 1
+    elif action_type == 'text':
+        label = 2
+    return label
 
 """
 Assuming a relevant pcap directory contains a .hcl file with label details.
@@ -36,12 +80,23 @@ Therefor the if clause checks if any of the pcap files in a given
 directory is a session pcap. If true the directory is added to the list
 of relevant directories.
 """
-def gen_data_folders(PARENT_DIRECTORY):
+def gen_data_folders_sessions(PARENT_DIRECTORY):
     d = path(PARENT_DIRECTORY)
     l = []
     for root, dirs, files in os.walk(d):
         # if any(file.endswith('.hcl') for file in files) and any(is_pcap_session(file) for file in files):
         if any(is_pcap_session(join(root, file)) for file in files):
+            l.append(path.abspath(root))
+    return l
+
+"""
+"""
+def gen_data_folders(PARENT_DIRECTORY):
+    d = path(PARENT_DIRECTORY)
+    l = []
+    for root, dirs, files in os.walk(d):
+        # if any(file.endswith('.hcl') for file in files) and any(is_pcap_session(file) for file in files):
+        if any([1 for f in files if f.endswith('.pcap')]):
             l.append(path.abspath(root))
     return l
 
