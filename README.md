@@ -30,7 +30,7 @@ Legal OS, Browser strings:
 'safari' - Safari  
 
 
-# Step by Step:
+## Step by Step:
 
 * Verify filenames don't contain spaces
 * Enter / verify settings in conf.hcl
@@ -55,7 +55,7 @@ Legal OS, Browser strings:
 * run.py
 
 
-# Additional files:
+## Additional files:
 
 Note other md files for installation instructions and work flow recommendations.  
 
