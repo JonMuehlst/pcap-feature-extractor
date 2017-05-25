@@ -23,17 +23,26 @@ def gen_label(pcap_path):
     label = 0
     label_type = conf.label_type()
     # assuming /path/to/pcap/123.pcap
-    pcap_id = int(pcap_path.split(os.path.sep)[-1].split('.pcap')[0])
     if label_type == 'triple':
         sni_df = read_sni_csv(conf.sni_csv())
-    	os_str, browser_str = parse_folder_name(pcap_path)
+    	os_str, browser_str = parse_pcap_name(pcap_path)
     	app_str = gen_app_name_by_sni(sni_df,gen_sni(pcap_path)[0])
     	label = gen_label_triple(os_str,browser_str,app_str)
     elif label_type == 'action':
+        pcap_id = int(pcap_path.split(os.path.sep)[-1].split('.pcap')[0])
         label = get_twitter_action_label(pcap_id)
     elif label_type == 'mobile_action':
+        pcap_id = int(pcap_path.split(os.path.sep)[-1].split('.pcap')[0])
         label = get_mobile_action_label(pcap_id)
     return label
+
+"""
+"""
+def get_pcap_id(pcap_path):
+    id_table_df = pd.read_csv(conf.id_table_path())
+    folder = os.path.dirname(pcap_path).split(os.sep)[-1]
+    fname = pcap_path.split(os.sep)[-1]
+    return int(id_table_df[(id_table_df['folder'] == folder) & (id_table_df['fname'] == fname)]['id'].values[0])
 
 """
 mobile action df format:
@@ -175,18 +184,15 @@ def gen_label_triple(input_os, input_browser, input_application):
 
 
 """
-Parse a folder name and return the os + browser
-Currently returns os only.
+Parse a pcap file name and return the os + browser
 Assumes the following format:
-L_cyber_chrome_09-17__11_38_11
-where folder_name is the full path i.e. /home/user/folder
+L_cyber_chrome_09-17__11_38_11.pcap
+where pcap_name is the full path i.e. /home/user/folder/name.pcap
 
 Non case sensitive
-
-Assuming the entire folder contains pcaps of the same os, browser
 """
-def parse_folder_name(folder_name):
-    temp = folder_name.split(os.sep)
+def parse_pcap_name(pcap_name):
+    temp = pcap_name.split(os.sep)
     temp.reverse()
     tokens = temp[0].split('_')
 
@@ -266,6 +272,27 @@ def gen_sni_csv(ROOT_FOLDER):
     with open(csv_file, "wb") as f:
             writer = csv.writer(f, delimiter='\n')
             writer.writerow(sni_list)
+
+""" Generate SNI csv from each pcap in root folder """
+def gen_sni_csv_w_dup_and_filename(ROOT_FOLDER):
+    d = path(ROOT_FOLDER)
+    current_dir = os.getcwd()
+    csv_file = current_dir + "/sni_dup.csv"
+    sni_list = []
+    for root, dirs, files in os.walk(d):
+
+        for filename in os.listdir(root):
+
+            if filename.endswith(".pcap"):
+                pcap_sni_list = gen_sni(root+"/"+filename)
+                sni_list.extend([pcap_sni_list,os.path.join(root,filename)])
+
+    # sni_list = list(set(sni_list))
+    with open(csv_file, "wb") as f:
+            writer = csv.writer(f, delimiter='\t')
+            for sni_val, full_path in sni_list:
+                writer.writerow([sni_val, full_path])
+
 
 """
 Generate all SNI from specific pcap file

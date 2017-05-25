@@ -31,6 +31,12 @@ def label_type():
 
 """
 """
+def id_table_path():
+    f = read_hcl(conf_file_full_path)
+    return f['conf']['id_table_path']
+
+"""
+"""
 def label_df_path():
     f = read_hcl(conf_file_full_path)
     return f['conf']['label_df_path']

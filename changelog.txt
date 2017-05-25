@@ -1,3 +1,18 @@
+### 0.18.6 ###
+
+Note:
+  not sure if the new function
+  gen_sni_csv_w_dup_and_filename()
+  works properly
+
+Rename:
+  parse_folder_name() to parse_pcap_name()
+
+New:
+  get_pcap_id()
+  given a pcap path and the id_table file
+  the function will return the matching id
+
 ### 0.18.5 ###
 
 Added time segments.

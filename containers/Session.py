@@ -50,7 +50,11 @@ class Session(PacketContainer):
 
     """ Length in seconds """
     def duration(self):
-        pass
+        fu_fd_df = self.get_session_df()
+        min_t = fu_fd_df['frame.time_epoch'].min()
+        max_t = fu_fd_df['frame.time_epoch'].max()
+        return max_t - min_t
+
 
     """ Total number of packets with payload """
     def pl_total_packets(self):

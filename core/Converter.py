@@ -1,6 +1,6 @@
 from containers.ContainerWrapper import ContainerWrapper
-from utils.general import gen_pcap_filenames, gen_data_folders, parse_folder_name, gen_label_triple, read_sni_csv, gen_app_name_by_sni, gen_sni
-from utils.general import gen_label
+from utils.general import gen_pcap_filenames, gen_data_folders, gen_label_triple, read_sni_csv, gen_app_name_by_sni, gen_sni
+from utils.general import gen_label, get_pcap_id
 from utils.hcl_helpers import read_label_data
 from functools import partial
 # from multiprocessing import Pool
@@ -41,6 +41,7 @@ class Converter(object):
 		pcap_id = pcap_path.split(os.path.sep)[-1].split('.pcap')[0]
 		cont_wrap = ContainerWrapper(pcap_path)
 		label = gen_label(pcap_path)
+		pcap_id_from_table = get_pcap_id(pcap_path)
 		# feature_vector = np.array([int(pcap_id)])
 		feature_vector = np.array([])
 		for method_name in self.feature_methods:
@@ -49,6 +50,7 @@ class Converter(object):
 			    raise Exception("Method %s not implemented" % method_name)
 			feature_vector = np.append(feature_vector, method())
 		feature_vector = np.append(feature_vector, label)
+		feature_vector = np.append(feature_vector, pcap_id_from_table)
 		# If the sample contains NaN values remove the pcap file
 		# if  np.isnan(np.sum(feature_vector)):
 		# 	os.remove(pcap_path)
@@ -88,5 +90,5 @@ class Converter(object):
 	def write_to_csv(self, file_name, separator):
 		sdf = pd.DataFrame(self.all_samples)
 		# sdf.to_csv(file_name, sep=separator, index=0, header=False)
-		sdf = sdf.dropna()
+		# sdf = sdf.dropna()
 		sdf.to_csv(file_name, sep=separator)
