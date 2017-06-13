@@ -85,14 +85,23 @@ class Session(PacketContainer):
     """ Mean of packet size """
     def mean_packet_size(self):
         fu_fd_df = self.get_session_df()
+        if len(fu_fd_df) == 0:
+            return 0
+        if len(fu_fd_df) == 1:
+            return fu_fd_df['frame.len'].values[0]
         return fu_fd_df['frame.len'].mean()
 
     """ Variance of packet size """
     def sizevar(self):
         fu_fd_df = self.get_session_df()
+        if len(fu_fd_df) < 2:
+            return 0
         return fu_fd_df['frame.len'].var()
 
-    """ Max packet size """
+    """
+    Max packet size
+    Will return NaN if len(fu_fd_df) == 0
+    """
     def max_packet_size(self):
         fu_fd_df = self.get_session_df()
         return fu_fd_df['frame.len'].max()

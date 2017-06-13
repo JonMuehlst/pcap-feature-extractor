@@ -41,7 +41,7 @@ class Converter(object):
 		pcap_id = pcap_path.split(os.path.sep)[-1].split('.pcap')[0]
 		cont_wrap = ContainerWrapper(pcap_path)
 		label = gen_label(pcap_path)
-		pcap_id_from_table = get_pcap_id(pcap_path)
+		# pcap_id_from_table = get_pcap_id(pcap_path)
 		# feature_vector = np.array([int(pcap_id)])
 		feature_vector = np.array([])
 		for method_name in self.feature_methods:
@@ -50,7 +50,7 @@ class Converter(object):
 			    raise Exception("Method %s not implemented" % method_name)
 			feature_vector = np.append(feature_vector, method())
 		feature_vector = np.append(feature_vector, label)
-		feature_vector = np.append(feature_vector, pcap_id_from_table)
+		# feature_vector = np.append(feature_vector, pcap_id_from_table)
 		# If the sample contains NaN values remove the pcap file
 		# if  np.isnan(np.sum(feature_vector)):
 		# 	os.remove(pcap_path)

@@ -40,34 +40,38 @@ conf {
   Feature names need to be valid method names.
   (See source code - Session.py / TimeSegment.py)
 
-  For time segments:
-  features = ["size_histogram", "peak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_time_delta", "min_time_delta", "max_time_delta", "mean_time_delta"]
-
   For sessions:
   features = ["fSSL_session_id_len", "fSSL_num_extensions", "fSSL_num_compression_methods", "SYN_tcp_scale", "SYN_MSS", "SYN_tcp_winsize", "fcipher_suites", "fSSLv", "size_histogram", "fpeak_features", "bpeak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl", "num_keep_alive"]
 
   For session statistics:
+  features = ["duration", "fpackets", "bpackets", "fbytes", "bbytes"]
 
+  For time segments:
+  features = ["size_histogram", "peak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_time_delta", "min_time_delta", "max_time_delta", "mean_time_delta"]
+
+  For sessions:
   */
 
-  features = ["duration", "fpackets", "bpackets", "fbytes", "bbytes"]
+  features = ["fSSL_session_id_len", "fSSL_num_extensions", "fSSL_num_compression_methods", "SYN_tcp_scale", "SYN_MSS", "SYN_tcp_winsize", "fcipher_suites", "fSSLv", "size_histogram", "fpeak_features", "bpeak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl", "num_keep_alive"]
 
   /*
   Data directory - full path.
 
-  data = "/media/jon/ge60_data1/infomedia/action_data/subset"
+
   data = "/home/jon/wip/mobile_actions/data"
   data = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/output"
-  data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_first_1_sec"
-  */
 
   data = "/media/jon/ge60_data1/Dropbox/infomedia_data/filtered_raw_dataset_temu2016"
+  data = "/media/jon/ge60_data1/infomedia/action_data/subset"
+  */
+
+  data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_first_1_sec"
 
   /*
   The output file name - full path.
   */
 
-  output = "/home/jon/workspace/pcap-feature-extractor/output/temu_session_statistics_w_id_25.5.17.csv"
+  output = "/home/jon/workspace/pcap-feature-extractor/output/TEST_real_time_1_sec_13.6.17.csv"
 
   /*
   sni_csv full path
@@ -84,7 +88,7 @@ conf {
            Do not mix session pcaps with non-session pcaps
   */
 
-  session_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/session_folders.csv"
+  session_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/session_folders_real_time.csv"
 
   /*
   This file contains folders for time segment pcaps
@@ -95,7 +99,7 @@ conf {
   time_segment_folders_filename = "/home/jon/wip/mobile_actions/data/time_segment_folders_mobile.csv"
   */
 
-  time_segment_folders_filename = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/output/time_segment_folders_mobile.csv"
+  time_segment_folders_filename = "/media/jon/ge60_data1/infomedia/action_data/subset/time_segment_folders.csv"
 
   /*
     "triple" - Desktop: (OS, Browser, App) - tuple
@@ -125,9 +129,10 @@ conf {
   {'action': 'silence', 'side': 'follower', 'os': 'L', 'id': 412006, 'browser': 'firefox'}
   label_df_path = "/media/jon/ge60_data1/infomedia/action_data/time_segments/labels.csv"
   label_df_path = "/home/jon/wip/mobile_actions/labels.csv"
+  label_df_path = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/output/labels.csv"
   */
 
-  label_df_path = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/output/labels.csv"
+  label_df_path = "/media/jon/ge60_data1/infomedia/action_data/time_segments/subset.csv"
 
 
   /*

@@ -1,3 +1,18 @@
+### 0.18.7 ###
+
+Note:
+  Checked new changes on session and time segment raw data.
+
+Mean on a single value now returns the value.
+Mean on no values returns 0.
+
+std and var on less than 2 values return 0.
+
+It's now possible for a time segment or a flow to have 0 values
+if no packets are present.
+
+If a session has no packets then the min / max functions will return nan values.
+
 ### 0.18.6 ###
 
 Note:
