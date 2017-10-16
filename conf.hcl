@@ -63,21 +63,24 @@ conf {
 
   data = "/media/jon/ge60_data1/Dropbox/infomedia_data/filtered_raw_dataset_temu2016"
   data = "/media/jon/ge60_data1/infomedia/action_data/subset"
+  data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_first_1_sec"
   */
 
-  data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_first_1_sec"
+  data = "C:\Users\yehonatanz\Data_folder\first_youtube_data\youtube_pcaps_19.9.17_formated_after_splitcap"
 
   /*
   The output file name - full path.
   */
 
-  output = "/home/jon/workspace/pcap-feature-extractor/output/TEST_real_time_1_sec_13.6.17.csv"
+  output = "C:\Users\yehonatanz\AtomProjects\pcap-feature-extractor\output\TEST_UDP_data.csv"
 
   /*
   sni_csv full path
+  sni_csv = "/home/jon/workspace/pcap-feature-extractor/sni.csv"
   */
 
-  sni_csv = "/home/jon/workspace/pcap-feature-extractor/sni.csv"
+  sni_csv = "C:\Users\yehonatanz\AtomProjects\pcap-feature-extractor\2017-10-16_11-16-04_sni.csv"
+
 
   /*
   This file contains folders for session pcaps
@@ -86,9 +89,10 @@ conf {
 
   Notice - If one session pcap is contained in a folder it is added to the list.
            Do not mix session pcaps with non-session pcaps
+  session_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/session_folders_real_time.csv"
   */
 
-  session_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/session_folders_real_time.csv"
+  session_folders_filename = "C:\Users\yehonatanz\AtomProjects\pcap-feature-extractor\data\session_folders_real_time_udp.csv"
 
   /*
   This file contains folders for time segment pcaps

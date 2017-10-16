@@ -1,3 +1,17 @@
+### 0.18.8 ###
+
+Note:
+  All changes made in conf.hcl file not listed here
+
+  The function gen_sni_csv_w_dup_and_filename() fixed and work fine for now.
+
+  utils/general:
+    In  gen_data_folders() added support for windows OS path
+    In gen_sni_csv() added current time to each new nsi.csv file to ignore overwrite
+    In gen_sni_csv_w_dup_and_filename() few bug fixes made
+    In gen_sni() added:
+      Now support generate SNI val from UDP pcaps
+      Filtering non 443 port pcaps
 ### 0.18.7 ###
 
 Note:

@@ -1,5 +1,6 @@
 import os
 from path import path
+import ntpath
 from os import listdir
 from os.path import isfile, join
 from utils.read_pcap import read_pcap
@@ -8,6 +9,7 @@ import pandas as pd
 import numpy as np
 from collections import Counter
 from conf import conf
+from time import gmtime, strftime
 
 def cleanup_pyc(DIRECTORY):
     d = path(DIRECTORY)
@@ -106,7 +108,14 @@ def gen_data_folders(PARENT_DIRECTORY):
     for root, dirs, files in os.walk(d):
         # if any(file.endswith('.hcl') for file in files) and any(is_pcap_session(file) for file in files):
         if any([1 for f in files if f.endswith('.pcap')]):
-            l.append(path.abspath(root))
+            import platform
+            os = platform.platform()
+            # For windows
+            if 'Windows' in os:
+                l.append(ntpath.abspath(root))
+            # For linux
+            else:
+                l.append(path.abspath(root))
     return l
 
 """ Returns a list of pcap file names from a given folder """
@@ -258,7 +267,9 @@ def space_to_underscore(ROOT_FOLDER):
 def gen_sni_csv(ROOT_FOLDER):
     d = path(ROOT_FOLDER)
     current_dir = os.getcwd()
-    csv_file = current_dir + "/sni.csv"
+    # Added corrent time to the sni csv_file
+    current_time = strftime("%Y-%m-%d_%H-%M-%S", gmtime())
+    csv_file = current_dir + "/" + current_time + "_sni.csv"
     sni_list = []
     for root, dirs, files in os.walk(d):
 
@@ -267,7 +278,6 @@ def gen_sni_csv(ROOT_FOLDER):
             if filename.endswith(".pcap"):
                 pcap_sni_list = gen_sni(root+"/"+filename)
                 sni_list.extend(pcap_sni_list)
-
     sni_list = list(set(sni_list))
     with open(csv_file, "wb") as f:
             writer = csv.writer(f, delimiter='\n')
@@ -285,12 +295,12 @@ def gen_sni_csv_w_dup_and_filename(ROOT_FOLDER):
 
             if filename.endswith(".pcap"):
                 pcap_sni_list = gen_sni(root+"/"+filename)
-                sni_list.extend([pcap_sni_list,os.path.join(root,filename)])
+                sni_list.append([pcap_sni_list[0],pcap_sni_list[1],os.path.join(root,filename)])
 
     # sni_list = list(set(sni_list))
     with open(csv_file, "wb") as f:
             writer = csv.writer(f, delimiter='\t')
-            for sni_val, full_path in sni_list:
+            for sni_val, unknwon, full_path in sni_list:
                 writer.writerow([sni_val, full_path])
 
 
@@ -299,15 +309,26 @@ Generate all SNI from specific pcap file
 """
 def gen_sni(filename):
     pcap_sni_list = []
-    #
-    df = read_pcap(filename=filename, fields=['ssl.handshake.extensions_server_name'] , dtype = {'ssl.handshake.extensions_server_name':'string'})
-    df = df[df['ssl.handshake.extensions_server_name'].notnull()]
-    for index, row in df.iterrows():
 
-        val = str(row['ssl.handshake.extensions_server_name'])
-        pcap_sni_list.append(val)
+    # Added support in UDP pcaps
+    # Added filtering non 443 port pcaps
+    if '_443' in filename:
+        fields = list()
+        if '.TCP_' in filename:
+            fields = ['ssl.handshake.extensions_server_name']
+            d_type = fields[0]
+        elif '.UDP_' in filename:
+            fields = ['quic.tag.sni']
+            d_type = fields[0]
+        df = read_pcap(filename=filename, fields=fields , dtype = {d_type:'string'})
+        df = df[df[d_type].notnull()]
+        for index, row in df.iterrows():
+            val = str(row[d_type])
+            pcap_sni_list.append(val)
+    else:
+        pass
+        # pcap_sni_list.append('unknwon')
 
-    pcap_sni_list.append('unknwon')
     return pcap_sni_list
 
 """
