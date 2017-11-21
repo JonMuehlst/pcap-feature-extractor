@@ -109,9 +109,9 @@ def gen_data_folders(PARENT_DIRECTORY):
         # if any(file.endswith('.hcl') for file in files) and any(is_pcap_session(file) for file in files):
         if any([1 for f in files if f.endswith('.pcap')]):
             import platform
-            os = platform.platform()
+            os_nmae = platform.platform()
             # For windows
-            if 'Windows' in os:
+            if 'Windows' in os_nmae:
                 l.append(ntpath.abspath(root))
             # For linux
             else:

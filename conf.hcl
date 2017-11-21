@@ -66,20 +66,20 @@ conf {
   data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_first_1_sec"
   */
 
-  data = "C:\Users\yehonatanz\Data_folder\first_youtube_data\youtube_pcaps_19.9.17_formated_after_splitcap"
+  data = "/home/flash/flash/data/youtube4_for_testing_formated/L_cyber_chrome_09-17__11_38_11_splited_subgroup"
 
   /*
   The output file name - full path.
   */
 
-  output = "C:\Users\yehonatanz\AtomProjects\pcap-feature-extractor\output\TEST_UDP_data.csv"
+  output = "/home/flash/flash/data/youtube4_for_testing_formated/youtube_data_set_test.csv"
 
   /*
   sni_csv full path
   sni_csv = "/home/jon/workspace/pcap-feature-extractor/sni.csv"
   */
 
-  sni_csv = "C:\Users\yehonatanz\AtomProjects\pcap-feature-extractor\2017-10-16_11-16-04_sni.csv"
+  sni_csv = "/home/flash/flash/project/pcap-feature-extractor/sni.csv"
 
 
   /*
@@ -92,7 +92,7 @@ conf {
   session_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/session_folders_real_time.csv"
   */
 
-  session_folders_filename = "C:\Users\yehonatanz\AtomProjects\pcap-feature-extractor\data\session_folders_real_time_udp.csv"
+  session_folders_filename = "/home/flash/flash/data/youtube4_for_testing_formated/youtube_sessions.csv"
 
   /*
   This file contains folders for time segment pcaps

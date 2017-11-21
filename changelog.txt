@@ -1,3 +1,11 @@
+### 0.18.8.1 ###
+
+  Added reformat_pcap.py to utils:
+    reformat the pcaps file to work with the supported tshark version
+
+  utils/general.py:
+    bug fixed
+
 ### 0.18.8 ###
 
 Note:
