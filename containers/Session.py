@@ -7,7 +7,7 @@ from containers.Flow import Flow
 import pandas as pd
 import numpy as np
 import numbers
-from conf.conf import client_hello_num, server_hello_num, SSL3_V, TLS1_V, TLS11_V, TLS12_V
+from conf.conf import client_hello_num, server_hello_num, SSL3_V, TLS1_V, TLS11_V, TLS12_V, get_temp_folder
 
 import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
@@ -29,6 +29,7 @@ sess - Session DataFrame
 class Session(PacketContainer):
 
     def __init__(self, s, path_str=None):
+        self.first_packet = s.head(1)
         self.flow_up, self.flow_down = gen_flows_up_down(s)
         self.flow_up, self.flow_down = Flow(self.flow_up), Flow(self.flow_down)
         self.pcap_path = path_str
@@ -364,7 +365,9 @@ class Session(PacketContainer):
     Notice: using scapy + scapy.ssl_tls
     """
     def fSSL_num_extensions(self):
-        output_pcap_filename = self.pcap_path + '.first_10.pcap'
+        tmp_path = get_temp_folder()
+        pcap_name = self.pcap_path.split(os.sep)[-1]
+        output_pcap_filename = os.path.join(tmp_path, pcap_name + '.first_10.pcap')
         cmd_str = 'editcap -F libpcap -r ' + self.pcap_path + ' ' + output_pcap_filename + ' 1-10'
         num_ext = 0
         if os.system(cmd_str) == 0:
@@ -377,3 +380,17 @@ class Session(PacketContainer):
                     break
         os.remove(output_pcap_filename)
         return num_ext
+
+    def time_plus_ip_port_tuple(self):
+        # df = self.client_hello_pkt
+        df = self.first_packet
+        # print len(df)
+        epoch_time = df['frame.time_epoch'].iloc[0]
+        src_ip = df['ip.src'].iloc[0]
+        src_port = df['tcp.srcport'].iloc[0]
+        dst_ip = df['ip.dst'].iloc[0]
+        dst_port = df['tcp.dstport'].iloc[0]
+        id_str = str(epoch_time) + '-' + str(src_ip) + '-' \
+                 + str(src_port) + '-' + str(dst_ip) + '-' + str(dst_port)
+        # print id_str
+        return id_str

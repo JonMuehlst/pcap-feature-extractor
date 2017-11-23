@@ -1,3 +1,23 @@
+### 0.18.8 ###
+
+Added temp folder to the configuration for temp pcaps which are
+created during feature extraction.
+
+core:
+  Converter.py:
+    added pcap_id (first field of pcap name) to the feature vector for
+    consistent ids.
+
+containers:
+  Session.py:
+    saving first packet from pcap.
+
+    modified fSSL_num_extensions() to use the temp directory.
+
+    added time_plus_ip_port_tuple()
+
+Added add_labels_to_csv.py in case it's useful.
+
 ### 0.18.7 ###
 
 Note:

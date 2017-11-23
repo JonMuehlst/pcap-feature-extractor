@@ -43,7 +43,8 @@ class Converter(object):
 		label = gen_label(pcap_path)
 		# pcap_id_from_table = get_pcap_id(pcap_path)
 		# feature_vector = np.array([int(pcap_id)])
-		feature_vector = np.array([])
+		# feature_vector = np.array([])
+		feature_vector = np.array([pcap_path.split(os.path.sep)[-1]])
 		for method_name in self.feature_methods:
 			method = getattr(cont_wrap, method_name)
 			if not method:
@@ -64,6 +65,7 @@ class Converter(object):
 		only_pcap_files = gen_pcap_filenames(CHILD_DIRECTORY)
 		if len(only_pcap_files) > 0:
 			samples = self.p.map(self.pcap_to_feature_vector, only_pcap_files)
+			# samples = map(self.pcap_to_feature_vector, only_pcap_files)
 			return samples
 		return np.array([])
 

@@ -62,6 +62,13 @@ def get_data_folders():
 
     return l
 
+
+"""
+"""
+def get_temp_folder():
+    f = read_hcl(conf_file_full_path)
+    return f['conf']['temp_folder']
+
 """
 """
 def sample_type():
