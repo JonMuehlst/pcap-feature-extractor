@@ -1,3 +1,6 @@
+### 0.18.8.2 ###
+  Bug fix
+  
 ### 0.18.8.1 ###
 
   Added reformat_pcap.py to utils:

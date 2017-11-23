@@ -66,7 +66,7 @@ conf {
   data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_first_1_sec"
   */
 
-  data = "/home/flash/flash/data/youtube4_for_testing_formated/L_cyber_chrome_09-17__11_38_11_splited_subgroup"
+  data = "/home/flash/flash/data/youtube4_for_testing_formated/L_cyber_chrome_09-17__11_38_11_splited"
 
   /*
   The output file name - full path.

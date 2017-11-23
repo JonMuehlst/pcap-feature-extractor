@@ -10,6 +10,7 @@ import numpy as np
 from collections import Counter
 from conf import conf
 from time import gmtime, strftime
+import platform
 
 def cleanup_pyc(DIRECTORY):
     d = path(DIRECTORY)
@@ -108,7 +109,6 @@ def gen_data_folders(PARENT_DIRECTORY):
     for root, dirs, files in os.walk(d):
         # if any(file.endswith('.hcl') for file in files) and any(is_pcap_session(file) for file in files):
         if any([1 for f in files if f.endswith('.pcap')]):
-            import platform
             os_nmae = platform.platform()
             # For windows
             if 'Windows' in os_nmae:
@@ -309,7 +309,6 @@ Generate all SNI from specific pcap file
 """
 def gen_sni(filename):
     pcap_sni_list = []
-
     # Added support in UDP pcaps
     # Added filtering non 443 port pcaps
     if '_443' in filename:
@@ -327,8 +326,7 @@ def gen_sni(filename):
             pcap_sni_list.append(val)
     else:
         pass
-        # pcap_sni_list.append('unknwon')
-
+    pcap_sni_list.append('unknwon')
     return pcap_sni_list
 
 """
