@@ -51,6 +51,8 @@ def get_data_folders():
         filename = session_data_folders_filename()
     elif sample_type == 'time_segment':
         filename = time_segment_data_folders_filename()
+    if sample_type == 'traffic_type':
+        filename = session_data_folders_filename()
 
     l = []
     with open(filename, 'rb') as csvfile:

@@ -4,6 +4,7 @@ import subprocess
 import datetime
 import pandas as pd
 from StringIO import StringIO
+import math
 
 """
 Rename and reorder file
@@ -158,8 +159,16 @@ def read_pcap(filename, fields=[], display_filter="",
 """ Returns the upstream flow, downstream flow (in this order) from a given session DataFrame """
 def gen_flows_up_down(pcap):
 
-    dst_port = int(pcap['tcp.dstport'].iloc[0])
-    src_port = int(pcap['tcp.srcport'].iloc[0])
+    dst_port = 0
+    src_port = 0
+
+    if not math.isnan(pcap['tcp.dstport'].iloc[0]):
+        dst_port = int(pcap['tcp.dstport'].iloc[0])
+        src_port = int(pcap['tcp.srcport'].iloc[0])
+    elif not math.isnan(pcap['udp.dstport'].iloc[0]):
+        dst_port = int(pcap['udp.dstport'].iloc[0])
+        src_port = int(pcap['udp.srcport'].iloc[0])
+
 
     if  dst_port == 443:
         ip_src = pcap['ip.src'].iloc[0]

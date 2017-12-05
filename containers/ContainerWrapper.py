@@ -5,6 +5,7 @@ import numbers
 
 from Session import Session
 from TimeSegment import TimeSegment
+from TTSession import TTSession
 from conf import conf
 
 def ContainerWrapper(path_str=None):
@@ -14,4 +15,6 @@ def ContainerWrapper(path_str=None):
         cont_wrap = Session.from_filename(path_str, fields=conf.fields())
     elif sample_type == 'time_segment':
         cont_wrap = TimeSegment.from_filename(path_str, fields=conf.fields())
+    elif sample_type == 'traffic_type':
+        cont_wrap = TTSession.from_filename(path_str, fields=conf.fields())
     return cont_wrap

@@ -38,20 +38,19 @@ class Converter(object):
 	"""
 	def pcap_to_feature_vector(self, pcap_path):
 		# print 'Processing: ' + repr(str(pcap_path))
-		pcap_id = pcap_path.split(os.path.sep)[-1].split('.pcap')[0]
+		# pcap_id = pcap_path.split(os.path.sep)[-1].split('.pcap')[0]
 		cont_wrap = ContainerWrapper(pcap_path)
 		label = gen_label(pcap_path)
-		# pcap_id_from_table = get_pcap_id(pcap_path)
-		# feature_vector = np.array([int(pcap_id)])
+		pcap_id = get_pcap_id(pcap_path)
+		feature_vector = np.array([int(pcap_id)])
 		# feature_vector = np.array([])
-		feature_vector = np.array([pcap_path.split(os.path.sep)[-1]])
+		# feature_vector = np.array([pcap_path.split(os.path.sep)[-1]])
 		for method_name in self.feature_methods:
 			method = getattr(cont_wrap, method_name)
 			if not method:
 			    raise Exception("Method %s not implemented" % method_name)
 			feature_vector = np.append(feature_vector, method())
 		feature_vector = np.append(feature_vector, label)
-		# feature_vector = np.append(feature_vector, pcap_id_from_table)
 		# If the sample contains NaN values remove the pcap file
 		# if  np.isnan(np.sum(feature_vector)):
 		# 	os.remove(pcap_path)

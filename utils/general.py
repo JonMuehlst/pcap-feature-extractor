@@ -34,7 +34,15 @@ def gen_label(pcap_path):
     elif label_type == 'mobile_action':
         pcap_id = int(pcap_path.split(os.path.sep)[-1].split('.pcap')[0])
         label = get_mobile_action_label(pcap_id)
+    elif label_type == 'traffic_type':
+        label = get_label_from_table(pcap_path)
     return label
+
+def get_label_from_table(pcap_path):
+    id_table_df = pd.read_csv(conf.id_table_path())
+    folder = os.path.dirname(pcap_path).split(os.sep)[-1]
+    fname = pcap_path.split(os.sep)[-1]
+    return int(id_table_df[(id_table_df['folder'] == folder) & (id_table_df['fname'] == fname)]['label'].values[0])
 
 """
 """

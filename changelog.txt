@@ -1,3 +1,33 @@
+### 0.18.9 ###
+
+Working on new branch 'csv-input' to modify the code behavior.
+Instead of reading pcap files directly, the raw files will first
+be processed by a new code package into csv files which will resemble
+the sample types.
+
+git checkout -b feature_branch_name
+git push -u origin feature_branch_name
+
+Code does not yet support reading in csv files.
+
+Added support for traffic type samples
+Assuming all sample ids and labels are in an all_ids.csv file.
+
+Output now has an ids column.
+
+modified:
+conf.py
+ContainerWrapper.py
+Converter.py
+general.py
+read_pcap.py
+generate_pcap_folders.py
+
+added:
+.gitignore
+TTFlow.py (traffic type flow)
+TTSession.py (traffic type session)
+
 ### 0.18.8 ###
 
 Added temp folder to the configuration for temp pcaps which are

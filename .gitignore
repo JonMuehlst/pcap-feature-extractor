@@ -1,0 +1,9 @@
+*.pyc
+.coverage
+network_wordcount.py
+plot_session_statistics.py
+translate_labels.py
+data/
+output/
+sessions/
+
