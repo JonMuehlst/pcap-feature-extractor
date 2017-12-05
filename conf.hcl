@@ -78,7 +78,7 @@ conf {
   data = "/media/jon/ge60_data1/Dropbox/infomedia_data/filtered_raw_dataset_temu2016"
   */
 
-  data = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_4G"
+  data = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format"
 
   /*
 
@@ -92,7 +92,7 @@ conf {
   The output file name - full path.
   */
 
-  output = "/home/jon/workspace/pcap-feature-extractor/output/infomedia_traffictype_4G_only_id_label_3.12.17.csv"
+  output = "/home/jon/workspace/pcap-feature-extractor/output/TEST_infomedia_traffictype_incl_3G_4G_id_label_5.12.17.csv"
 
   /*
   sni_csv full path
@@ -157,7 +157,7 @@ conf {
   label_df_path = "/media/jon/ge60_data1/infomedia/action_data/time_segments/subset.csv"
   */
 
-  label_df_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m/all_ids.csv"
+  label_df_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format/all_ids.csv"
 
   /*
   pcap id database path
@@ -165,5 +165,5 @@ conf {
   id_table_path = "/media/jon/ge60_data1/Dropbox/infomedia_data/filtered_raw_dataset_temu2016/all_ids.csv"
   */
 
-  id_table_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m/all_ids.csv"
+  id_table_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format/all_ids.csv"
 }

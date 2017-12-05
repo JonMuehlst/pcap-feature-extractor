@@ -86,6 +86,9 @@ def gen_data_frame(path_str):
     return pdf
 
 
+def read_pt_csv(filename):
+    return pd.read_csv(filename, index_col='frame.number')
+
 def read_pcap(filename, fields=[], display_filter="",
               timeseries=False, strict=False, dtype=None):
     """ Read PCAP file into Pandas DataFrame object.

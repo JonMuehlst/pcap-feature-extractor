@@ -1,7 +1,7 @@
 #inherits from Packet_container
 
 from PacketContainer import PacketContainer
-from utils.read_pcap import read_pcap
+from utils.read_pcap import read_pt_csv
 from conf import conf
 
 import os
@@ -18,9 +18,9 @@ class TimeSegment(PacketContainer):
 
     """ Whats the difference between this function and the ctor? """
     @classmethod
-    def from_filename(cls, path_str, fields=['frame.time_epoch', 'frame.time_delta', 'frame.len', 'frame.cap_len', 'frame.marked', 'ip.src', 'ip.dst', 'ip.len', 'ip.flags', 'ip.flags.rb', 'ip.flags.df', 'ip.flags.mf', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ip.checksum_good', 'tcp.srcport', 'tcp.dstport', 'tcp.len', 'tcp.nxtseq', 'tcp.hdr_len', 'tcp.flags.cwr', 'tcp.flags.urg', 'tcp.flags.push', 'tcp.flags.syn' ,'tcp.window_size','tcp.checksum','tcp.checksum_good', 'tcp.checksum_bad']):
+    def from_filename(cls, path_str):
         # segment = gen_data_frame(path_str)
-        segment = read_pcap(path_str,fields=fields)
+        segment = read_pt_csv(path_str)
         return cls(segment,path_str)
 
     """ Size of all packets in bytes """

@@ -1,3 +1,45 @@
+### 0.19 ###
+
+Modified code to read .pt.csv files
+
+renamed is_pcap_session() to is_pcap_ssl_session()
+
+containers:
+  Session.py:
+    fSSL_num_extensions():
+      modified to use tshark filters and drop dependency on scapy.
+
+  ContainerWrapper.py:
+    Removed 'fields' parameter from constructors.
+
+
+utils:
+  general.py:
+    gen_data_folders():
+      now searches for files ending with '.pt.csv'
+
+    gen_sni_from_pcap(): (previously gen_sni())
+      this function takes in a pcap_path and forwards the table to gen_sni(df)
+
+    gen_label():
+      gen_sni -> gen_sni_from_pt_csv
+
+    gen_sni():
+      adapted for pt.csv files
+
+  read_pcap.py:
+    read_pt_csv():
+      standardized read of pcap csv tables
+
+containers:
+  Session, TTSession, TimeSegment now read from pt.csv files instead of pcaps
+  with read_pt_csv()
+
+core:
+  Converter.py:
+    sessions_to_samples():
+      calls gen_pt_csv_filenames() instead of gen_pcap_filenames()
+
 ### 0.18.9 ###
 
 Working on new branch 'csv-input' to modify the code behavior.

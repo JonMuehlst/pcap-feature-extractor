@@ -60,8 +60,8 @@ def gen_folder_filename_couples(PARENT_DIRECTORY, file_name):
     d = path(PARENT_DIRECTORY)
     l = []
     for root, dirs, files in os.walk(d):
-        # if any(file.endswith('.hcl') for file in files) and any(is_pcap_session(file) for file in files):
-        if any(is_pcap_session(join(root, file)) for file in files):
+        # if any(file.endswith('.hcl') for file in files) and any(is_pcap_ssl_session(file) for file in files):
+        if any(is_pcap_ssl_session(join(root, file)) for file in files):
             l.append([path.abspath(root), join(root, files[0])])
 
     with open(file_name, 'wb') as csvfile:

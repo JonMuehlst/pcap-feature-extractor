@@ -2,7 +2,7 @@
 
 import os
 from PacketContainer import PacketContainer
-from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pcap
+from utils.read_pcap import gen_data_frame, gen_flows_up_down, read_pt_csv
 from containers.Flow import Flow
 import pandas as pd
 import numpy as np
@@ -44,9 +44,9 @@ class Session(PacketContainer):
 
     """ Whats the difference between this function and the ctor? """
     @classmethod
-    def from_filename(cls, path_str, fields=['frame.time_epoch', 'frame.time_delta', 'frame.len', 'frame.cap_len', 'frame.marked', 'ip.src', 'ip.dst', 'ip.len', 'ip.flags', 'ip.flags.rb', 'ip.flags.df', 'ip.flags.mf', 'ip.frag_offset', 'ip.ttl', 'ip.proto', 'ip.checksum_good', 'tcp.srcport', 'tcp.dstport', 'tcp.len', 'tcp.nxtseq', 'tcp.hdr_len', 'tcp.flags.cwr', 'tcp.flags.urg', 'tcp.flags.push', 'tcp.flags.syn' ,'tcp.window_size','tcp.checksum','tcp.checksum_good', 'tcp.checksum_bad']):
+    def from_filename(cls, path_str):
         # sess = gen_data_frame(path_str)
-        sess = read_pcap(path_str,fields=fields)
+        sess = read_pt_csv(path_str)
         return cls(sess,path_str)
 
     """ Length in seconds """
@@ -365,20 +365,22 @@ class Session(PacketContainer):
     Notice: using scapy + scapy.ssl_tls
     """
     def fSSL_num_extensions(self):
-        tmp_path = get_temp_folder()
-        pcap_name = self.pcap_path.split(os.sep)[-1]
-        output_pcap_filename = os.path.join(tmp_path, pcap_name + '.first_10.pcap')
-        cmd_str = 'editcap -F libpcap -r ' + self.pcap_path + ' ' + output_pcap_filename + ' 1-10'
-        num_ext = 0
-        if os.system(cmd_str) == 0:
-            pcap = rdpcap(output_pcap_filename)
-            for pkt in pcap:
-                if pkt.haslayer(scssl.TLSClientHello):
-
-                    """ [2][1][3] explained: 2 - TCP, 1 - SSL, 3 - TLSClientHello """
-                    num_ext =  len(pkt[2][1][3].extensions)
-                    break
-        os.remove(output_pcap_filename)
+        # tmp_path = get_temp_folder()
+        # pcap_name = self.pcap_path.split(os.sep)[-1]
+        # output_pcap_filename = os.path.join(tmp_path, pcap_name + '.first_10.pcap')
+        # cmd_str = 'editcap -F libpcap -r ' + self.pcap_path + ' ' + output_pcap_filename + ' 1-10'
+        # num_ext = 0
+        # if os.system(cmd_str) == 0:
+        #     pcap = rdpcap(output_pcap_filename)
+        #     for pkt in pcap:
+        #         if pkt.haslayer(scssl.TLSClientHello):
+        #
+        #             """ [2][1][3] explained: 2 - TCP, 1 - SSL, 3 - TLSClientHello """
+        #             num_ext =  len(pkt[2][1][3].extensions)
+        #             break
+        # os.remove(output_pcap_filename)
+        df = self.client_hello_pkt
+        num_ext = len(df['ssl.handshake.extension.type'].iloc[0].split(','))
         return num_ext
 
     def time_plus_ip_port_tuple(self):
