@@ -46,9 +46,6 @@ conf {
   For ID:
   features = ["time_plus_ip_port_tuple"]
 
-  For sessions:
-  features = ["fSSL_session_id_len", "fSSL_num_extensions", "fSSL_num_compression_methods", "SYN_tcp_scale", "SYN_MSS", "SYN_tcp_winsize", "fcipher_suites", "fSSLv", "size_histogram", "fpeak_features", "bpeak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl", "num_keep_alive"]
-
   For time segments:
   features = ["size_histogram", "peak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_time_delta", "min_time_delta", "max_time_delta", "mean_time_delta"]
 
@@ -56,9 +53,12 @@ conf {
   features = ["size_histogram", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_time_delta", "min_time_delta", "max_time_delta", "mean_time_delta"]
 
   For traffic type:
+  features = ["size_histogram", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl"]
+
+  For sessions:
   */
 
-  features = ["size_histogram", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl"]
+  features = ["fSSL_session_id_len", "fSSL_num_extensions", "fSSL_num_compression_methods", "SYN_tcp_scale", "SYN_MSS", "SYN_tcp_winsize", "fcipher_suites", "fSSLv", "size_histogram", "fpeak_features", "bpeak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl", "num_keep_alive"]
 
   /*
   Data directory - full path.
@@ -75,10 +75,10 @@ conf {
   data = "/media/jon/A40E85720E853E74/captures_2016_subset_sessions"
   data = "/media/jon/A40E85720E853E74/cipher_sessions_2016"
   data = "/media/jon/A40E85720E853E74/captures_2017_sessions"
-  data = "/media/jon/ge60_data1/Dropbox/infomedia_data/filtered_raw_dataset_temu2016"
+  data = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format"
   */
 
-  data = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format"
+  data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_pt_format"
 
   /*
 
@@ -92,7 +92,7 @@ conf {
   The output file name - full path.
   */
 
-  output = "/home/jon/workspace/pcap-feature-extractor/output/TEST_infomedia_traffictype_incl_3G_4G_id_label_5.12.17.csv"
+  output = "/home/jon/workspace/pcap-feature-extractor/output/TEST_temu_sessions_id_label_8.12.17.csv"
 
   /*
   sni_csv full path
@@ -109,7 +109,7 @@ conf {
            Do not mix session pcaps with non-session pcaps
   */
 
-  session_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/tt_sessions_folders_temu.csv"
+  session_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/sessions_folders_temu.csv"
 
   /*
   This file contains folders for time segment pcaps
@@ -129,14 +129,14 @@ conf {
     "mobile_action" - Mobile actions
     "traffic_type"
   */
-  label_type = "traffic_type"
+  label_type = "triple"
 
   /*
     "session" - pcaps are split to sessions by SplitCap
     "time_segment" - pcaps are split to time segments by SplitCap
     "traffic_type" - SplitCap sessions which may contain UDP traffic
   */
-  sample_type = "traffic_type"
+  sample_type = "session"
 
   /*
   Full path to the label database: pcap_id, info_i
@@ -155,15 +155,18 @@ conf {
   label_df_path = "/home/jon/wip/mobile_actions/labels.csv"
   label_df_path = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/output/labels.csv"
   label_df_path = "/media/jon/ge60_data1/infomedia/action_data/time_segments/subset.csv"
+  label_df_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format/all_ids.csv"
   */
 
-  label_df_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format/all_ids.csv"
+  label_df_path = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_pt_format/all_ids.csv"
 
   /*
   pcap id database path
 
   id_table_path = "/media/jon/ge60_data1/Dropbox/infomedia_data/filtered_raw_dataset_temu2016/all_ids.csv"
+  id_table_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format/all_ids.csv"
   */
 
-  id_table_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format/all_ids.csv"
+
+  id_table_path = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_pt_format/all_ids.csv"
 }

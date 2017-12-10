@@ -1,3 +1,69 @@
+### 0.20 ###
+
+Packet Containers revision:
+1. Containers only hold dataframes and simple identifier flags.
+2. All features are non member methods and are located in
+   seperate modules / classes: Statistical, TCP, UDP
+   (QUIC, FB_ZERO if necessary)
+3. Functions anticipate and verify a specific container type
+   (e.g. a session or a general series of packets) from which
+   they pull the dataframe (which in python is passed by pointer).
+
+Implemented feature dict {feature_name : function object}
+
+fixed fcipher_suites_no_bins() in containers/Session.py to
+return a single value.
+
+conf/conf.py:
+  Added
+  TCP_PROTOCOL = 1
+  UDP_PROTOCOL = 2
+
+container:
+  ContainerWrapper.py:
+    modified : sample_type == 'traffic_type'
+    to redirect to a regular session container.
+
+  Flow.py:
+    Added transport_protocol identifier.
+
+  Session.py:
+    same as Flow.py + getter functions.
+
+  TimeSegment.py:
+    modified to inherit from UniversalSample.py
+
+  UniversalSample.py:
+    an attempt to build the packet containers hierarchically.
+    Deprecated in favor of feature modules.
+
+core/Converter.py:
+  modified to work with a feature map: {'feature_name': feature_function()}
+
+docs:
+  Organize the docs.
+
+features:
+  Moved the feature functions to modules accordint to their
+  category as suggested by Y. Zion TM.
+
+  Interface.py:
+    feature name - feature function map
+
+  Session.py:
+    Features which rely on session traffic. (TCP OR UDP)
+
+  Statistical.py:
+    Features which are purely statistical and don't rely on any specific
+    part of the packet / protocols except packet count, size and timing.
+
+  TCP.py:
+    TCP specific features / features which rely on TCP flags.
+
+  UDP.py:
+    Same as TCP. Currently empty.
+
+
 ### 0.19 ###
 
 Modified code to read .pt.csv files

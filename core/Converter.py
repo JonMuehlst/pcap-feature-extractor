@@ -1,4 +1,5 @@
 from containers.ContainerWrapper import ContainerWrapper
+from features.Interface import feature_map
 from utils.general import gen_pt_csv_filenames, gen_data_folders, gen_label_triple, read_sni_csv, gen_app_name_by_sni
 from utils.general import gen_label, get_pcap_id
 from utils.hcl_helpers import read_label_data
@@ -31,6 +32,7 @@ class Converter(object):
 		self.data_folders = conf.get_data_folders()
 		self.feature_methods = conf.features()
 		self.all_samples = np.array([])
+		self.feature_dict = feature_map()
 		print 'Done Initializing'
 
 
@@ -58,10 +60,12 @@ class Converter(object):
 		# feature_vector = np.array([])
 		# feature_vector = np.array([pcap_path.split(os.path.sep)[-1]])
 		for method_name in self.feature_methods:
-			method = getattr(cont_wrap, method_name)
+			# method = getattr(cont_wrap, method_name)
+			method = self.feature_dict[method_name]
 			if not method:
 			    raise Exception("Method %s not implemented" % method_name)
-			feature_vector = np.append(feature_vector, method())
+			# feature_vector = np.append(feature_vector, method())
+			feature_vector = np.append(feature_vector, method(cont_wrap))
 		feature_vector = np.append(feature_vector, label)
 		# If the sample contains NaN values remove the pcap file
 		# if  np.isnan(np.sum(feature_vector)):

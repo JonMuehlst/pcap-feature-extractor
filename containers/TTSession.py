@@ -30,6 +30,7 @@ class TTSession(PacketContainer):
 
     def __init__(self, s, path_str=None):
         self.first_packet = s.head(1)
+        self.df = s
         self.flow_up, self.flow_down = gen_flows_up_down(s)
         self.flow_up, self.flow_down = TTFlow(self.flow_up), TTFlow(self.flow_down)
         self.pcap_path = path_str
@@ -42,6 +43,9 @@ class TTSession(PacketContainer):
         # sess = gen_data_frame(path_str)
         sess = read_pt_csv(path_str)
         return cls(sess,path_str)
+
+    def get_df(self):
+        return self.df
 
     """ Length in seconds """
     def duration(self):

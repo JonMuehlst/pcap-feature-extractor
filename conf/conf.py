@@ -17,6 +17,8 @@ TLS12_V = 0x0303
 client_hello_num = 1
 server_hello_num = 2
 
+TCP_PROTOCOL = 1
+UDP_PROTOCOL = 2
 
 """ Globals """
 conf_filename = 'conf.hcl'

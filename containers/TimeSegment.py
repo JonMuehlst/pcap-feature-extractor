@@ -1,6 +1,6 @@
 #inherits from Packet_container
 
-from PacketContainer import PacketContainer
+from UniversalSample import UniversalSample
 from utils.read_pcap import read_pt_csv
 from conf import conf
 
@@ -9,104 +9,36 @@ import pandas as pd
 import numpy as np
 import numbers
 
-class TimeSegment(PacketContainer):
+class TimeSegment(UniversalSample):
+    """
+    Assuming TCP traffic.
+    """
+
 
     def __init__(self, s, path_str=None):
-        self.df = s
-        self.pcap_path = path_str
+        super(TimeSegment, self).__init__(s, path_str=None)
 
 
-    """ Whats the difference between this function and the ctor? """
     @classmethod
     def from_filename(cls, path_str):
-        # segment = gen_data_frame(path_str)
-        segment = read_pt_csv(path_str)
-        return cls(segment,path_str)
-
-    """ Size of all packets in bytes """
-    def size(self):
-        return self.df['frame.len'].sum()
-
-    """ Amount of packets """
-    def __len__(self):
-        return len(self.df)
-
-    """ Total number of packets """
-    def packet_count(self):
-        return len(self)
-
-    """ Get the segment DataFrame """
-    def get_segment_df(self):
-        return self.df
-
-    """ Mean of packet size """
-    def mean_packet_size(self):
-        if len(self.df) == 0:
-            return 0
-        if len(self.df) == 1:
-            return self.df['frame.len'].values[0]
-        return self.df['frame.len'].mean()
-
-    """ Variance of packet size """
-    def sizevar(self):
-        if len(self.df) < 2:
-            return 0
-        return self.df['frame.len'].var()
-
-    """ Max packet size """
-    def max_packet_size(self):
-        return self.df['frame.len'].max()
-
-    """ Min packet size """
-    def min_packet_size(self):
-        return self.df['frame.len'].min()
-
-    """
-    Return unbiased standard deviation of the packet flow time deltas.
-    Normalized by N-1 by default. This can be changed using the ddof argument - pandas
-    """
-    def std_time_delta(self):
-        if len(self.df['frame.time_delta']) < 2:
-            return 0
-        return self.df['frame.time_delta'].std()
-
-    """ Min time delta """
-    def min_time_delta(self):
-        return self.df['frame.time_delta'].min()
-
-    """ Max time delta """
-    def max_time_delta(self):
-        return self.df['frame.time_delta'].max()
-
-    """ time delta mean """
-    def mean_time_delta(self):
-        if len(self.df) == 0:
-            return 0
-        if len(self.df) == 1:
-            return self.df['frame.time_delta'].values[0]
-        return self.df['frame.time_delta'].mean()
+        super(TimeSegment, cls).from_filename(path_str)
 
 
-
-    """
-    Our features
-    """
-
-    """
-    Peak features:
-           peak mean
-           peak min
-           peak max
-           peak std
-           Number Of peaks
-
-           peak inter arrival time std
-           peak inter arrival time mean
-           peak inter arrival time min
-           peak inter arrival time max
-
-    """
     def peak_features(self):
+        """
+        Peak features:
+               peak mean
+               peak min
+               peak max
+               peak std
+               Number Of peaks
+
+               peak inter arrival time std
+               peak inter arrival time mean
+               peak inter arrival time min
+               peak inter arrival time max
+
+        """
 
         self.df['tcp.ack'].fillna(0)
 
@@ -176,16 +108,3 @@ class TimeSegment(PacketContainer):
 
 
         return feature_arr
-
-
-    """
-    Packet size histogram of 10 bins
-
-    The original Ethernet IEEE 802.3 standard defined the minimum Ethernet frame size as 64 bytes
-    and the maximum as 1518 bytes.
-    The maximum was later increased to 1522 bytes to allow for VLAN tagging.
-    The minimum size of an Ethernet frame that carries an ICMP packet is 74 bytes.
-    """
-    def size_histogram(self):
-        hist = np.histogram(self.df['frame.len'], bins=[ 0.,   160.,   320.,   480.,   640.,   800.,   960.,  1120., 1280.,  1440.,  1600. ])
-        return hist[0]

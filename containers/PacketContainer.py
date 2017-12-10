@@ -1,57 +1,86 @@
-""" 
+"""
 This class contains:
     1. Packet objects
     2. Methods which return information about a subset (or all) of the packets.
 """
 
 class PacketContainer(object):
-    
+
     # Class field - Packet container here
-    
+
     def __init__(self):
-        """ 
+        """
         self.list_of_packets
         or
         self.flows
         """
-    
-    
-    """ Length in seconds """
+
+
     def duration(self):
-        pass
-    
-    """ Total number of packets """
-    def total_packets(self):
-        pass
-    
-    """ Total number of packets with payload """
-    def pl_total_packets(self):
-        pass
-    
-    """ Total number of packets without payload """
-    def no_pl_total_packets(self):
-        pass
-    
-    """ Size of all packets in bytes """
-    def size(self):
-        pass
-    
-    """ Amount of packets """
-    def __len__(self):
-        pass
-    
-    """ Mean of packet size """
-    def mean_packet_size(self):
+        """
+        Length in seconds
+        """
         pass
 
-    """ Variance of packet size """
+
+    def total_packets(self):
+        """
+        Total number of packets
+        """
+        pass
+
+
+    def pl_total_packets(self):
+        """
+        Total number of packets with payload
+        """
+        pass
+
+
+    def no_pl_total_packets(self):
+        """
+        Total number of packets without payload
+        """
+        pass
+
+
+    def size(self):
+        """
+        Size of all packets in bytes
+        """
+        pass
+
+
+    def __len__(self):
+        """
+        Amount of packets
+        """
+        pass
+
+
+    def mean_packet_size(self):
+        """
+        Mean of packet size
+        """
+        pass
+
+
     def sizevar(self):
+        """
+        Variance of packet size
+        """
         pass
-    
-    """ Max packet size """
+
+
     def max_packet_size(self):
+        """
+        Max packet size
+        """
         pass
-    
-    """ Min packet size """
+
+
     def min_packet_size(self):
+        """
+        Min packet size 
+        """
         pass

@@ -16,5 +16,6 @@ def ContainerWrapper(path_str=None):
     elif sample_type == 'time_segment':
         cont_wrap = TimeSegment.from_filename(path_str)#, fields=conf.fields())
     elif sample_type == 'traffic_type':
-        cont_wrap = TTSession.from_filename(path_str)#, fields=conf.fields())
+        # cont_wrap = TTSession.from_filename(path_str)#, fields=conf.fields())
+        cont_wrap = Session.from_filename(path_str)#, fields=conf.fields())
     return cont_wrap
