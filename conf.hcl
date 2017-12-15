@@ -98,7 +98,7 @@ conf {
   sni_csv full path
   */
 
-  sni_csv = "/home/jon/workspace/pcap-feature-extractor/sni.csv"
+  sni_csv = "/home/jon/workspace/pcap-feature-extractor/data/sni.csv"
 
   /*
   This file contains folders for session pcaps
