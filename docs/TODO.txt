@@ -9,6 +9,9 @@ misc:
 
   Remove read_pcap logic from this code.
 
+tests:
+  rewrite tests to follow new code structure.
+
 features:
 
   peak_features:
