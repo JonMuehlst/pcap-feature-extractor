@@ -1,3 +1,35 @@
+### 0.20.1 ###
+
+Updated TODO.txt (partially).
+
+Moved files and removed duplicate code from containers.
+Moved:
+  sni.csv -> data/sni.csv
+
+Removed containers dependency on PacketContainer.
+Removed TTSession and TTFlow.
+Removed TimeSegment (now UniversalSample).
+
+containers:
+
+  UniversalSample.py:
+    Added transport_protocol().
+
+core:
+  Converter:
+
+    pcap_to_feature_vector():
+      Appending pcap_id at the end of the feature vector.
+
+
+features:
+  Interface.py:
+    Added missing functions from Statistical.
+
+  Statistical.py:
+    Added peak_features().
+
+
 ### 0.20 ###
 
 Packet Containers revision:

@@ -32,8 +32,9 @@ def gen_label(pt_csv_path):
         pcap_id = int(pt_csv_path.split(os.path.sep)[-1].split('.pcap')[0])
         label = get_twitter_action_label(pcap_id)
     elif label_type == 'mobile_action':
-        pcap_id = int(pt_csv_path.split(os.path.sep)[-1].split('.pcap')[0])
-        label = get_mobile_action_label(pcap_id)
+        # pcap_id = int(pt_csv_path.split(os.path.sep)[-1].split('.pcap')[0])
+        # label = get_mobile_action_label(pcap_id)
+        label = get_label_from_table(pt_csv_path)
     elif label_type == 'traffic_type':
         label = get_label_from_table(pt_csv_path)
     return label
@@ -41,7 +42,10 @@ def gen_label(pt_csv_path):
 def get_label_from_table(pcap_path):
     id_table_df = pd.read_csv(conf.id_table_path())
     folder = os.path.dirname(pcap_path).split(os.sep)[-1]
+    # folder = os.path.dirname(pcap_path)
     fname = pcap_path.split(os.sep)[-1]
+    # print repr(folder)
+    # print repr(fname)
     return int(id_table_df[(id_table_df['folder'] == folder) & (id_table_df['fname'] == fname)]['label'].values[0])
 
 """
@@ -49,6 +53,7 @@ def get_label_from_table(pcap_path):
 def get_pcap_id(pcap_path):
     id_table_df = pd.read_csv(conf.id_table_path())
     folder = os.path.dirname(pcap_path).split(os.sep)[-1]
+    # folder = os.path.dirname(pcap_path)
     fname = pcap_path.split(os.sep)[-1]
     return int(id_table_df[(id_table_df['folder'] == folder) & (id_table_df['fname'] == fname)]['id'].values[0])
 

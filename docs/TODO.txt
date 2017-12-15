@@ -1,18 +1,20 @@
 TODO list
 ===========
 
-containers:
+misc:
 
-  PacketContainer:
-    + update according to Session / Flow
-    + add 2 features: TTL, ciphersuite
+  Remove label generation logic from this code.
+
+  Read labels from 'all_ids.csv'
+
+  Remove read_pcap logic from this code.
+
+features:
+
+  peak_features:
+    Consider not removing the first entry from peak diffs (peak_diff_ack).
 
 utils:
-  + A module which reads an hcl config file from each recording directory
-    + Read desired packet fields from hcl files
-    + Read desired features list from hcl files
-
-  + gen_label(hcl file)
 
   gen_pcap_filenames:
     Catch - No filenames in a given directory
@@ -51,18 +53,9 @@ tests:
     test_mean_fttl:
       test for the case where mean_fttl is NaN - [0,0]
 
-utils:
-  read_pcap:
-    consider using dpkt.pcap.reader
 
 ALL:
   + Check for extreme cases
   + Check that sample length matches the feature count
   + Globals for: os, browser, aplication, service
   + Cleanup code
-  + create feature_list according to session methods
-  + FIX concatenation - np.concat(all_samples)
-
-learn:
-  + Avoid duplicate code
-  + Build function for each action
