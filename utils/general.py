@@ -1,5 +1,4 @@
 import os
-from path import path
 from os import listdir
 from os.path import isfile, join
 from utils.read_pcap import read_pcap
@@ -34,7 +33,7 @@ directory is a session pcap. If true the directory is added to the list
 of relevant directories.
 """
 def gen_data_folders(PARENT_DIRECTORY):
-    d = path(PARENT_DIRECTORY)
+    d = os.path(PARENT_DIRECTORY)
     l = []
     for root, dirs, files in os.walk(d):
         # if any(file.endswith('.hcl') for file in files) and any(is_pcap_session(file) for file in files):
