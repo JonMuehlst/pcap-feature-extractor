@@ -1,0 +1,8 @@
+Start_run_in_epoch_time: 1516888766036
+OS_name: Android
+OS_version: 7.1.2
+OS_architecture: 64bit
+Browser_name: chrome
+Browser_version: 63.0.3239
+User_type: active
+End_run_in_epoch_time: 1516889872715
