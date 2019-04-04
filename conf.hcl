@@ -29,11 +29,13 @@ conf {
   Fields to fetch from each packet.
   The field values are valid tshark\wireshark filters.
 
+  fields = ["frame.time_epoch", "frame.time_delta", "frame.len", "tcp.ack", "frame.cap_len", "frame.marked", "ssl.handshake.session_id_length", "ssl.handshake.comp_methods_length", "tcp.options.wscale.shift", "tcp.options.mss_val", "ip.src", "ip.dst", "ip.len", "ip.flags", "ip.flags.rb", "ip.flags.df", "ip.flags.mf", "ip.frag_offset", "ip.ttl", "ip.proto", "ip.checksum_good", "tcp.srcport", "tcp.dstport", "udp.srcport", "udp.dstport", "tcp.len", "tcp.nxtseq", "tcp.hdr_len", "tcp.flags.cwr", "tcp.flags.urg", "tcp.flags.push", "tcp.flags.syn", "tcp.flags.ack", "tcp.flags.reset" ,"tcp.window_size","tcp.checksum","tcp.checksum_good", "tcp.checksum_bad", "tcp.analysis.keep_alive", "ssl.record.version", "ssl.handshake.type", "ssl.handshake.cipher_suites_length", "ssl.handshake.extensions_server_name"]
+
   Notice: Please make sure you have no duplicate fields
 
    */
 
- fields = ["frame.time_epoch", "frame.time_delta", "frame.len", "tcp.ack", "frame.cap_len", "frame.marked", "ssl.handshake.session_id_length", "ssl.handshake.comp_methods_length", "tcp.options.wscale.shift", "tcp.options.mss_val", "ip.src", "ip.dst", "ip.len", "ip.flags", "ip.flags.rb", "ip.flags.df", "ip.flags.mf", "ip.frag_offset", "ip.ttl", "ip.proto", "ip.checksum_good", "tcp.srcport", "tcp.dstport", "tcp.len", "tcp.nxtseq", "tcp.hdr_len", "tcp.flags.cwr", "tcp.flags.urg", "tcp.flags.push", "tcp.flags.syn", "tcp.flags.ack", "tcp.flags.reset" ,"tcp.window_size","tcp.checksum","tcp.checksum_good", "tcp.checksum_bad", "tcp.analysis.keep_alive", "ssl.record.version", "ssl.handshake.type", "ssl.handshake.cipher_suites_length", "ssl.handshake.extensions_server_name"]
+ fields = ["frame.time_epoch", "frame.time_delta", "frame.len", "tcp.ack", "frame.cap_len", "frame.marked", "ssl.handshake.session_id_length", "ssl.handshake.comp_methods_length", "tcp.options.wscale.shift", "tcp.options.mss_val", "ip.src", "ip.dst", "ip.len", "ip.flags", "ip.flags.rb", "ip.flags.df", "ip.flags.mf", "ip.frag_offset", "ip.ttl", "ip.proto", "tcp.srcport", "tcp.dstport", "udp.srcport", "udp.dstport", "tcp.len", "tcp.nxtseq", "tcp.hdr_len", "tcp.flags.cwr", "tcp.flags.urg", "tcp.flags.push", "tcp.flags.syn", "tcp.flags.ack", "tcp.flags.reset" ,"tcp.window_size","tcp.checksum", "tcp.analysis.keep_alive", "ssl.record.version", "ssl.handshake.type", "ssl.handshake.cipher_suites_length", "ssl.handshake.extensions_server_name"]
 
   /*
   The desired features.
@@ -43,17 +45,22 @@ conf {
   For session statistics:
   features = ["duration", "fpackets", "bpackets", "fbytes", "bbytes"]
 
+  For ID:
+  features = ["time_plus_ip_port_tuple"]
+
   For time segments:
   features = ["size_histogram", "peak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_time_delta", "min_time_delta", "max_time_delta", "mean_time_delta"]
 
-  For ID:
-  features = ["time_plus_ip_port_tuple"]
+  For traffic type:
+  features = ["size_histogram", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl"]
+
+  For traffic type time segments:
+  features = ["size_histogram", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_time_delta", "min_time_delta", "max_time_delta", "mean_time_delta"]
 
   For sessions:
   */
 
   features = ["fSSL_session_id_len", "fSSL_num_extensions", "fSSL_num_compression_methods", "SYN_tcp_scale", "SYN_MSS", "SYN_tcp_winsize", "fcipher_suites", "fSSLv", "size_histogram", "fpeak_features", "bpeak_features", "packet_count", "min_packet_size", "max_packet_size", "mean_packet_size", "sizevar", "std_fiat", "fpackets", "bpackets", "fbytes", "bbytes", "min_fiat", "min_biat", "max_fiat", "max_biat", "std_biat", "mean_fiat", "mean_biat", "min_fpkt", "min_bpkt", "max_fpkt", "max_bpkt", "std_fpkt", "std_bpkt", "mean_fpkt", "mean_bpkt", "mean_fttl", "num_keep_alive"]
-
 
   /*
   Data directory - full path.
@@ -62,7 +69,7 @@ conf {
   data = "/home/jon/wip/mobile_actions/data"
   data = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/output"
   data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_first_1_sec"
-
+  data = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_pt_format"
   data = "/media/jon/ge60_data1/infomedia/action_data/subset"
   data = "/media/jon/ge60_data1/infomedia_data/cipher_sessions"
   data = "/media/jon/A40E85720E853E74/captures_2017_sessions_subset_2"
@@ -70,29 +77,30 @@ conf {
   data = "/media/jon/A40E85720E853E74/captures_2016_subset_sessions"
   data = "/media/jon/A40E85720E853E74/cipher_sessions_2016"
   data = "/media/jon/A40E85720E853E74/captures_2017_sessions"
+  data = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format"
+  data = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/raw_captures_pt_format_peaks"
   */
 
-  data = "/media/jon/ge60_data1/Dropbox/infomedia_data/filtered_raw_dataset_temu2016"
-
+  data = "/mnt/c/Git/pcap-feature-extractor/data"
   /*
 
   Temp data folder.
 
   */
 
-  temp_folder = "/media/jon/ge60_data1/temp"
+  temp_folder = "/mnt/c/Git/pcap-feature-extractor/temp"
 
   /*
   The output file name - full path.
   */
 
-  output = "/home/jon/workspace/pcap-feature-extractor/output/temu_sessions_id_label_26.7.17.csv"
+  output = "/mnt/c/Git/pcap-feature-extractor/output/test.csv"
 
   /*
   sni_csv full path
   */
 
-  sni_csv = "/home/jon/workspace/pcap-feature-extractor/sni.csv"
+  sni_csv = "/mnt/c/Git/pcap-feature-extractor/data/sni.csv"
 
   /*
   This file contains folders for session pcaps
@@ -103,7 +111,7 @@ conf {
            Do not mix session pcaps with non-session pcaps
   */
 
-  session_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/session_folders_temu.csv"
+  session_folders_filename = "/mnt/c/Git/pcap-feature-extractor/data/sessions_folders_test.csv"
 
   /*
   This file contains folders for time segment pcaps
@@ -112,20 +120,23 @@ conf {
 
   time_segment_folders_filename = "/media/jon/ge60_data1/infomedia/action_data/subset/time_segment_folders.csv"
   time_segment_folders_filename = "/home/jon/wip/mobile_actions/data/time_segment_folders_mobile.csv"
+  time_segment_folders_filename = "/media/jon/ge60_data1/infomedia/action_data/subset/time_segment_folders.csv"
   */
 
-  time_segment_folders_filename = "/media/jon/ge60_data1/infomedia/action_data/subset/time_segment_folders.csv"
+  time_segment_folders_filename = "/home/jon/workspace/pcap-feature-extractor/data/tt_timeframe_folders.csv"
 
   /*
     "triple" - Desktop: (OS, Browser, App) - tuple
     "action" - Desktop actions
     "mobile_action" - Mobile actions
+    "traffic_type"
   */
   label_type = "triple"
 
   /*
     "session" - pcaps are split to sessions by SplitCap
     "time_segment" - pcaps are split to time segments by SplitCap
+    "traffic_type" - SplitCap sessions which may contain UDP traffic
   */
   sample_type = "session"
 
@@ -145,13 +156,20 @@ conf {
   label_df_path = "/media/jon/ge60_data1/infomedia/action_data/time_segments/labels.csv"
   label_df_path = "/home/jon/wip/mobile_actions/labels.csv"
   label_df_path = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/output/labels.csv"
+  label_df_path = "/media/jon/ge60_data1/infomedia/action_data/time_segments/subset.csv"
+  label_df_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format/all_ids.csv"
+  label_df_path = "/media/jon/ge60_data1/infomedia_data/filtered_raw_dataset_temu2016_pt_format/all_ids.csv"
   */
 
-  label_df_path = "/media/jon/ge60_data1/infomedia/action_data/time_segments/subset.csv"
+  label_df_path = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/raw_captures_pt_format_peaks/all_ids.csv"
 
   /*
   pcap id database path
-  */
 
   id_table_path = "/media/jon/ge60_data1/Dropbox/infomedia_data/filtered_raw_dataset_temu2016/all_ids.csv"
+  id_table_path = "/media/jon/ge60_data1/android_pcaps/sessions_90k-30m_pt_format/all_ids.csv"
+  */
+
+
+  id_table_path = "/media/jon/ge60_data1/infomedia_data/mobile_actions_flash_networks/raw_captures_pt_format_peaks/all_ids.csv"
 }

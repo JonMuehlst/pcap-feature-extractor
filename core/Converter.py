@@ -3,7 +3,7 @@ from utils.general import gen_pcap_filenames, gen_data_folders, gen_label_triple
 from utils.general import gen_label, get_pcap_id
 from utils.hcl_helpers import read_label_data
 from functools import partial
-# from multiprocessing import Pool
+from multiprocessing import Pool
 import pathos.multiprocessing as mp
 # from pathos.multiprocessing import ProcessingPool
 import numpy as np
@@ -25,8 +25,8 @@ class Converter(object):
 	def __init__(self):
 		print 'Initializing...'
 		PARENT_DIRECTORY = conf.input_directory()
-		# self.p = Pool(16)
-		self.p = mp.ProcessingPool(16)
+		self.p = Pool(16)
+		# self.p = mp.ProcessingPool(16)
 		# self.data_folders = gen_data_folders(PARENT_DIRECTORY)
 		self.data_folders = conf.get_data_folders()
 		self.feature_methods = conf.features()
@@ -64,8 +64,8 @@ class Converter(object):
 		print 'In: ' + repr(str(CHILD_DIRECTORY))
 		only_pcap_files = gen_pcap_filenames(CHILD_DIRECTORY)
 		if len(only_pcap_files) > 0:
-			samples = self.p.map(self.pcap_to_feature_vector, only_pcap_files)
-			# samples = map(self.pcap_to_feature_vector, only_pcap_files)
+			# samples = self.p.map(self.pcap_to_feature_vector, only_pcap_files)
+			samples = map(self.pcap_to_feature_vector, only_pcap_files)
 			return samples
 		return np.array([])
 
